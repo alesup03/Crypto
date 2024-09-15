@@ -1,0 +1,37 @@
+
+Creare un mazzo per il Gioco di Carte Collezionabili Pokémon (Pokémon TCG) richiede di seguire alcune regole precise. Ecco i punti principali che devi considerare:
+
+1. Numero di Carte nel Mazzo
+Un mazzo deve contenere esattamente 60 carte.
+Non puoi avere più di quattro copie della stessa carta con lo stesso nome, esclusi i Pokémon Base Energia e alcune carte speciali con regole particolari (come le carte Energia Base).
+2. Tipi di Carte
+Le carte nel mazzo si dividono in tre categorie principali:
+
+Carte Pokémon: Sono le creature che usi per combattere. Include le evoluzioni e i Pokémon base.
+Carte Allenatore: Aiutano con varie funzioni, come pescare carte, curare i Pokémon, mettere strumenti in gioco o cercare carte specifiche.
+Carte Energia: Queste carte servono per fornire energia ai Pokémon, permettendogli di attaccare.
+3. Distribuzione delle Carte
+Anche se non esiste una regola rigida sulla distribuzione, un mazzo bilanciato solitamente contiene:
+
+20-25 Pokémon.
+20-30 carte Allenatore.
+10-15 carte Energia.
+4. Tipi di Energia
+Puoi avere carte Energia Base senza limiti nel mazzo.
+Le carte Energia Speciale hanno un limite di quattro copie, come tutte le altre carte non Base.
+5. Regole Speciali sui Pokémon
+Puoi includere carte Pokémon di qualsiasi livello evolutivo, ma devi avere nel mazzo anche il Pokémon precedente della linea evolutiva. Ad esempio, per usare un Charizard, devi avere anche Charmander e Charmeleon.
+Alcuni Pokémon (come i Pokémon V o VMAX) seguono regole speciali e possono dare più carte premio se sconfitti.
+6. Formati di Gioco
+Esistono vari formati nel gioco, che determinano quali espansioni e carte sono legali:
+
+Formato Standard: Include le espansioni più recenti. È il formato più comune nei tornei ufficiali.
+Formato Esteso: Permette di usare una gamma più ampia di espansioni.
+Formato Illimitato: Non ci sono limiti alle espansioni o carte.
+7. Strategie
+Costruire un mazzo efficace richiede una strategia coerente. Decidi se puntare su un tipo specifico di Pokémon (es. tipo Fuoco o Acqua) o se mescolare tipi per coprire più debolezze.
+Le carte Allenatore sono essenziali per accelerare il gioco, pescare carte più velocemente o gestire risorse.
+8. Regole sulle Carte Banned e Limitate
+Alcune carte potrebbero essere bandite o limitate nei tornei ufficiali, a seconda delle loro interazioni o del formato di gioco.
+
+Queste sono le linee guida generali. Un buon sito per la creazione di mazzi potrebbe aiutare gli utenti a filtrare le carte in base alle regole del formato scelto e dare suggerimenti strategici per bilanciare il mazzo.
