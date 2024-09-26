@@ -16,7 +16,7 @@ public class User {
     private String name;
     private String email;
     
-    
+     
     @OneToMany(mappedBy = "user")
     private List<Deck> decks;
     
