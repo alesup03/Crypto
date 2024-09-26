@@ -1,6 +1,5 @@
 package com.monkeysncode.entites;
 
-
 import java.util.List;
 
 import jakarta.persistence.Entity;
@@ -18,16 +17,10 @@ public class User {
     private String name;
     private String email;
 
-    
-     
     @OneToMany(mappedBy = "user")
     private List<Deck> decks;
     
-    
-
-
-
-	public String getId() {
+    public String getId() {
 		return id;
 	}
 	public void setId(String id) {
