@@ -20,7 +20,7 @@ public class UserService {
         String name = oAuth2User.getAttribute("name");
         String email = oAuth2User.getAttribute("email");
 
-        com.monkeysncode.entites.User user = new User();
+        User user = new User();
         user.setId(id);
         user.setName(name);
         user.setEmail(email);
