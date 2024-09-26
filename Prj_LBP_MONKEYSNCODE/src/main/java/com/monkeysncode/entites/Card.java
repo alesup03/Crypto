@@ -55,7 +55,7 @@ public class Card
 	
 	private String flavorText; 
 	
-	private String nationalPpkedexNumbers; 
+	private String nationalPokedexNumbers; 
 	
 	private String legalities; /*vedere e convertire in HashMap*/
 	
@@ -253,12 +253,12 @@ public class Card
 		this.flavorText = flavorText;
 	}
 
-	public String getNationalPpkedexNumbers() {
-		return nationalPpkedexNumbers;
+	public String getNationalPokedexNumbers() {
+		return nationalPokedexNumbers;
 	}
 
-	public void setNationalPpkedexNumbers(String nationalPpkedexNumbers) {
-		this.nationalPpkedexNumbers = nationalPpkedexNumbers;
+	public void setNationalPokedexNumbers(String nationalPokedexNumbers) {
+		this.nationalPokedexNumbers = nationalPokedexNumbers;
 	}
 
 	public String getLegalities() {
