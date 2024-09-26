@@ -47,7 +47,7 @@ public class SecurityConfig {
 	            OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
 
 	            serviceUser.saveOrUpdateUser(oAuth2User); 
-	            response.sendRedirect("http://localhost/cartellaPHP/lbpdemo/cards.php");
+	            response.sendRedirect("http://localhost:8080/Secured");
 	        };
 	    }
 	}
