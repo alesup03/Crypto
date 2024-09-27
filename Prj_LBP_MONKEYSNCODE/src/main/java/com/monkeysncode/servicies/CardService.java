@@ -5,17 +5,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.monkeysncode.entites.UserCards;
-import com.monkeysncode.repos.UserCardDAO;
+import com.monkeysncode.entites.Card;
+import com.monkeysncode.repos.CardsDAO;
 
 @Service
-public class UserCardsService {
+public class CardService {
 	@Autowired
-	private UserCardDAO dao;
+	private CardsDAO cardDAO;
 	
-	
-	//public List<UserCards> find(); 
-	
-	
-	
+	public List<Card> findALL(){
+		return cardDAO.findAll();
+	}
 }
