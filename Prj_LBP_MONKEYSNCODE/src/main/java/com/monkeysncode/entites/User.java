@@ -16,6 +16,7 @@ public class User {
     private String id;  
     private String name;
     private String email;
+    private String password;
     
     @OneToMany(mappedBy = "user")
     private List<Deck> decks;
@@ -37,6 +38,18 @@ public class User {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public List<Deck> getDecks() {
+		return decks;
+	}
+	public void setDecks(List<Deck> decks) {
+		this.decks = decks;
 	}
 
     
