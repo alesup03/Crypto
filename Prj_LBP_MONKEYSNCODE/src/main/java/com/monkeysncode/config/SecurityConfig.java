@@ -20,7 +20,7 @@ public class SecurityConfig {
 
     private final UserService serviceUser;
 
-    public SecurityConfig(@Lazy UserService serviceUser) {
+    public SecurityConfig(@Lazy UserService serviceUser) {//Lazy usato per evitare reference circolare tra userservice e security config
         this.serviceUser = serviceUser;
     }
     @Bean
@@ -40,6 +40,8 @@ public class SecurityConfig {
                     .loginPage("/login")  // Definisci la pagina di login personalizzata
                     .defaultSuccessUrl("/secured", true)  // Reindirizza dopo il successo del login form-based
                     .loginProcessingUrl("/login")
+                    .usernameParameter("email")  
+                    .passwordParameter("password")
                     .permitAll()
                 )
                 .oauth2Login(oauth -> oauth

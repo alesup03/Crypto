@@ -3,6 +3,9 @@ package com.monkeysncode.servicies;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
@@ -10,13 +13,25 @@ import org.springframework.stereotype.Service;
 import com.monkeysncode.entites.User;
 import com.monkeysncode.repos.UserDAO;
 @Service
-public class UserService {
+public class UserService  implements UserDetailsService{
 	private final UserDAO userDAO;
 	private final PasswordEncoder passwordEncoder;
 
     public UserService(UserDAO userDAO,PasswordEncoder passwordEncoder) {
         this.userDAO = userDAO;
         this.passwordEncoder=passwordEncoder;
+    }
+    
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userDAO.findByEmail(email).orElseThrow(() ->
+            new UsernameNotFoundException("User not found with email: " + email));
+
+        return org.springframework.security.core.userdetails.User.builder()
+            .username(user.getEmail())
+            .password(user.getPassword())
+            //.roles("USER") // Puoi personalizzare i ruoli
+            .build();
     }
     
 
@@ -37,7 +52,7 @@ public class UserService {
         String name = user.getName();
         String email = user.getEmail();
         String password=passwordEncoder.encode(user.getPassword());
-        
+        //String password=user.getPassword();
         user.setId(id);
         user.setName(name);
         user.setEmail(email);
@@ -62,5 +77,8 @@ public class UserService {
 			}
 		}
     	return null;
+    }
+    public User findByEmail(String email) {
+        return userDAO.findByEmail(email).orElse(null);
     }
 }
