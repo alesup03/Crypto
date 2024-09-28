@@ -40,7 +40,7 @@ public class SecurityConfig {
                     .loginPage("/login")  // Definisci la pagina di login personalizzata
                     .defaultSuccessUrl("/secured", true)  // Reindirizza dopo il successo del login form-based
                     .loginProcessingUrl("/login")
-                    .usernameParameter("email")  
+                    .usernameParameter("email")  //set il controllo di spring a email invece del default username
                     .passwordParameter("password")
                     .permitAll()
                 )

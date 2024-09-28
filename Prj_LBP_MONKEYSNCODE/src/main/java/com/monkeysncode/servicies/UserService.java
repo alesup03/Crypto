@@ -25,17 +25,17 @@ public class UserService  implements UserDetailsService{
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userDAO.findByEmail(email).orElseThrow(() ->
-            new UsernameNotFoundException("User not found with email: " + email));
+            new UsernameNotFoundException("User not found"));
 
         return org.springframework.security.core.userdetails.User.builder()
             .username(user.getEmail())
             .password(user.getPassword())
-            //.roles("USER") // Puoi personalizzare i ruoli
+            //.roles("USER")//da implementare per i ruoli
             .build();
     }
     
 
-    public void saveOrUpdateUser(OAuth2User oAuth2User) {
+    public void saveOrUpdateUser(OAuth2User oAuth2User) {//salva/updata lo user di oauth2 
         String id = oAuth2User.getName();  
         String name = oAuth2User.getAttribute("name");
         String email = oAuth2User.getAttribute("email");
@@ -47,19 +47,18 @@ public class UserService  implements UserDetailsService{
 
         userDAO.save(user);
     }
-    public void register(User user) {
+    public void register(User user) {//registra i dati mandati dall'utente nel db criptando anche la pass
     	String id = UUID.randomUUID().toString();
         String name = user.getName();
         String email = user.getEmail();
         String password=passwordEncoder.encode(user.getPassword());
-        //String password=user.getPassword();
         user.setId(id);
         user.setName(name);
         user.setEmail(email);
         user.setPassword(password);
         userDAO.save(user);
     }
-    public boolean exists(User user) {
+    public boolean exists(User user) {//check se esiste la mail nel db durante la registrazione
     	String id=user.getEmail();
     	List<User>listaUser=userDAO.findAll();
     	for (User user2 : listaUser) {
