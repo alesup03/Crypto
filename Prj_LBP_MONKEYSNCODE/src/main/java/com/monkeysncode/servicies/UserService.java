@@ -3,6 +3,9 @@ package com.monkeysncode.servicies;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
@@ -10,7 +13,7 @@ import org.springframework.stereotype.Service;
 import com.monkeysncode.entites.User;
 import com.monkeysncode.repos.UserDAO;
 @Service
-public class UserService {
+public class UserService  implements UserDetailsService{
 	private final UserDAO userDAO;
 	private final PasswordEncoder passwordEncoder;
 
@@ -19,8 +22,20 @@ public class UserService {
         this.passwordEncoder=passwordEncoder;
     }
     
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userDAO.findByEmail(email).orElseThrow(() ->
+            new UsernameNotFoundException("User not found"));
 
-    public void saveOrUpdateUser(OAuth2User oAuth2User) {
+        return org.springframework.security.core.userdetails.User.builder()
+            .username(user.getEmail())
+            .password(user.getPassword())
+            //.roles("USER")//da implementare per i ruoli
+            .build();
+    }
+    
+
+    public void saveOrUpdateUser(OAuth2User oAuth2User) {//salva/updata lo user di oauth2 
         String id = oAuth2User.getName();  
         String name = oAuth2User.getAttribute("name");
         String email = oAuth2User.getAttribute("email");
@@ -32,19 +47,18 @@ public class UserService {
 
         userDAO.save(user);
     }
-    public void register(User user) {
+    public void register(User user) {//registra i dati mandati dall'utente nel db criptando anche la pass
     	String id = UUID.randomUUID().toString();
         String name = user.getName();
         String email = user.getEmail();
         String password=passwordEncoder.encode(user.getPassword());
-        
         user.setId(id);
         user.setName(name);
         user.setEmail(email);
         user.setPassword(password);
         userDAO.save(user);
     }
-    public boolean exists(User user) {
+    public boolean exists(User user) {//check se esiste la mail nel db durante la registrazione
     	String id=user.getEmail();
     	List<User>listaUser=userDAO.findAll();
     	for (User user2 : listaUser) {
@@ -62,5 +76,8 @@ public class UserService {
 			}
 		}
     	return null;
+    }
+    public User findByEmail(String email) {
+        return userDAO.findByEmail(email).orElse(null);
     }
 }
