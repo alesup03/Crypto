@@ -11,7 +11,7 @@ import com.monkeysncode.servicies.CardService;
 
 @RestController
 public class CardController {
-
+	/*
 	@Autowired
 	private CardService cardService;
 	
@@ -20,4 +20,5 @@ public class CardController {
 		return cardService.findALL().subList(0, 100);
 		//ho agiunto sublist per far visualizzare solo i primi 100 elementi, altrimenti si blocca
 	}
+	*/
 }

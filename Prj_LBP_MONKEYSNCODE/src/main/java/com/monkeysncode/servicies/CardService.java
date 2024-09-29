@@ -16,4 +16,8 @@ public class CardService {
 	public List<Card> findALL(){
 		return cardDAO.findAll();
 	}
+	
+	public List<Card> FilteredQuery(String set, String hp, String rarity, String types, String supertypes, String subtypes) {
+		return this.cardDAO.FilteredQuery(set, hp, rarity, types, supertypes, subtypes);
+	}
 }
