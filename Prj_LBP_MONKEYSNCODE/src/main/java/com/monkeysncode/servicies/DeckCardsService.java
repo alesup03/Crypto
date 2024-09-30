@@ -56,6 +56,35 @@ public class DeckCardsService {
     	//bisognerà gestire l'errore per mancanza deck
     }
     
+    public void RemoveCard(Long deckId, String cardId, int quantity) {
+    	
+    	Optional<Deck> deck = deckDAO.findById(deckId);
+    	
+    	if(deck.isPresent()) {
+    		//controllo che la carta esista
+    		Optional<Card> card = cardDAO.findById(cardId);
+
+    		if(card.isPresent()) {
+    			
+    			//controllo se esiste già una associazione tra il deck e la carta
+    			Optional<DeckCards> existingRelation = this.deckCardDAO.findByCardIdAndDeckId(cardId, deckId);
+    			
+    			if(existingRelation.isPresent()) {
+    				//se esiste aggiorno la nuova quantity
+    				DeckCards deckCard = existingRelation.get();
+    				int newQuantity = deckCard.getCardQuantity() - quantity;
+    				if(newQuantity <= 0) {
+    					deckCardDAO.delete(deckCard);
+    				}else {
+    					deckCard.setCardQuantity(newQuantity);
+    					this.deckCardDAO.save(deckCard);
+    				}
+    			}
+    		}
+    	}
+    	//bisognerà gestire l'errore per mancanza deck
+    }
+    
     //recupero la lista di carte dato il deck ID
     public List<DeckCards> getDeckCards(Long deckId){
     	Optional<Deck> deck= this.deckDAO.findById(deckId);
