@@ -1,6 +1,5 @@
 package com.monkeysncode.entites;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -8,21 +7,20 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
-
+//relazione tra il deck e le sue carte 
 @Entity
-public class UserCards {
-	
+public class DeckCards {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
 	
 	@ManyToOne
-	@JoinColumn(name="user_id")
-	private User user;
-	
-	@ManyToOne
 	@JoinColumn(name="card_id")
 	private Card card;
+	
+	@ManyToOne
+	@JoinColumn(name="deck_id")
+	private Deck deck;
 	
 	private int cardQuantity;
 
@@ -34,12 +32,12 @@ public class UserCards {
 		Id = id;
 	}
 
-	public User getUser() {
-		return user;
+	public Deck getDeck() {
+		return this.deck;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setDeck(Deck deck) {
+		this.deck = deck;
 	}
 
 	public Card getCard() {
@@ -57,6 +55,5 @@ public class UserCards {
 	public void setCardQuantity(int cardQuantity) {
 		this.cardQuantity = cardQuantity;
 	}
-	
 	
 }
