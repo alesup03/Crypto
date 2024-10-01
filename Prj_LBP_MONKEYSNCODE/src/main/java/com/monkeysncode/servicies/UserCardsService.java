@@ -13,8 +13,6 @@ import com.monkeysncode.repos.UserCardDAO;
 
 @Service
 public class UserCardsService {
-	@Service
-	public class UserOwnedCardsService {
 		@Autowired
 		private UserCardDAO dao;
 		
@@ -43,4 +41,3 @@ public class UserCardsService {
 	
 
 	}
-}

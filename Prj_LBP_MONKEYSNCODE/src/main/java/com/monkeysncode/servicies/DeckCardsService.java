@@ -36,7 +36,7 @@ public class DeckCardsService {
     		if(card.isPresent()) {
     			
     			//controllo se esiste già una associazione tra il deck e la carta
-    			Optional<DeckCards> existingRelation = this.deckCardDAO.findByCardIdAndDeckId(cardId, deckId);
+    			Optional<DeckCards> existingRelation = deckCardDAO.findByCardIdAndDeckId(cardId, deckId);
     			DeckCards deckCard = new DeckCards();
     			if(existingRelation.isPresent()) {
     				//se esiste aggiorno la nuova quantity
