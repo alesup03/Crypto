@@ -11,14 +11,14 @@ import com.monkeysncode.servicies.CardService;
 
 @RestController
 public class CardController {
-	/*
+	
 	@Autowired
 	private CardService cardService;
 	
 	@GetMapping("/Cards")
 	public List<Card> Cards(){
 		return cardService.findALL().subList(0, 100);
-		//ho agiunto sublist per far visualizzare solo i primi 100 elementi, altrimenti si blocca
+		//ho aggiunto sublist per far visualizzare solo i primi 100 elementi, altrimenti si blocca
 	}
-	*/
+	
 }
