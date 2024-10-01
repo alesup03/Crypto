@@ -37,4 +37,13 @@ public class UserService {
 		}
     	return null;
     }
+<<<<<<< Updated upstream
+=======
+    public User findByEmail(String email) {
+        return userDAO.findByEmail(email).orElse(null);
+    }
+    public User findByName(String name) {
+        return userDAO.findByEmail(name).orElse(null);
+    }
+>>>>>>> Stashed changes
 }
