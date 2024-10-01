@@ -15,5 +15,3 @@ public class DeckController {
 	    public void deleteUser(@PathVariable Long id) {
 	        deckService.DeleteDeck(id);
 	    }
-
-}
