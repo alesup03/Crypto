@@ -1,12 +1,18 @@
 package com.monkeysncode.servicies;
 
 import java.util.Optional;
+
+import javax.management.InstanceNotFoundException;
+
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import com.monkeysncode.entites.Deck;
 
 import com.monkeysncode.entites.User;
 
 import com.monkeysncode.repos.DeckDAO;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class DeckService {
@@ -39,12 +45,12 @@ public class DeckService {
     
     
     //cancello il deck dato il suo id
-    public void DeleteDeck(Long deckId) {
-    	Optional<Deck> deck = this.deckDAO.findById(deckId);
-    	if(deck.isPresent()) {
-        	this.deckDAO.delete(deck.get());
-    	}
-    	//bisognerà gestire l'errore nel caso il deck non venga trovato
+    public void DeleteDeck(Long deckId) throws EntityNotFoundException{
+    	if (!deckDAO.existsById(deckId)) {
+            throw new EntityNotFoundException("Deck non trovato");
+        }
+
+        deckDAO.deleteById(deckId);
     }
 
     public Optional<Deck> getDeckById(Long id) {
