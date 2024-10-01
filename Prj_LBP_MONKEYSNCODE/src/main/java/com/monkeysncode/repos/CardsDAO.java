@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.monkeysncode.entites.Card;
 
@@ -51,5 +52,7 @@ public interface CardsDAO extends JpaRepository<Card, String>
 			@Param("types") String types,
 			@Param("supertypes") String supertypes,
 			@Param("subtypes") String subtypes);
-	
 }
+	
+
+	
