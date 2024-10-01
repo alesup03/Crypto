@@ -77,7 +77,11 @@ public class UserService  implements UserDetailsService{
 		}
     	return null;
     }
+
     public User findByEmail(String email) {
         return userDAO.findByEmail(email).orElse(null);
+    }
+    public User findByName(String name) {
+        return userDAO.findByEmail(name).orElse(null);
     }
 }
