@@ -127,7 +127,6 @@ public class DeckCardsService {
 
         return hasBasicPokemon && sufficientEnergy && sufficientTrainers && noExcessCopies;
     }
-    
     //recupero la lista di carte dato il deck ID
     public List<DeckCards> getDeckCards(Long deckId){
     	Optional<Deck> deck= this.deckDAO.findById(deckId);
