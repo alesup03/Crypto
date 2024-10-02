@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -19,14 +20,13 @@ import java.util.Map;
 
 @Service
 public class DeckCardsService {
-	private final DeckDAO deckDAO;
-    private final CardsDAO cardDAO;
-    private final DeckCardDAO deckCardDAO;
-    public DeckCardsService(DeckDAO deckDAO, CardsDAO cardsDAO, DeckCardDAO deckCardsDAO) {
-        this.deckDAO = deckDAO;
-        this.cardDAO = cardDAO;
-        this.deckCardDAO = deckCardsDAO;
-    }
+	@Autowired
+	private  DeckDAO deckDAO;
+	@Autowired
+    private  CardsDAO cardDAO;
+	@Autowired
+    private  DeckCardDAO deckCardDAO;
+  
     
     // metodo per aggiungere o aggiornare una nuova relazione tra deck e carte
     @Async

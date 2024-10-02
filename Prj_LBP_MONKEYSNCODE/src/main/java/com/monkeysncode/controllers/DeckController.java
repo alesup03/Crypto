@@ -39,11 +39,11 @@ public class DeckController {
 		return "decks";
 	}
 	
-	@PostMapping("/create")
-	public String createDeck(@AuthenticationPrincipal User user,@RequestParam String deckName) {
+	//@PostMapping("/create")
+	//public String createDeck(@AuthenticationPrincipal User user,@RequestParam String deckName) {
 		
 		
-	}
+	//}
 	
 	@GetMapping("/{deckId}")
     public String viewDeck(@PathVariable("deckId") Long deckId, Model model) {
