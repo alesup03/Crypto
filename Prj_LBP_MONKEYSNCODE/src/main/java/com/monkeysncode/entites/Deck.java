@@ -9,14 +9,14 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="deck")
+@Table(name="decks")
 public class Deck {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nameDeck;
-	//tolta la stringa deckCard perchè è stata create la relazione tra deck e card
+	//tolta la stringa deckCard perchè è stata creata la relazione tra deck e card
 	
 	@ManyToOne
 	@JoinColumn(name="user_id")
