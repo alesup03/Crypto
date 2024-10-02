@@ -21,20 +21,24 @@ public class CardController {
 	@Autowired
 	private CardService cardService;
 	
-	@GetMapping("/Cards")
-
+	@GetMapping("/cards")
 	public List<Card> Cards(
 			@RequestParam(required = false) String set,
 	        @RequestParam(required = false) String types,
 	        @RequestParam(required = false) String name,
 	        @RequestParam(required = false) String rarity,
 	        @RequestParam(required = false) String supertype,
-	        @RequestParam(required = false) String subtypes){
-		System.out.println(set);
-		return cardService.findByParam(set,types,name,rarity,supertype,subtypes);
-		//ho agiunto sublist per far visualizzare solo i primi 100 elementi, altrimenti si blocca
+	        @RequestParam(required = false) String subtypes,
+	        @RequestParam(required = false) String sort){
+		
+		/*if (name != null)
+			return cardService.findByName(name);
+		
+		return cardService.findByParam(set,types,name,rarity,supertype,subtypes);*/
+		
+		return cardService.findByParam(set, types, name, rarity, supertype, subtypes, sort);
+		//findByParam ha una serie di parametri opzionali, quando tutti assenti ritorna la lista completa
 	}
-
 	
 
 	

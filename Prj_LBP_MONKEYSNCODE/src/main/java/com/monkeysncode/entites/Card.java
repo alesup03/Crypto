@@ -2,17 +2,19 @@ package com.monkeysncode.entites;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity 
-@Table(name = "card")
+@Table(name = "cards")
 public class Card 
 {
 	@Id 
 	private String id;
 	
-	private String set;
+	private String cardSet;
 	
 	private String series;
 	
@@ -56,6 +58,7 @@ public class Card
 	private String rarity; 
 	
 	private String flavorText; 
+
 	@Column(name="nationalPokedexNumbers")
 	private String nationalPokedexNumbers; 
 	
@@ -80,11 +83,11 @@ public class Card
 	}
 
 	public String getSet() {
-		return set;
+		return cardSet;
 	}
 
 	public void setSet(String set) {
-		this.set = set;
+		this.cardSet = set;
 	}
 
 	public String getSeries() {
