@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.monkeysncode.entites.Card;
@@ -27,7 +29,8 @@ public class DeckCardsService {
     }
     
     //metodo per aggiungere o aggiornare una nuova relazione tra deck e carte
-    public void SetCard(Long deckId, String cardId, int quantity) {
+    @Async
+    public CompletableFuture<String> SetCard(Long deckId, String cardId, int quantity) {
     	
     	Optional<Deck> deck = deckDAO.findById(deckId);
     	
@@ -53,12 +56,14 @@ public class DeckCardsService {
     			}
 
         		this.deckCardDAO.save(deckCard);
+        		return CompletableFuture.completedFuture("Carta aggiunta con successo!");
     		}
     	}
-    	//bisognerà gestire l'errore per mancanza deck
+    	
+    	return CompletableFuture.completedFuture("Errore Mazzo!");
     }
-    
-    public void RemoveCard(Long deckId, String cardId, int quantity) {
+    @Async
+    public CompletableFuture<String> RemoveCard(Long deckId, String cardId, int quantity) {
     	
     	Optional<Deck> deck = deckDAO.findById(deckId);
     	
@@ -83,7 +88,9 @@ public class DeckCardsService {
     				}
     			}
     		}
+    		return CompletableFuture.completedFuture("Carta rimossa con successo!");
     	}
+    	return CompletableFuture.completedFuture("Errore Mazzo!");
     	//bisognerà gestire l'errore per mancanza deck
     }
     
