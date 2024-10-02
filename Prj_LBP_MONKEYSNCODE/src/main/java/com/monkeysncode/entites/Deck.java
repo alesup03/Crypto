@@ -16,7 +16,7 @@ public class Deck {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nameDeck;
-	private String deckCards;
+	//tolta la stringa deckCard perchè è stata create la relazione tra deck e card
 	
 	@ManyToOne
 	@JoinColumn(name="user_id")
@@ -36,14 +36,6 @@ public class Deck {
 
 	public void setNameDeck(String nameDeck) {
 		this.nameDeck = nameDeck;
-	}
-
-	public String getDeckCards() {
-		return deckCards;
-	}
-
-	public void setDeckCards(String deckCards) {
-		this.deckCards = deckCards;
 	}
 
 	public User getUser() {

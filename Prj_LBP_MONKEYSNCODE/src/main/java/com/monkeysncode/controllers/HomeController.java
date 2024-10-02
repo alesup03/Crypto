@@ -11,7 +11,7 @@ public class HomeController {
 	public String Home() {
 		return "Home";
 	}
-	@GetMapping("/Secured")
+	@GetMapping("/secured")
 	public String Secured() {
 		return "Secured";
 	}

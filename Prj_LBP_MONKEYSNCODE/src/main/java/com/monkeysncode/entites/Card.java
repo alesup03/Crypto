@@ -1,5 +1,6 @@
 package com.monkeysncode.entites;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -29,6 +30,7 @@ public class Card
 	
 	private String types;
 	
+	@Column(name="supertype")
 	private String supertypes;
 	
 	private String subtypes;
