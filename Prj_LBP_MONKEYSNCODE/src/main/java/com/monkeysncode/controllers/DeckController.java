@@ -19,6 +19,7 @@ public class DeckController {
     @Autowired
     private DeckService deckService;
 
+
     @Autowired
     private DeckCardsService deckCardsService;
 
@@ -48,4 +49,5 @@ public class DeckController {
         boolean isValid = deckCardsService.validateDeck(deckId);
         return ResponseEntity.ok(isValid);
     }
+
 }
