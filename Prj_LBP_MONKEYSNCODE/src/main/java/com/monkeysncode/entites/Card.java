@@ -56,7 +56,7 @@ public class Card
 	private String rarity; 
 	
 	private String flavorText; 
-	
+	@Column(name="nationalPokedexNumbers")
 	private String nationalPokedexNumbers; 
 	
 	private String legalities; /*vedere e convertire in HashMap*/

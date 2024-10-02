@@ -28,6 +28,16 @@ public class UserCardsService {
 			collection.setCardQuantity(quantity);
 			
 			dao.save(collection);
+			cleanDb(user.getId());
+		}
+		
+		public void cleanDb(String userId) {
+			List<UserCards> lista=dao.findByUserId(userId);
+			for (UserCards userCards : lista) {
+				if(userCards.getCardQuantity()<=0) {
+					dao.delete(userCards);
+				}
+			}
 		}
 		public int getQuantityByCardUser(User user, Card card) {
 		    Optional<UserCards> userCards = dao.findByUserAndCard(user, card);
