@@ -36,12 +36,13 @@ public class DeckService {
     
     
     //cancello il deck dato il suo id
-    public void DeleteDeck(Long deckId) {
+    public boolean DeleteDeck(Long deckId) {
     	Optional<Deck> deck = this.deckDAO.findById(deckId);
     	if(deck.isPresent()) {
         	this.deckDAO.delete(deck.get());
+        	return true;
     	}
-    	//bisognerà gestire l'errore nel caso il deck non venga trovato
+    	return false;
     }
 
     public Optional<Deck> getDeckById(Long id) {
