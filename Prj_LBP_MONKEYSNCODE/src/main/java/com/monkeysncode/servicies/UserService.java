@@ -1,6 +1,7 @@
 package com.monkeysncode.servicies;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import com.monkeysncode.entites.Deck;
 import com.monkeysncode.entites.User;
 import com.monkeysncode.repos.UserDAO;
 @Service
@@ -77,7 +79,19 @@ public class UserService  implements UserDetailsService{
 		}
     	return null;
     }
+
     public User findByEmail(String email) {
         return userDAO.findByEmail(email).orElse(null);
+    }
+    public User findByName(String name) {
+        return userDAO.findByEmail(name).orElse(null);
+    }
+    public void DeleteUser(String id)throws UsernameNotFoundException {
+    	 if (!userDAO.existsById(id)) {
+             throw new UsernameNotFoundException("Utente non trovato");
+         }
+
+         userDAO.deleteById(id);
+    	 
     }
 }
