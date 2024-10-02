@@ -116,7 +116,6 @@ public class CardService {
 		return this.cardDAO.FilteredQuery(set, hp, rarity, types, supertypes, subtypes);
 	}
 	
-	
 	public List<Card> FilteredQuery2(String set, String types) {
 		String hp = null;
 		String rarity =null;

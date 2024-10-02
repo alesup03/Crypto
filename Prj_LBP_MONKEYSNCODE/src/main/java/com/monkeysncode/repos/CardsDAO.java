@@ -20,6 +20,8 @@ public interface CardsDAO extends JpaRepository<Card, String>
 	List<Card> findBySupertypes (String supertypes);
 	List<Card> findBySubtypes (String subtypes);
 	
+	List<Card> FilteredQuery(String set, String hp, String rarity, String types, String supertypes, String subtypes);
+	
 }
 	
 
