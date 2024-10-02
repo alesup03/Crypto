@@ -1,11 +1,16 @@
 package com.monkeysncode.servicies;
 
 import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import com.monkeysncode.entites.Deck;
+
 import com.monkeysncode.entites.User;
+
 import com.monkeysncode.repos.DeckDAO;
 import com.monkeysncode.repos.UserDAO;
+
+
 
 @Service
 public class DeckService {
@@ -49,7 +54,13 @@ public class DeckService {
     	return false;
     }
 
+
+
     public Optional<Deck> getDeckById(Long id) {
         return deckDAO.findById(id);
+    }
+
+    public Optional<Deck> getDeckByNameDeck(User user,String nameDeCk) {
+        return deckDAO.findByUserAndNameDeck(user,nameDeCk);
     }
 }
