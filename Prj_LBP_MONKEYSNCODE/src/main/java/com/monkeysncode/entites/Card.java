@@ -58,7 +58,7 @@ public class Card
 	private String rarity; 
 	
 	private String flavorText; 
-	
+
 	@Column(name="nationalPokedexNumbers")
 	private String nationalPokedexNumbers; 
 	
