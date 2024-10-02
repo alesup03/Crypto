@@ -1,5 +1,8 @@
 package com.monkeysncode.entites;
 
+
+import java.util.HashMap;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -45,13 +48,14 @@ public class Card
 	
 	private String evolvesTo;
 	
-	private String abilities; /*vedere e convertire in HashMap*/
+	private HashMap <String, String> abilities = new HashMap<>(); /*nel database ci sono valori sottoforma di JSON, 
+																	con chiave e valore, quindi con HashMap possiamo gestirli più facilmente*/
 	
-	private String attacks; /*vedere e convertire in HashMap*/
+	private HashMap <String, String> attacks = new HashMap<>();
 	
-	private String weakness; /*vedere e convertire in HashMap*/
+	private HashMap <String, String> weakness = new HashMap<>(); 
 	
-	private String retreatCost; /*vedere e convertire in HashMap*/
+	private HashMap <String, String> retreatCost = new HashMap<>() ; 
 	
 	private String converted; 
 	
@@ -62,15 +66,15 @@ public class Card
 	@Column(name="nationalPokedexNumbers")
 	private String nationalPokedexNumbers; 
 	
-	private String legalities; /*vedere e convertire in HashMap*/
+	private HashMap <String, String> legalities = new HashMap<>(); 
 	
-	private String resistances; /*vedere e convertire in HashMap*/
+	private HashMap <String, String> resistances = new HashMap<>(); 
 	
 	private String rules;
 	
 	private String regulationMark; 
 	
-	private String ancientTrait;  /*vedere e convertire in HashMap*/
+	private HashMap <String, String> ancientTrait = new HashMap<>() ;  
 	
 	private String img;
 
@@ -82,12 +86,12 @@ public class Card
 		this.id = id;
 	}
 
-	public String getSet() {
+	public String getCardSet() {
 		return cardSet;
 	}
 
-	public void setSet(String set) {
-		this.cardSet = set;
+	public void setCardSet(String cardSet) {
+		this.cardSet = cardSet;
 	}
 
 	public String getSeries() {
@@ -202,35 +206,35 @@ public class Card
 		this.evolvesTo = evolvesTo;
 	}
 
-	public String getAbilities() {
+	public HashMap<String, String> getAbilities() {
 		return abilities;
 	}
 
-	public void setAbilities(String abilities) {
+	public void setAbilities(HashMap<String, String> abilities) {
 		this.abilities = abilities;
 	}
 
-	public String getAttacks() {
+	public HashMap<String, String> getAttacks() {
 		return attacks;
 	}
 
-	public void setAttacks(String attacks) {
+	public void setAttacks(HashMap<String, String> attacks) {
 		this.attacks = attacks;
 	}
 
-	public String getWeakness() {
+	public HashMap<String, String> getWeakness() {
 		return weakness;
 	}
 
-	public void setWeakness(String weakness) {
+	public void setWeakness(HashMap<String, String> weakness) {
 		this.weakness = weakness;
 	}
 
-	public String getRetreatCost() {
+	public HashMap<String, String> getRetreatCost() {
 		return retreatCost;
 	}
 
-	public void setRetreatCost(String retreatCost) {
+	public void setRetreatCost(HashMap<String, String> retreatCost) {
 		this.retreatCost = retreatCost;
 	}
 
@@ -266,19 +270,19 @@ public class Card
 		this.nationalPokedexNumbers = nationalPokedexNumbers;
 	}
 
-	public String getLegalities() {
+	public HashMap<String, String> getLegalities() {
 		return legalities;
 	}
 
-	public void setLegalities(String legalities) {
+	public void setLegalities(HashMap<String, String> legalities) {
 		this.legalities = legalities;
 	}
 
-	public String getResistances() {
+	public HashMap<String, String> getResistances() {
 		return resistances;
 	}
 
-	public void setResistances(String resistances) {
+	public void setResistances(HashMap<String, String> resistances) {
 		this.resistances = resistances;
 	}
 
@@ -298,11 +302,11 @@ public class Card
 		this.regulationMark = regulationMark;
 	}
 
-	public String getAncientTrait() {
+	public HashMap<String, String> getAncientTrait() {
 		return ancientTrait;
 	}
 
-	public void setAncientTrait(String ancientTrait) {
+	public void setAncientTrait(HashMap<String, String> ancientTrait) {
 		this.ancientTrait = ancientTrait;
 	}
 
@@ -313,7 +317,6 @@ public class Card
 	public void setImg(String img) {
 		this.img = img;
 	}
-	
-	
+
 	
 }
