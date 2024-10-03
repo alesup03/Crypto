@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Decks</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="text-center">Your Decks</h1>
+
+                <!-- Check if there are any decks -->
+                <div th:if="${decks != null} and !${decks.isEmpty()}">
+                    <div class="row row-cols-1 row-cols-md-3 g-4 mt-4">
+                        <!-- Iterate over each deck -->
+                        <!-- Iterate over each deck -->
+						<div th:each="deck : ${decks}" class="col">
+						    <div class="card h-100">
+						        <!-- Anchor that wraps the image and links to the deck page -->
+						        <a th:href="@{/decks/{deckId}(deckId=${deck.id})}">
+								    <img src="/mazzisfondo.jpg" class="card-img-top" alt="Deck Image" th:if="${deck != null}">
+								</a>
+						        <div class="card-body">
+						            <h5 class="card-title" th:text="${deck.getNameDeck}">Deck Name</h5>
+						            <p class="card-text">Some description about the deck.</p>
+						        </div>
+						        <div class="card-footer">
+						            <a th:href="@{/decks/{deckId}(deckId=${deck.id})}" class="btn btn-primary">View Deck</a>
+						        </div>
+						    </div>
+						</div>
+
+                    </div>
+                </div>
+
+                <!-- Message if no decks are available -->
+                <div th:if="${decks == null} and ${decks.isEmpty()}">
+                    <p class="text-center mt-5">You don't have any decks yet.</p>
+                </div>
+
+                <!-- Button to create a new deck -->
+               <div class="text-center mt-4">
+    				<a href="/decks/create" class="btn btn-success">Create New Deck</a>
+				</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

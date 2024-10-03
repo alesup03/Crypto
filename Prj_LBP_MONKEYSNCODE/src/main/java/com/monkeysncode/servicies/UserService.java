@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -93,5 +94,16 @@ public class UserService  implements UserDetailsService{
 
          userDAO.deleteById(id);
     	 
+    }
+    public User userCheck(Object principal) {
+        if (principal instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) principal;
+            return findByEmail(userDetails.getUsername());
+            // Handle form login logic
+        } else{
+            OAuth2User oAuth2User = (OAuth2User) principal;
+            return findByEmail(oAuth2User.getAttribute("email"));
+        }
+        
     }
 }
