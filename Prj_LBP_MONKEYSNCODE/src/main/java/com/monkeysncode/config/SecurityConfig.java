@@ -38,7 +38,7 @@ public class SecurityConfig {
                 })
                 .formLogin(form -> form
                     .loginPage("/login")  // Definisci la pagina di login personalizzata
-                    .defaultSuccessUrl("/secured", true)  // Reindirizza dopo il successo del login form-based
+                    .defaultSuccessUrl("/", true)  // Reindirizza dopo il successo del login form-based
                     .loginProcessingUrl("/login")
                     .usernameParameter("email")  //set il controllo di spring a email invece del default username
                     .passwordParameter("password")
@@ -56,7 +56,7 @@ public class SecurityConfig {
         return (request, response, authentication) -> {
             OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
             serviceUser.saveOrUpdateUser(oAuth2User);
-            response.sendRedirect("/secured");
+            response.sendRedirect("/");
         };
     }
 }

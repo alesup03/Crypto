@@ -149,4 +149,11 @@ public class DeckCardsService {
     	}
     	
     }
+    
+    public void deleteCardsFromDeck(Long deckId) {
+    	List<DeckCards> lista = getDeckCards(deckId);
+		for (DeckCards deckCards : lista) {
+			RemoveCard(deckId, deckCards.getCard().getId(), deckCards.getCardQuantity());
+		}
+    }
 }
