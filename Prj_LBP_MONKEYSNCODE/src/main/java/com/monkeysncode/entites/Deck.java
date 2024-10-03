@@ -18,6 +18,18 @@ public class Deck {
 	private String nameDeck;
 	//tolta la stringa deckCard perchè è stata creata la relazione tra deck e card
 	
+	
+	 private boolean valid; // Campo per tenere traccia della validità del mazzo
+
+	    public boolean isValid() {
+	        return valid;
+	    }
+
+	    public void setValid(boolean valid) {
+	        this.valid = valid;
+	    }
+	    
+	    
 	@ManyToOne
 	@JoinColumn(name="user_id")
 	private User user;
@@ -44,7 +56,9 @@ public class Deck {
 
 	public void setUser(User user) {
 		this.user = user;
-	} 
+	}
+	
+	
 	
 }
 

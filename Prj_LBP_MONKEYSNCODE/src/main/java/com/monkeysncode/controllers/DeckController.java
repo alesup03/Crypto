@@ -1,6 +1,5 @@
 package com.monkeysncode.controllers;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,84 +28,104 @@ import com.monkeysncode.servicies.UserService;
 @Controller
 @RequestMapping("/decks")
 public class DeckController {
-	@Autowired
-	private  DeckCardsService deckCardsService;
-	@Autowired
-	private CardService cardService;
-	@Autowired
-	private UserService userService;
-	@Autowired
-	private DeckService deckService;
-	
-	@GetMapping("")
-	public String decks(@AuthenticationPrincipal Object principal,Model model) {
-		User user=userService.userCheck(principal);
-	    List<Deck> decks = user.getDecks();
-	    model.addAttribute("decks", decks);
-	    return "Decks";
-	}
-	
-	@GetMapping("/create")
-	public String create() {
-		return "create";
-		
-		
-	}@PostMapping("/create")
-	public String createPost(@AuthenticationPrincipal Object principal,@RequestParam String deckName) {
-		User user=userService.userCheck(principal);
-		deckService.saveOrUpdateDeck(user.getId(), deckName,Optional.empty());
-		
-		return "redirect:/decks";
-		
-		
-	}
-	@GetMapping("/deletedeck/{deckId}")
-	public String deleteDeck(@PathVariable("deckId") Long deckId, Model model) {
-		model.addAttribute("deckId",deckId);
-		model.addAttribute("deck",deckService.getDeckById(deckId).get().getNameDeck());
-		return "deleteDeck";
-	}
-	@PostMapping("/deletedeck/{deckId}")
-	public String deleteDeckConfirm(@RequestParam Long deckId,@RequestParam boolean confirm) {
-		if(confirm) {
-			deckCardsService.deleteCardsFromDeck(deckId);
-			deckService.DeleteDeck(deckId);
-			
-			
-		}
-		return "redirect:/decks";
-	}
-	
-	
-	
-	@GetMapping("/yourdeck/{deckId}")
+    @Autowired
+    private DeckCardsService deckCardsService;
+    @Autowired
+    private CardService cardService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private DeckService deckService;
+    
+    @GetMapping("")
+    public String decks(@AuthenticationPrincipal Object principal, Model model) {
+        User user = userService.userCheck(principal);
+        List<Deck> decks = user.getDecks();
+        
+        // Validazione di ogni mazzo
+        for (Deck deck : decks) {
+            String validationResult = deckCardsService.validateDeck(deck.getId());
+            
+            // Se il mazzo è valido, impostiamo valid a true, altrimenti a false
+            if (validationResult.contains("Il mazzo è valido!")) {
+                deck.setValid(true); // Mazzo valido
+            } else {
+                deck.setValid(false); // Mazzo non valido
+            }
+        }
+
+        model.addAttribute("decks", decks);
+        return "Decks"; // Nome del template HTML
+    }
+
+
+    
+    @GetMapping("/create")
+    public String create() {
+        return "create";
+    }
+
+    @PostMapping("/create")
+    public String createPost(@AuthenticationPrincipal Object principal, @RequestParam String deckName) {
+        User user = userService.userCheck(principal);
+        deckService.saveOrUpdateDeck(user.getId(), deckName, Optional.empty());
+        return "redirect:/decks";
+    }
+
+    @GetMapping("/deletedeck/{deckId}")
+    public String deleteDeck(@PathVariable("deckId") Long deckId, Model model) {
+        model.addAttribute("deckId", deckId);
+        model.addAttribute("deck", deckService.getDeckById(deckId).get().getNameDeck());
+        return "deleteDeck";
+    }
+
+    @PostMapping("/deletedeck/{deckId}")
+    public String deleteDeckConfirm(@RequestParam Long deckId, @RequestParam boolean confirm) {
+        if (confirm) {
+            deckCardsService.deleteCardsFromDeck(deckId);
+            deckService.DeleteDeck(deckId);
+        }
+        return "redirect:/decks";
+    }
+    
+    @GetMapping("/yourdeck/{deckId}")
     public String viewDeck(@PathVariable("deckId") Long deckId, Model model) {
-       model.addAttribute("deckId", deckId);
-       model.addAttribute("cards", cardService.findALL());
-       List<DeckCards> originalCards = deckCardsService.getDeckCards(deckId);
-       List<DeckCards> displayCards = new ArrayList<>();
-       for (DeckCards card : originalCards) {
-           for (int i = 0; i < card.getCardQuantity(); i++) {
-               displayCards.add(card);
-           }
-       }
-       model.addAttribute("deckCards", displayCards);
+        model.addAttribute("deckId", deckId);
+        model.addAttribute("cards", cardService.findALL());
+        List<DeckCards> originalCards = deckCardsService.getDeckCards(deckId);
+        List<DeckCards> displayCards = new ArrayList<>();
+        for (DeckCards card : originalCards) {
+            for (int i = 0; i < card.getCardQuantity(); i++) {
+                displayCards.add(card);
+            }
+        }
+        model.addAttribute("deckCards", displayCards);
         return "deckView";
     }
-	@PostMapping("/yourdeck/addCard")
+
+    @PostMapping("/yourdeck/addCard")
     @ResponseBody
     @Async
     public CompletableFuture<String> addCard(@RequestParam Long deckId, @RequestParam String cardId) {
         return deckCardsService.SetCard(deckId, cardId, 1);
     }
-	@PostMapping("/yourdeck/removeCard")
+
+    @PostMapping("/yourdeck/removeCard")
     @ResponseBody
     @Async
     public CompletableFuture<String> removeCard(@RequestParam Long deckId, @RequestParam String cardId) {
         return deckCardsService.RemoveCard(deckId, cardId, 1);
     }
-	
+    
+    @PostMapping("/validate")
+    public @ResponseBody String validate(@RequestParam Long deckIdValidate) {
+        // Chiama il metodo di validazione che ora restituisce una stringa già formattata
+        String validationResult = deckCardsService.validateDeck(deckIdValidate);
+        
+        // Restituisci direttamente il risultato della validazione (che è già formattato)
+        return validationResult;
+    }
+    
+    
+
 }
-	
-
-
