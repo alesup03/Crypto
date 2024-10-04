@@ -82,7 +82,7 @@ public class CardController {
 		 	param.put("desc", desc!= true ? "false" : "true");
 		 	model.addAttribute("param", param);
 
-	        return "cards";
+	        return "Cards";
 	        
 	 }
 	
