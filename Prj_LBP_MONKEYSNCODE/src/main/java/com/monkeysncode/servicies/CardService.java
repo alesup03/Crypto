@@ -26,12 +26,14 @@ public class CardService {
 		
 	}
 	
-	public List<Card> findByParam(String set, String types, String name, String rarity, String supertype, String subtypes, String sort){
+	public List<Card> findByParam(String set, String types, String name, String rarity, String supertype, String subtypes, String sort, boolean desc){
 		
 		ArrayList<Card> lista = new ArrayList<>();
 		//sort contiene il campo in base al quale ordinare l'elenco
 		if (sort != null)
-			lista = (ArrayList<Card>) cardDAO.findAll(Sort.by(Sort.Direction.ASC, sort));
+			if(desc)
+				lista = (ArrayList<Card>) cardDAO.findAll(Sort.by(Sort.Direction.DESC, sort));
+			else lista = (ArrayList<Card>) cardDAO.findAll(Sort.by(Sort.Direction.ASC, sort));
 		else lista = (ArrayList<Card>) cardDAO.findAll(Sort.unsorted());
 		ArrayList<Card> lista2 = new ArrayList<>();
 		
@@ -40,7 +42,7 @@ public class CardService {
 			return lista;
 		
 		//per ogni parametro inserito viene applicato il filtro richiesto
-		if(set != null) {
+		if(set != null && set!="") {
 			for (Card carta : lista){
 				if(carta.getSet().contains(set))
 					lista2.add(carta);
@@ -49,7 +51,7 @@ public class CardService {
 			lista2 = new ArrayList<>();
 		}
 		
-		if(types != null) {
+		if(types != null && types!="") {
 			for (Card carta : lista){
 				if(carta.getTypes().contains(types))
 					lista2.add(carta);
@@ -58,7 +60,7 @@ public class CardService {
 			lista2 = new ArrayList<>();
 		}
 		
-		if(name != null) {
+		if(name != null && name!="") {
 			for (Card carta : lista){
 				if(carta.getName().contains(name))
 					lista2.add(carta);
@@ -67,7 +69,7 @@ public class CardService {
 			lista2 = new ArrayList<>();
 		}
 		
-		if(rarity != null) {
+		if(rarity != null && rarity!="") {
 			for (Card carta : lista){
 				if(carta.getRarity().equals(rarity))
 					lista2.add(carta);
@@ -76,7 +78,7 @@ public class CardService {
 			lista2 = new ArrayList<>();
 		}
 		
-		if(supertype != null) {
+		if(supertype != null && supertype!="") {
 			for (Card carta : lista){
 				if(carta.getSupertypes().equals(supertype))
 					lista2.add(carta);
@@ -85,7 +87,7 @@ public class CardService {
 			lista2 = new ArrayList<>();
 		}
 		
-		if(subtypes != null) {
+		if(subtypes != null && subtypes!="") {
 			for (Card carta : lista){
 				if(carta.getSubtypes().equals(subtypes))
 					lista2.add(carta);
