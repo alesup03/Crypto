@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.monkeysncode.entites.Card;
 import com.monkeysncode.entites.Deck;
 import com.monkeysncode.entites.DeckCards;
 import com.monkeysncode.entites.User;
@@ -40,6 +41,7 @@ public class DeckController {
     @GetMapping("")
     public String decks(@AuthenticationPrincipal Object principal, Model model) {
         User user = userService.userCheck(principal);
+        model.addAttribute("username","Benvenuto "+user.getName());
         List<Deck> decks = user.getDecks();
         
         // Validazione di ogni mazzo
@@ -61,7 +63,9 @@ public class DeckController {
 
     
     @GetMapping("/create")
-    public String create() {
+    public String create(@AuthenticationPrincipal Object principal, Model model) {
+    	User user = userService.userCheck(principal);
+        model.addAttribute("username","Benvenuto "+user.getName());
         return "create";
     }
 
@@ -73,8 +77,10 @@ public class DeckController {
     }
 
     @GetMapping("/deletedeck/{deckId}")
-    public String deleteDeck(@PathVariable("deckId") Long deckId, Model model) {
-        model.addAttribute("deckId", deckId);
+    public String deleteDeck(@AuthenticationPrincipal Object principal,@PathVariable("deckId") Long deckId, Model model) {
+    	User user = userService.userCheck(principal);
+        model.addAttribute("username","Benvenuto "+user.getName());
+    	model.addAttribute("deckId", deckId);
         model.addAttribute("deck", deckService.getDeckById(deckId).get().getNameDeck());
         return "deleteDeck";
     }
@@ -88,10 +94,19 @@ public class DeckController {
         return "redirect:/decks";
     }
     
-    @GetMapping("/yourdeck/{deckId}")
-    public String viewDeck(@PathVariable("deckId") Long deckId, Model model) {
-        model.addAttribute("deckId", deckId);
-        model.addAttribute("cards", cardService.findALL());
+    @GetMapping("/yourdeck/{page}/{deckId}")
+    public String viewDeck(@AuthenticationPrincipal Object principal, @PathVariable("deckId") Long deckId,
+            @PathVariable int page, Model model) {
+    	
+    	User user = userService.userCheck(principal);
+    	List<Card> allCards = cardService.getCardsByPage(cardService.findALL(),page, 131);//cambiare il find all dopo i filtri
+    	int totPages=cardService.totPages(allCards, 131);
+        model.addAttribute("username","Benvenuto "+user.getName());
+    	model.addAttribute("deckId", deckId);
+        model.addAttribute("cards", allCards);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totPages", totPages);
+        
         List<DeckCards> originalCards = deckCardsService.getDeckCards(deckId);
         List<DeckCards> displayCards = new ArrayList<>();
         for (DeckCards card : originalCards) {

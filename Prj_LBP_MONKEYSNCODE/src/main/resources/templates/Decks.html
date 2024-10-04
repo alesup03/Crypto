@@ -7,18 +7,17 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-   <!-- navBar-->
-   <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <!-- navBar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
     <div class="container-fluid">
         <a class="navbar-brand" href="http://localhost:8080">
             <img src="/logo.png" alt="Logo" width="150" height="50" class="d-inline-block align-text-top"> 
-       
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav me-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="http://localhost:8080/cards">Carte</a>
                 </li>
@@ -26,10 +25,14 @@
                     <a class="nav-link" href="http://localhost:8080/decks">Mazzi</a>
                 </li>
             </ul>
+            <div class="ms-auto"> 
+                <a class="nav-link" href="http://localhost:8080/profile" th:text="${username}">User</a>
+            </div>
         </div>
     </div>
 </nav>
-<!-- navBar-->
+<!-- navBar -->
+
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-12">
@@ -53,7 +56,7 @@
 						            </div>
 						        </div>
 						        <div class="card-footer">
-						            <a th:href="@{/decks/yourdeck/{deckId}(deckId=${deck.id})}" class="btn btn-primary">Visualizza Mazzo</a>
+						            <a th:href="@{/decks/yourdeck/1/{deckId}(deckId=${deck.id})}" class="btn btn-primary">Visualizza Mazzo</a>
 						            <a th:href="@{/decks/deletedeck/{deckId}(deckId=${deck.id})}" class="btn btn-primary">Cancella Mazzo</a>
 						        </div>
 						    </div>
