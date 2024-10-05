@@ -42,9 +42,10 @@ public class CardService {
 			return lista;
 		
 		//per ogni parametro inserito viene applicato il filtro richiesto
+
 		if(set != null && set!="") {
 			for (Card carta : lista){
-				if(carta.getSet().contains(set))
+				if(containsIgnoreCase(carta.getSet(), set))
 					lista2.add(carta);
 			}
 			lista = lista2;
@@ -53,7 +54,7 @@ public class CardService {
 		
 		if(types != null && types!="") {
 			for (Card carta : lista){
-				if(carta.getTypes().contains(types))
+				if(carta.getTypes().equals(types))
 					lista2.add(carta);
 			}
 			lista = lista2;
@@ -62,7 +63,7 @@ public class CardService {
 		
 		if(name != null && name!="") {
 			for (Card carta : lista){
-				if(carta.getName().contains(name))
+				if(containsIgnoreCase(carta.getName(), name))
 					lista2.add(carta);
 			}
 			lista = lista2;
@@ -96,20 +97,17 @@ public class CardService {
 			lista2 = new ArrayList<>();
 		}
 		
-		//secondo me il filtro sugli hp non serve
-		/*if(hp != null) {
-		for (Card carta : lista){
-		//hp nel db è scritto come un float(es:60.0), ho provato a risolvere con il parse
-			if(carta.getHp() != "") {
-				if(Double.parseDouble(carta.getHp()) == Double.parseDouble(hp))
-					lista2.add(carta);
-			}
-		}
-		lista = lista2;
-		lista2 = new ArrayList<>();
-	}*/
 		
 		return lista;
+	}
+	
+	private boolean containsIgnoreCase(String str, String check) {
+		if (check == null || check.length()==0)
+			return true;
+		if (str.toLowerCase().contains(check.toLowerCase()))
+			return true;
+	    return false;
+		
 	}
 	
 	private int checkNull(String set, String types, String hp, String rarity, String supertype, String subtypes) {

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista di Card</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            width: 150px;
+            box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
+        }
+        .card img {
+            width: 100%;
+            height: auto;
+            border-bottom: 1px solid #ccc;
+            border-radius: 8px 8px 0 0;
+            transition: transform 0.3s ease;
+        }
+        .card img:hover{
+        	transform:scale(1.8);
+        	z-index:10;
+        }
+        .pagination{
+        	
+        }
+        .up{
+        	/*position: fixed;
+        	top:50px;
+        	right:50px;*/
+            margin-top: 20px;
+            margin-left:50px;
+        }
+        .down{
+        	/*position: fixed;
+        	bottom:50px;
+        	right:50px;*/
+            margin-top: 20px;
+            margin-left:50px;
+        }
+        .pagination a {
+            margin: 0 5px;
+            background-color:grey;
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .pagination a.current {
+            font-weight: bold;
+            background-color: #eee;
+        }
+        .filter-menu {
+            display: none;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .filter-menu.active {
+            display: block;
+        }
+        .filter-button {
+            cursor: pointer;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-left: 30px;
+        }
+        nav{
+            position: sticky;
+            top: 0px;
+        	background-color:red;
+        }
+        h1{
+            margin-left: 30px;
+            
+            padding-top: 100px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="fixed-top navbar navbar-expand-lg navbar-light bg-danger">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="localhost:8080">
+                <img src="logo.png" alt="Logo" width="100" height="30" class="d-inline-block align-text-top"> 
+                
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:8080/cards">Carte</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:8080/decks">Mazzi</a>
+                    </li>
+                </ul>
+                <div class="ms-auto"> 
+                    <a href="http://localhost:8080/login" class="btn btn-secondary">Login</a>
+                    <a href="http://localhost:8080/register" class="btn btn-primary">Registrati</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="row ">
+    <h1>Elenco di Carte</h1>
+    </div>
+    <div class="row">
+        
+        <div class="col">
+            <!-- Pulsante per aprire il menu di filtro -->
+            <button class="filter-button" onclick="toggleFilterMenu()">Filtra</button>
+
+            <!-- Menu a tendina per il filtro e l'ordinamento -->
+            <div id="filterMenu" class="filter-menu">
+                <form id="filter" th:action="@{/cards}" method="get">
+                    <div>
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name">
+                    </div>
+                    <div>
+                        <label for="set">Set:</label>
+                        <input type="text" id="set" name="set">
+                    </div>
+                    <!-- <div>
+                        <label for="types">Type:</label>
+                        <input type="text" id="types" name="types" th:value="${param.types}">
+                    </div> -->
+                    <div>
+                        <label for="types">Choose a type:</label>
+                        <select name="types" id="types1">
+                            <option value=""></option>
+                            <option value="Colorless">Colorless</option>
+                            <option value="Grass">Grass</option>
+                            <option value="Fire">Fire</option>
+                            <option value="Water">Water</option>
+                            <option value="Lightning">Lightning</option>
+                            <option value="Fighting">Fighting</option>
+                            <option value="Psychic">Psychic</option>
+                            <option value="Darkness">Darkness</option>
+                            <option value="Metal">Metal</option>
+                            <option value="Dragon">Dragon</option>
+                            <option value="Fairy">Fairy</option>
+                        </select>
+                    
+                        <label for="types2">Secondary type:</label>
+                        <select name="types2" id="types2">
+                            <option value=""></option>
+                            <option value="Colorless">Colorless</option>
+                            <option value="Grass">Grass</option>
+                            <option value="Fire">Fire</option>
+                            <option value="Water">Water</option>
+                            <option value="Lightning">Lightning</option>
+                            <option value="Fighting">Fighting</option>
+                            <option value="Psychic">Psychic</option>
+                            <option value="Darkness">Darkness</option>
+                            <option value="Metal">Metal</option>
+                            <option value="Dragon">Dragon</option>
+                            <option value="Fairy">Fairy</option>
+                        </select>
+                        
+                        <input type="hidden" name="types" id="types">
+                    </div>
+                    
+                    <div>
+                        <label for="rarity">Rarity:</label>
+                        <select id="rarity" name="rarity" th:value="${param.rarity}">
+                            <option value=""></option>
+                            <option value="Classic Collection">Classic Collection</option>
+                            <option value="Common">Common</option>
+                            <option value="LEGEND">LEGEND</option>
+                            <option value="Promo">Promo</option>
+                            <option value="Rare">Rare</option>
+                            <option value="Rare ACE">Rare ACE</option>
+                            <option value="Rare Holo">Rare Holo</option>
+                            <option value="Rare Holo EX">Rare Holo EX</option>
+                            <option value="Rare Holo GX">Rare Holo GX</option>
+                            <option value="Rare Holo LV.X">Rare Holo LV.X</option>
+                            <option value="Rare Holo Star">Rare Holo Star</option>
+                            <option value="Rare Holo V">Rare Holo V</option>
+                            <option value="Rare Holo VMAX">Rare Holo VMAX</option>
+                            <option value="Rare Holo VSTAR">Rare Holo VSTAR</option>
+                            <option value="Rare Prime">Rare Prime</option>
+                            <option value="Rare Rainbow">Rare Rainbow</option>
+                            <option value="Rare Secret">Rare Secret</option>
+                            <option value="Rare Shining">Rare Shining</option>
+                            <option value="Rare Shiny">Rare Shiny</option>
+                            <option value="Rare Shiny GX">Rare Shiny GX</option>
+                            <option value="Rare Ultra">Rare Ultra</option>
+                            <option value="Rare Prism Star">Rare Prism Star</option>
+                            <option value="Uncommon">Uncommon</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="supertype">Supertype:</label>
+                        <select id="supertype" name="supertype">
+                            <option value="" ></option>
+                            <option value="Pokémon" >Pokémon</option>
+                            <option value="Trainer" >Trainer</option>
+                            <option value="Energy" >Energy</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="subtypes">Subtypes:</label>
+                        <select id="subtypes" name="subtypes">
+                            <option value=""></option>
+                            <option value="Basic">Basic</option>
+                            <option value="Stage 1">Stage 1</option>
+                            <option value="Stage 2">Stage 2</option>
+                            <option value="Baby">Baby</option>
+                            <option value="Item">Item</option>
+                            <option value="Tool">Tool</option>
+                            <option value="Special">Special</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="sort">Order:</label>
+                        <select id="sort" name="sort">
+                            <option value="name">Name</option>
+                            <option value="nationalPokedexNumbers">Pokedex n.</option>
+                            <option value="level">Level</option>
+                            <option value="rarity">Rarity</option>
+                        </select>
+                    
+
+                        <!-- Checkbox per la direzione di ordinamento -->
+                        <label for="desc">Order descend:</label>
+                        <input type="checkbox" id="desc" name="desc">
+                    </div>
+                    
+                    <div>
+                        <button type="submit">Applica</button>
+                        <button type="reset">Reset</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-10"></div>
+    </div>
+
+
+    <div class="row">
+    <div class="col-5"></div>
+    <div class="col-2">
+        <div class="pagination up">
+            <a th:if="${currentPage > 0}"
+            th:href="@{/cards(page=${currentPage - 1}, size=${size})}">Previous</a>
+            <a th:if="${currentPage < totalPages - 1}"
+            th:href="@{/cards(page=${currentPage + 1}, size=${size})}">Next</a>
+        </div>
+    </div>
+    <div class="col-5"></div>
+    </div>
+
+    
+    <!-- Contenitore delle card -->
+    <div class="row my-5">
+        <div class="col-2"></div>
+        <div class="col card-container">
+        
+            <div th:if="${#lists.isEmpty(cards)}">
+                <p>No cards found</p>
+            </div>
+            <!-- Thymeleaf loop per visualizzare ogni card -->
+            <div class="card" th:each="card : ${cards}">
+                <img th:src="${card.img}" alt="Card Image" />
+            </div>
+        </div>
+        <div class="col-2"></div>
+    </div>
+
+    <!-- Sorrimento pagine -->
+    <!-- avevo provato a metter i tasti con i numeri ma così ne mette troppi -->
+        <!--<span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+            <a th:href="@{/cards(page=${i}, size=${size})}"
+               th:classappend="${i == currentPage} ? 'current' : ''">
+                <span th:text="${i + 1}"></span>
+            </a>
+        </span>-->
+
+    <div class="row">
+        <div class="col-5"></div>
+        <div class="col-2">
+            <div class="pagination down">
+                <a th:if="${currentPage > 0}"
+                th:href="@{/cards(page=${currentPage - 1}, size=${size})}">Previous</a>
+                <a th:if="${currentPage < totalPages - 1}"
+                th:href="@{/cards(page=${currentPage + 1}, size=${size})}">Next</a>
+            </div>
+        </div>
+        <div class="col-5"></div>
+    </div>
+
+    <script>
+        function toggleFilterMenu() {
+            var menu = document.getElementById("filterMenu");
+            menu.classList.toggle("active");
+        }
+        
+        document.getElementById('filter').addEventListener('submit', function(event) {
+            // Impedisce l'invio automatico del form
+            event.preventDefault();
+	        var selectedType1 = document.getElementById("types1").value;
+	        var selectedType2 = document.getElementById("types2").value;
+	        
+	        if(selectedType2=="")
+	        	document.getElementById("types").value = selectedType1;
+	        
+	        if(selectedType2!=""){
+		        if (selectedType1 == selectedType2)
+		        	document.getElementById("types").value = selectedType1;
+
+		        if(selectedType1=="")
+		        	document.getElementById("types").value = selectedType2;
+		        
+		        if(selectedType1!=""){
+			        selectedType1 += ", "+selectedType2;
+		        	document.getElementById("types").value = selectedType1;
+		        }
+		        console.log(selectedType1);
+	        }
+	        document.getElementById("types1").value = null;
+	        document.getElementById("types2").value = null;
+	        
+	        this.submit();
+        });
+        
+        var name = "[[${param.name}]]";
+        var set = "[[${param.set}]]";
+        var supertype = "[[${param.supertype}]]";
+        var subtypes = "[[${param.subtypes}]]";
+        var rarity = "[[${param.rarity}]]";
+        var sort = "[[${param.sort}]]";
+        var desc = "[[${param.desc}]]";
+        var types = "[[${param.types}]]";
+        
+        document.getElementById("name").value = name;
+        document.getElementById("set").value = set;
+        document.getElementById("supertype").value = supertype;
+        document.getElementById("subtypes").value = subtypes;
+        document.getElementById("rarity").value = rarity;
+        document.getElementById("sort").value = sort;
+        if(desc)
+        	document.getElementById("desc").checked = true;
+        else document.getElementById("desc").checked = false;
+        if(types.length > 10){
+        	types= types.split(', ');
+        	document.getElementById("types1").value = types[0];
+        	document.getElementById("types2").value = types[1];
+        }
+        else document.getElementById("types1").value = types;
+        
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -57,7 +57,7 @@ public class CardController {
 	        @RequestParam(required = false,defaultValue = "name") String sort,
 	        @RequestParam(defaultValue = "false") boolean desc){
 		 
-		 
+
 		 	List<Card> cards = cardService.findByParam(set, types, name, rarity, supertype, subtypes, sort, desc);
 
 	        // Paginazione
@@ -82,7 +82,8 @@ public class CardController {
 		 	param.put("desc", desc!= true ? "false" : "true");
 		 	model.addAttribute("param", param);
 
-	        return "Cards";
+	        return "cards";
+
 	        
 	 }
 	
