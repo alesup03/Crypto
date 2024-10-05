@@ -113,10 +113,6 @@ public class DeckCardsService {
 
         return formattedErrors.toString();
     }
-
-
-
-    
     public String validateDeck(Long deckId) {
         List<DeckCards> deckCards = getDeckCards(deckId);
         List<String> violations = new ArrayList<>(); // Lista per raccogliere le violazioni
@@ -128,8 +124,8 @@ public class DeckCardsService {
 
         // Controllo che il mazzo non superi il limite massimo di 60 carte
         int totalCards = deckCards.stream().mapToInt(DeckCards::getCardQuantity).sum();
-        if (totalCards > 60) {
-            violations.add("Il mazzo supera il limite massimo di 60 carte.");
+        if (totalCards != 60) { // Cambiato a != per riflettere che deve essere esattamente 60
+            violations.add("Il mazzo deve contenere esattamente 60 carte. Carte nel mazzo: " + totalCards);
         }
 
         // Inizializzo il contatore per i Pokémon base e una mappa per tenere traccia delle copie delle carte
@@ -159,18 +155,24 @@ public class DeckCardsService {
 
         // Validazione delle regole
         if (basicPokemonCount == 0) {
-            violations.add("Il mazzo deve includere almeno un Pokémon base."); // Aggiungi violazione
+            violations.add("Il mazzo deve includere almeno un Pokémon base.");
         }
 
         boolean noExcessCopies = cardCountMap.values().stream().allMatch(count -> count <= 4); // Massimo 4 carte con lo stesso nome (escluse le energie)
         if (!noExcessCopies) {
-            violations.add("Non è possibile avere più di 4 copie per carta (eccetto Energy)."); // Aggiungi violazione
+            violations.add("Non è possibile avere più di 4 copie per carta (eccetto Energy).");
         }
 
         // Verifica che ogni evoluzione abbia il suo Pokémon base
-        boolean allEvolutionsHaveBase = evolutionCards.stream().allMatch(basePokemon -> cardCountMap.containsKey(basePokemon));
-        if (!allEvolutionsHaveBase) {
-            violations.add("Alcune evoluzioni non hanno il Pokémon base corrispondente."); // Aggiungi violazione
+        List<String> missingBases = new ArrayList<>(); // Inizializza la lista per i Pokémon base mancanti
+        for (String basePokemon : evolutionCards) {
+            if (!cardCountMap.containsKey(basePokemon)) {
+                missingBases.add(basePokemon); // Aggiunge il Pokémon base mancante
+            }
+        }
+
+        if (!missingBases.isEmpty()) {
+            violations.add("Alcune evoluzioni non hanno il Pokémon base corrispondente: " + String.join(", ", missingBases));
         }
 
         // Restituisci la lista delle violazioni con formattazione ordinata
