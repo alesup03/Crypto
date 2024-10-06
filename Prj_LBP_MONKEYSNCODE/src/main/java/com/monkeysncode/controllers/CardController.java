@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.monkeysncode.entites.Card;
 import com.monkeysncode.entites.User;
 import com.monkeysncode.servicies.CardService;
+import com.monkeysncode.servicies.UserCardsService;
 import com.monkeysncode.servicies.UserService;
 
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +27,10 @@ public class CardController {
 	
 	@Autowired
 	private CardService cardService;
+    @Autowired
+    private UserService userService;
+	@Autowired
+	private UserCardsService usercardService;
 	
 	/*@GetMapping("/cards")
 	public String Cards(
@@ -94,11 +99,13 @@ public class CardController {
 	 public String viewCard(@AuthenticationPrincipal Object principal, @PathVariable("cardId") String cardId, Model model) {
 
 	     Optional<Card> cardOptional = cardService.getCardById(cardId);
+	     User user = userService.userCheck(principal);
 	     
 	     if (cardOptional.isPresent()) {
 	         Card card = cardOptional.get();
 	         model.addAttribute("card", card);
-	         
+	         int quantity = usercardService.getQuantityByCardUser(user, card);
+	         model.addAttribute("inCollection", quantity);
 	         return "cardView"; 
 	     } else {
 	         model.addAttribute("errorMessage", "La carta con ID " + cardId + " non esiste.");
