@@ -2,17 +2,21 @@ package com.monkeysncode.controllers;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.monkeysncode.entites.Card;
+import com.monkeysncode.entites.User;
 import com.monkeysncode.servicies.CardService;
-
+import com.monkeysncode.servicies.UserService;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -83,10 +87,24 @@ public class CardController {
 		 	model.addAttribute("param", param);
 
 	        return "cards";
-
 	        
 	 }
 	
+	 @GetMapping("/card/{cardId}")
+	 public String viewCard(@AuthenticationPrincipal Object principal, @PathVariable("cardId") String cardId, Model model) {
+
+	     Optional<Card> cardOptional = cardService.getCardById(cardId);
+	     
+	     if (cardOptional.isPresent()) {
+	         Card card = cardOptional.get();
+	         model.addAttribute("card", card);
+	         
+	         return "cardView"; 
+	     } else {
+	         model.addAttribute("errorMessage", "La carta con ID " + cardId + " non esiste.");
+	         return "error";
+	     }
+	 }
 
 	
 }
