@@ -90,7 +90,7 @@ public class CardController {
 	        
 	 }
 	
-	 @GetMapping("/cardView/{cardId}")
+	 @GetMapping("/card/{cardId}")
 	 public String viewCard(@AuthenticationPrincipal Object principal, @PathVariable("cardId") String cardId, Model model) {
 
 	     Optional<Card> cardOptional = cardService.getCardById(cardId);
