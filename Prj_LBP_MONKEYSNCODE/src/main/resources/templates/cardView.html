@@ -55,7 +55,18 @@
         <p><strong>HP:</strong> <span th:text="${card.hp != null ? card.hp : 'N/A'}"></span></p>
         <p><strong>Rarità:</strong> <span th:text="${card.rarity != null ? card.rarity : 'N/A'}"></span></p>
         <p><strong>Flavor Text:</strong> <span th:text="${card.flavorText != null ? card.flavorText : 'N/A'}"></span></p>
+    <p><strong>Nella tua collezione:</strong> <span th:text="${inCollection != null ? inCollection : 'N/A'}"></span></p>
+    
     </div>
+    
+   <form action="/userCard" method="POST" class="mt-4">
+     <input type="hidden" name="cardId" th:value="${card.id}" />
+	     <div class="mb-3">
+	         <label for="quantity" class="form-label" >Aggiorna quantità:</label>
+	         <input type="number" name="quantity" th:value="${inCollection}" id="quantity" class="form-control" min="0" required />
+	     </div>
+     <button type="submit" class="btn btn-primary">Aggiungi Carta</button>
+   </form>
 </body>
 
 </html>
