@@ -128,13 +128,16 @@ public class CardService {
 		return i;
 	}
 	
-	public List<Card> getCardsByPage(List<Card> allCards,int i,int cardsPage){
-		if(i<1)
-			i=1;
-		i--;
-		i=i*cardsPage;
+	public List<Card> getCardsByPage(List<Card> allCards,int page,int cardsPage){
+		if(page<1)
+			page=1;
+		page--;
+		page=page*cardsPage;
+		if(allCards.size()<cardsPage) {
+			cardsPage=allCards.size()-1;
+		}
 		List<Card> result=new ArrayList<Card>();
-		for(int j=i;j<=i+cardsPage;j++) {
+		for(int j=page;j<=page+cardsPage;j++) {
 			result.add(allCards.get(j));
 		}
 		return result;

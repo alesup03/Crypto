@@ -1,6 +1,7 @@
 package com.monkeysncode.controllers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -95,17 +96,37 @@ public class DeckController {
     }
     
     @GetMapping("/yourdeck/{page}/{deckId}")
-    public String viewDeck(@AuthenticationPrincipal Object principal, @PathVariable("deckId") Long deckId,
-            @PathVariable int page, Model model) {
+    public String viewDeck(@AuthenticationPrincipal Object principal,
+    		@PathVariable("deckId") Long deckId,
+            @PathVariable int page, Model model,
+            @RequestParam(required = false) String set,
+	        @RequestParam(required = false) String types,
+	        @RequestParam(required = false) String name,
+	        @RequestParam(required = false) String rarity,
+	        @RequestParam(required = false) String supertype,
+	        @RequestParam(required = false) String subtypes,
+	        @RequestParam(required = false,defaultValue = "name") String sort,
+	        @RequestParam(defaultValue = "false") boolean desc) {
+    	List<Card> cards = cardService.findByParam(set, types, name, rarity, supertype, subtypes, sort, desc);
     	
     	User user = userService.userCheck(principal);
-    	List<Card> allCards = cardService.getCardsByPage(cardService.findALL(),page, 131);//cambiare il find all dopo i filtri
+    	List<Card> allCards = cardService.getCardsByPage(cards,page, 131);//cambiare il find all dopo i filtri
     	int totPages=cardService.totPages(allCards, 131);
         model.addAttribute("username","Benvenuto "+user.getName());
     	model.addAttribute("deckId", deckId);
         model.addAttribute("cards", allCards);
         model.addAttribute("currentPage", page);
         model.addAttribute("totPages", totPages);
+        HashMap<String, String> param = new HashMap<String, String>();
+	 	param.put("set", set);
+	 	param.put("types", types);
+	 	param.put("name", name);
+	 	param.put("rarity", rarity);
+	 	param.put("supertype", supertype);
+	 	param.put("subtypes", subtypes);
+	 	param.put("sort", sort);
+	 	param.put("desc", desc!= true ? "false" : "true");
+	 	model.addAttribute("param", param);
         
         List<DeckCards> originalCards = deckCardsService.getDeckCards(deckId);
         List<DeckCards> displayCards = new ArrayList<>();
