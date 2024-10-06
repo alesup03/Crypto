@@ -278,7 +278,9 @@
             </div>
             <!-- Thymeleaf loop per visualizzare ogni card -->
             <div class="card" th:each="card : ${cards}">
-                <img th:src="${card.img}" alt="Card Image" />
+                <a th:href="@{/cardView/{cardId}(cardId=${card.id})}">
+                	<img th:src="${card.img}" alt="Card Image" />
+                </a>
             </div>
         </div>
         <div class="col-2"></div>
