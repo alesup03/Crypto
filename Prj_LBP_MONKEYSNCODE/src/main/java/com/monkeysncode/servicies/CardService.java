@@ -1,6 +1,7 @@
 package com.monkeysncode.servicies;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +21,12 @@ public class CardService {
 		return cardDAO.findAll();
 	}
 	
+	public List<Card> findAllSorted(String sort, boolean desc){
+		if(desc)
+		return cardDAO.findAll(Sort.by(Sort.Direction.DESC, sort));
+		else return cardDAO.findAll(Sort.by(Sort.Direction.ASC, sort));
+	}
+	
 	public List<Card> findByName(String name){
 		
 		List<Card> lista = cardDAO.findByName(name);
@@ -27,7 +34,86 @@ public class CardService {
 		
 	}
 	
-	public List<Card> findByParam(String set, String types, String name, String rarity, String supertype, String subtypes, String sort, boolean desc){
+	public List<Card> filterByParam(HashMap<String,String> filters,List<Card> lista){
+		
+		ArrayList<Card> lista2 = new ArrayList<>();
+		
+		if (checkHashNull(filters))
+			return lista;
+		
+		//per ogni parametro inserito viene applicato il filtro richiesto
+
+		if(filters.get("set") != null && filters.get("set")!="") {
+			for (Card carta : lista){
+				if(containsIgnoreCase(carta.getSet(), filters.get("set")))
+					lista2.add(carta);
+			}
+			lista = lista2;
+			lista2 = new ArrayList<>();
+		}
+		
+		if(filters.get("types") != null && filters.get("types")!="") {
+			for (Card carta : lista){
+				if(carta.getTypes().equals(filters.get("types")))
+					lista2.add(carta);
+			}
+			lista = lista2;
+			lista2 = new ArrayList<>();
+		}
+		
+		if(filters.get("name")!= null && filters.get("name")!="") {
+			for (Card carta : lista){
+				if(containsIgnoreCase(carta.getName(), filters.get("name")))
+					lista2.add(carta);
+			}
+			lista = lista2;
+			lista2 = new ArrayList<>();
+		}
+		
+		if(filters.get("rarity") != null && filters.get("rarity")!="") {
+			for (Card carta : lista){
+				if(carta.getRarity().equals(filters.get("rarity")))
+					lista2.add(carta);
+			}
+			lista = lista2;
+			lista2 = new ArrayList<>();
+		}
+		
+		if(filters.get("supertype") != null && filters.get("supertype")!="") {
+			for (Card carta : lista){
+				if(carta.getSupertypes().equals(filters.get("supertype")))
+					lista2.add(carta);
+			}
+			lista = lista2;
+			lista2 = new ArrayList<>();
+		}
+		
+		if(filters.get("subtypes") != null && filters.get("subtypes")!="") {
+			for (Card carta : lista){
+				if(carta.getSubtypes().equals(filters.get("subtypes")))
+					lista2.add(carta);
+			}
+			lista = lista2;
+			lista2 = new ArrayList<>();
+		}
+		
+		return lista;
+
+		
+	}
+	
+	private boolean checkHashNull(HashMap<String, String> filters) {
+		int count=0;
+		for (String i : filters.keySet()) {
+			  if(filters.get(i)==null)
+				  count++;
+			}
+		if(count==filters.size())
+			return true;
+		return false;
+	}
+	
+	/*public List<Card> findByParam(String set, String types, String name, String rarity, String supertype, String subtypes, String sort, boolean desc){
 		
 		ArrayList<Card> lista = new ArrayList<>();
 		//sort contiene il campo in base al quale ordinare l'elenco
@@ -100,8 +186,9 @@ public class CardService {
 		
 		
 		return lista;
-	}
+	}*/
 	
+	//
 	private boolean containsIgnoreCase(String str, String check) {
 		if (check == null || check.length()==0)
 			return true;
@@ -111,7 +198,7 @@ public class CardService {
 		
 	}
 	
-	private int checkNull(String set, String types, String hp, String rarity, String supertype, String subtypes) {
+	/*private int checkNull(String set, String types, String hp, String rarity, String supertype, String subtypes) {
 		int i=0;
 		if (set != null)
 			i++;
@@ -126,7 +213,7 @@ public class CardService {
 		if (subtypes != null)
 			i++;
 		return i;
-	}
+	}*/
 	
 	public List<Card> getCardsByPage(List<Card> allCards,int page,int cardsPage){
 		if(page<1)

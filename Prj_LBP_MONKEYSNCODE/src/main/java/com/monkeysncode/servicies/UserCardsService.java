@@ -1,5 +1,6 @@
 package com.monkeysncode.servicies;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.monkeysncode.entites.Card;
 import com.monkeysncode.entites.User;
 import com.monkeysncode.entites.UserCards;
+import com.monkeysncode.repos.CardsDAO;
 import com.monkeysncode.repos.UserCardDAO;
 
 @Service
@@ -18,6 +20,14 @@ public class UserCardsService {
 		
 		public List<UserCards> getUserCollection(String userId){
 			return dao.findByUserId(userId);
+		}
+		public List<Card> getCollection(String userId){
+			List<UserCards> userCards = dao.findByUserId(userId);
+			List<Card> cards = new ArrayList<Card>();
+			for (UserCards userCard : userCards) {
+				cards.add(userCard.getCard());
+			}
+			return cards;
 		}
 		public void addOrUpdateCard(User user,Card card,int quantity) {
 			UserCards collection = dao
