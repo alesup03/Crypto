@@ -113,7 +113,7 @@ public class CardService {
 		return false;
 	}
 	
-	/*public List<Card> findByParam(String set, String types, String name, String rarity, String supertype, String subtypes, String sort, boolean desc){
+	public List<Card> findByParam(String set, String types, String name, String rarity, String supertype, String subtypes, String sort, boolean desc){
 		
 		ArrayList<Card> lista = new ArrayList<>();
 		//sort contiene il campo in base al quale ordinare l'elenco
@@ -186,7 +186,7 @@ public class CardService {
 		
 		
 		return lista;
-	}*/
+	}
 	
 	//
 	private boolean containsIgnoreCase(String str, String check) {
@@ -198,7 +198,7 @@ public class CardService {
 		
 	}
 	
-	/*private int checkNull(String set, String types, String hp, String rarity, String supertype, String subtypes) {
+	private int checkNull(String set, String types, String hp, String rarity, String supertype, String subtypes) {
 		int i=0;
 		if (set != null)
 			i++;
@@ -213,7 +213,7 @@ public class CardService {
 		if (subtypes != null)
 			i++;
 		return i;
-	}*/
+	}
 	
 	public List<Card> getCardsByPage(List<Card> allCards,int page,int cardsPage){
 		if(page<1)

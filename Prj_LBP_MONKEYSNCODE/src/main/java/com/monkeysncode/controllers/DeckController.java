@@ -107,6 +107,8 @@ public class DeckController {
 	        @RequestParam(required = false) String subtypes,
 	        @RequestParam(required = false,defaultValue = "name") String sort,
 	        @RequestParam(defaultValue = "false") boolean desc) {
+    	
+    	//List<Card> cards = cardService.filterByParam(param, cardService.findAllSorted(sort,desc));
     	List<Card> cards = cardService.findByParam(set, types, name, rarity, supertype, subtypes, sort, desc);
     	
     	User user = userService.userCheck(principal);
@@ -117,6 +119,7 @@ public class DeckController {
         model.addAttribute("cards", allCards);
         model.addAttribute("currentPage", page);
         model.addAttribute("totPages", totPages);
+        
         HashMap<String, String> param = new HashMap<String, String>();
 	 	param.put("set", set);
 	 	param.put("types", types);
