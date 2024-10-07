@@ -38,16 +38,28 @@ public class UserService  implements UserDetailsService{
     }
     
 
-    public void saveOrUpdateUser(OAuth2User oAuth2User) {//salva/updata lo user di oauth2 
-        String id = oAuth2User.getName();  
-        String name = oAuth2User.getAttribute("name");
+    public void saveOrUpdateUser(OAuth2User oAuth2User) {
         String email = oAuth2User.getAttribute("email");
+        String name = oAuth2User.getAttribute("name");
+        String oauthProviderId = oAuth2User.getName();
 
-        User user = userDAO.findById(id).orElse(new User()); 
-        user.setId(id);
-        user.setName(name);
-        user.setEmail(email);
+        Optional<User> existingUser = userDAO.findByEmail(email);
 
+        User user;
+        if (existingUser.isPresent()) {
+            user = existingUser.get();
+            if (user.getId() == null) {
+                user.setId(oauthProviderId);
+            }
+        } else {
+            // Se non esiste, crea un nuovo utente
+            user = new User();
+            user.setId(oauthProviderId);  // Imposta l'ID del provider OAuth2
+            user.setEmail(email);
+            user.setName(name);
+        }
+
+        // Salva l'utente nel database
         userDAO.save(user);
     }
     public void register(User user) {//registra i dati mandati dall'utente nel db criptando anche la pass
@@ -65,7 +77,7 @@ public class UserService  implements UserDetailsService{
     	String id=user.getEmail();
     	List<User>listaUser=userDAO.findAll();
     	for (User user2 : listaUser) {
-			if(user2.getEmail().equals(id))
+			if(user2.getEmail().toLowerCase().equals(id.toLowerCase()))
 				return true;
 		}
     	return false;
