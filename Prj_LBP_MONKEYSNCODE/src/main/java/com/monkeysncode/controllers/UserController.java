@@ -8,12 +8,14 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.monkeysncode.entites.Deck;
 import com.monkeysncode.entites.User;
+import com.monkeysncode.entites.UserImg;
 import com.monkeysncode.servicies.UserService;
 
 @Controller
@@ -101,6 +103,33 @@ public class UserController
         model.addAttribute("userDecks", userDecks);
 
         return "userProfile"; // Ricarica il profilo con l'immagine scelta
+    }
+    
+    // Restituisce tutte le immagini del profilo disponibili (link preesistenti)
+    @GetMapping("/available-profile-images")
+    public List<UserImg> getAvailableProfileImages() {
+        return userService.getAllUserImg();
+    }
+
+    // Permette a un utente di selezionare un'immagine del profilo
+    @PostMapping("/{userId}/selectProfileImage/{UserImgId}")
+    public String selectProfileImage(@PathVariable String userId, @PathVariable Long UserImgId) {
+        try {
+            userService.updateProfileImage(userId, UserImgId);
+            return "Immagine del profilo aggiornata con successo!";
+        } catch (Exception e) {
+            return "Errore: " + e.getMessage();
+        }
+    }
+
+    // Mostra l'immagine del profilo di un utente
+    @GetMapping("/{userId}/profileImage")
+    public String getUserProfileImage(@PathVariable String userId) {
+        try {
+            return userService.getUserProfileImage(userId);
+        } catch (Exception e) {
+            return "Errore: " + e.getMessage();
+        }
     }
 
 }

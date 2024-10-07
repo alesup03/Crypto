@@ -4,8 +4,10 @@ import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,6 +23,16 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Deck> decks;
     
+    @ManyToOne
+    @JoinColumn(name = "userImg_id")
+    private UserImg userImg;
+    
+	public UserImg getUserImg() {
+		return userImg;
+	}
+	public void setUserImg(UserImg userImg) {
+		this.userImg = userImg;
+	}
 	public String getId() {
 		return id;
 	}

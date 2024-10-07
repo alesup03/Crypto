@@ -14,14 +14,18 @@ import org.springframework.stereotype.Service;
 
 import com.monkeysncode.entites.Deck;
 import com.monkeysncode.entites.User;
+import com.monkeysncode.entites.UserImg;
 import com.monkeysncode.repos.UserDAO;
+import com.monkeysncode.repos.UserImgDAO;
 @Service
 public class UserService  implements UserDetailsService{
 	private final UserDAO userDAO;
+	private final UserImgDAO userImgDAO;
 	private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserDAO userDAO,PasswordEncoder passwordEncoder) {
+    public UserService(UserDAO userDAO,UserImgDAO userImgDAO,PasswordEncoder passwordEncoder) {
         this.userDAO = userDAO;
+		this.userImgDAO = userImgDAO;
         this.passwordEncoder=passwordEncoder;
     }
     
@@ -106,4 +110,41 @@ public class UserService  implements UserDetailsService{
         }
         
     }
+    
+    // Restituisce tutte le immagini disponibili
+    public List<UserImg> getAllUserImg() {
+        return userImgDAO.findAll();
+    }
+    
+    // Seleziona un'immagine del profilo per l'utente
+    public void updateProfileImage(String id, Long userImgId) throws Exception {
+        Optional<User> optionalUser = userDAO.findByEmail(id);
+        Optional<UserImg> optionalImage = userImgDAO.findById(userImgId);
+
+        if (optionalUser.isPresent() && optionalImage.isPresent()) {
+            User user = optionalUser.get();
+            UserImg userImg = optionalImage.get();
+
+            // Assegna l'immagine del profilo all'utente
+            user.setUserImg(userImg);
+            userDAO.save(user);  // Salva l'utente con la nuova immagine del profilo
+        } else {
+            throw new Exception("User or Image not found");
+        }
+    }
+
+    // Restituisce l'immagine del profilo di un utente
+    public String getUserProfileImage(String id) throws Exception {
+        Optional<User> optionalUser = userDAO.findById(id);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            if (user.getUserImg() != null) {
+                return user.getUserImg().getImgPath();
+            } else {
+                return "Nessuna immagine selezionata";
+            }
+        } else {
+            throw new Exception("User not found");
+        }
+        }
 }
