@@ -44,14 +44,16 @@
 
 						<div th:each="deck : ${decks}" class="col">
 						    <div class="card h-100">
-						        <a th:href="@{/decks/{deckId}(deckId=${deck.id})}">
-						            <img src="/mazzisfondo.jpg" class="card-img-top" alt="Deck Image" th:if="${deck != null}">
+						        <!-- Aggiungi lo stesso percorso al tag <a> -->
+						        <a th:href="@{/decks/yourdeck/1/{deckId}(deckId=${deck.id})}">
+						            <!-- Immagine che punta allo stesso percorso -->
+						            <img src="/mazzisfondo.jpg" class="card-img-top" alt="Deck Image">
 						        </a>
 						        <div class="card-body">
 						            <div class="d-flex justify-content-between align-items-center">
 						                <h5 class="card-title mb-0" th:text="${deck.getNameDeck}">Deck Name</h5>
 						                <!-- Badge per indicare la validità del mazzo -->
-						                <span class="badge ms-2" th:text="${deck.valid ? 'Valid' : 'Invalid'}" 
+						                <span class="badge ms-2" th:text="${deck.valid ? 'Valid' : 'Invalid'}"
 						                      th:class="${deck.valid ? 'bg-success' : 'bg-danger'}"></span>
 						            </div>
 						        </div>
