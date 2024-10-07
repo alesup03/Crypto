@@ -1,22 +1,27 @@
 package com.monkeysncode.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import com.monkeysncode.entites.User;
+import com.monkeysncode.repos.UserDAO;
 import com.monkeysncode.servicies.UserService;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-	
+	@Autowired
+	UserDAO userDAO;
 
     private final UserService serviceUser;
 
@@ -42,12 +47,19 @@ public class SecurityConfig {
                     .loginProcessingUrl("/login")
                     .usernameParameter("email")  //set il controllo di spring a email invece del default username
                     .passwordParameter("password")
+                    .successHandler(customAuthenticationSuccessHandler())
                     .permitAll()
                 )
                 .oauth2Login(oauth -> oauth
                     .loginPage("/login")  // Usa la stessa pagina di login per OAuth2
                     .successHandler(oAuth2AuthenticationSuccessHandler())
                 )
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/login?logout")
+                        .invalidateHttpSession(true)  
+                        .deleteCookies("JSESSIONID")  
+                        .permitAll()  
+                    )
                 .build();
     }
 
@@ -56,8 +68,22 @@ public class SecurityConfig {
         return (request, response, authentication) -> {
             OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
             serviceUser.saveOrUpdateUser(oAuth2User);
+            String username = oAuth2User.getAttribute("name");//puts in session the user name
+            request.getSession().setAttribute("name", username);
             response.sendRedirect("/");
         };
     }
+    @Bean
+    public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
+        return (request, response, authentication) -> {
+        	UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        	String email = userDetails.getUsername(); //email
+        	 String fullName = userDAO.findByEmail(email).get().getName();
+            request.getSession().setAttribute("name", fullName);
+            
+            response.sendRedirect("/");
+        };
+    }
+
 }
 

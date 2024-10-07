@@ -42,7 +42,7 @@ public class DeckController {
     @GetMapping("")
     public String decks(@AuthenticationPrincipal Object principal, Model model) {
         User user = userService.userCheck(principal);
-        model.addAttribute("username","Benvenuto "+user.getName());
+        model.addAttribute("username",user.getName());
         List<Deck> decks = user.getDecks();
         
         // Validazione di ogni mazzo
@@ -66,7 +66,7 @@ public class DeckController {
     @GetMapping("/create")
     public String create(@AuthenticationPrincipal Object principal, Model model) {
     	User user = userService.userCheck(principal);
-        model.addAttribute("username","Benvenuto "+user.getName());
+        model.addAttribute("username",user.getName());
         return "create";
     }
 
@@ -80,7 +80,7 @@ public class DeckController {
     @GetMapping("/deletedeck/{deckId}")
     public String deleteDeck(@AuthenticationPrincipal Object principal,@PathVariable("deckId") Long deckId, Model model) {
     	User user = userService.userCheck(principal);
-        model.addAttribute("username","Benvenuto "+user.getName());
+        model.addAttribute("username",user.getName());
     	model.addAttribute("deckId", deckId);
         model.addAttribute("deck", deckService.getDeckById(deckId).get().getNameDeck());
         return "deleteDeck";
@@ -114,7 +114,7 @@ public class DeckController {
     	User user = userService.userCheck(principal);
     	List<Card> allCards = cardService.getCardsByPage(cards,page, 131);//cambiare il find all dopo i filtri
     	int totPages=cardService.totPages(allCards, 131);
-        model.addAttribute("username","Benvenuto "+user.getName());
+        model.addAttribute("username",user.getName());
     	model.addAttribute("deckId", deckId);
         model.addAttribute("cards", allCards);
         model.addAttribute("currentPage", page);
