@@ -1,5 +1,6 @@
 package com.monkeysncode.controllers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.monkeysncode.entites.Card;
 import com.monkeysncode.entites.User;
+import com.monkeysncode.entites.UserCards;
 import com.monkeysncode.servicies.CardService;
 import com.monkeysncode.servicies.UserCardsService;
 import com.monkeysncode.servicies.UserService;
@@ -32,67 +34,58 @@ public class CardController {
 	@Autowired
 	private UserCardsService usercardService;
 	
-	/*@GetMapping("/cards")
-	public String Cards(
-			Model model,
-			@RequestParam(required = false) String set,
-	        @RequestParam(required = false) String types,
-	        @RequestParam(required = false) String name,
-	        @RequestParam(required = false) String rarity,
-	        @RequestParam(required = false) String supertype,
-	        @RequestParam(required = false) String subtypes,
-	        @RequestParam(required = false) String sort){
-		//findByParam ha una serie di parametri opzionali, quando tutti assenti ritorna la lista completa
+	@GetMapping("/cards")
+	public String getCards(
+		@AuthenticationPrincipal Object principal,
+        Model model,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "false") boolean owned,
+		@RequestParam(required = false) String set,
+        @RequestParam(required = false) String types,
+        @RequestParam(required = false) String name,
+        @RequestParam(required = false) String rarity,
+        @RequestParam(required = false) String supertype,
+        @RequestParam(required = false) String subtypes,
+        @RequestParam(required = false,defaultValue = "name") String sort,
+        @RequestParam(defaultValue = "false") boolean desc){
 		
-		List<Card> lista = cardService.findByParam(set, types, name, rarity, supertype, subtypes, sort);
-		if (lista.size() > 50)
-			lista = lista.subList(0, 50);
-		model.addAttribute("cards", lista);
-		return "cards";
+		User user = userService.userCheck(principal);
 		
-	}*/
-	
-	 @GetMapping("/cards")
-	    public String getCards(
-	        Model model,
-	        @RequestParam(defaultValue = "0") int page,
-	        //@RequestParam(defaultValue = "10") int size,
-			@RequestParam(required = false) String set,
-	        @RequestParam(required = false) String types,
-	        @RequestParam(required = false) String name,
-	        @RequestParam(required = false) String rarity,
-	        @RequestParam(required = false) String supertype,
-	        @RequestParam(required = false) String subtypes,
-	        @RequestParam(required = false,defaultValue = "name") String sort,
-	        @RequestParam(defaultValue = "false") boolean desc){
-		 
+		HashMap<String, String> param = new HashMap<String, String>();
+	 	param.put("set", set);
+	 	param.put("types", types);
+	 	param.put("name", name);
+	 	param.put("rarity", rarity);
+	 	param.put("supertype", supertype);
+	 	param.put("subtypes", subtypes);
+	 	
+		
+		List<Card> cards = new ArrayList<Card>();
+		
+		//in base al parametro owned prende la lista da due service diversi
+	 	if(owned == true)
+	 		cards = cardService.filterByParam(param, usercardService.getCollection(user.getId()));
+	 	else cards = cardService.filterByParam(param, cardService.findAllSorted(sort,desc));
+	 	
+	 	
+        // Paginazione
+	 	int size = 30;   //questo  il numero di carte visualizzato in una singola pagina
+        int start = page * size;
+        int end = Math.min((page + 1) * size, cards.size());
+        List<Card> paginatedCards = cards.subList(start, end);
 
-		 	List<Card> cards = cardService.findByParam(set, types, name, rarity, supertype, subtypes, sort, desc);
+        model.addAttribute("cards", paginatedCards);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", (int) Math.ceil((double) cards.size() / size));
+        model.addAttribute("size", size);  
+        
+        param.put("sort", sort);
+	 	param.put("desc", desc!= true ? "false" : "true");
+	 	param.put("owned", owned!= true ? "false" : "true");
+	 	model.addAttribute("param", param);
 
-	        // Paginazione
-		 	int size = 30;   //questo  il numero di carte visualizzato in una singola pagina
-	        int start = page * size;
-	        int end = Math.min((page + 1) * size, cards.size());
-	        List<Card> paginatedCards = cards.subList(start, end);
-
-	        model.addAttribute("cards", paginatedCards);
-	        model.addAttribute("currentPage", page);
-	        model.addAttribute("totalPages", (int) Math.ceil((double) cards.size() / size));
-	        model.addAttribute("size", size);  
-	        
-	        HashMap<String, String> param = new HashMap<String, String>();
-		 	param.put("set", set);
-		 	param.put("types", types);
-		 	param.put("name", name);
-		 	param.put("rarity", rarity);
-		 	param.put("supertype", supertype);
-		 	param.put("subtypes", subtypes);
-		 	param.put("sort", sort);
-		 	param.put("desc", desc!= true ? "false" : "true");
-		 	model.addAttribute("param", param);
-
-	        return "cards";
-	        
+        return "cards";
+        
 	 }
 	
 	 @GetMapping("/card/{cardId}")

@@ -43,8 +43,10 @@ public class Card
 	
 	private String evolvesTo;
 	
+	 @Column(length = 700)
 	private String abilities; /*vedere e convertire in HashMap*/
 	
+	@Column(length = 900)
 	private String attacks; /*vedere e convertire in HashMap*/
 	
 	private String weakness; /*vedere e convertire in HashMap*/
@@ -64,6 +66,7 @@ public class Card
 	
 	private String resistances; /*vedere e convertire in HashMap*/
 	
+	 @Column(length = 700)
 	private String rules;
 	
 	private String regulationMark; 
