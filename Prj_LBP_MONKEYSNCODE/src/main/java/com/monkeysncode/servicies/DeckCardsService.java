@@ -112,8 +112,7 @@ public class DeckCardsService {
         }
 
         return formattedErrors.toString();
-    }
-    public String validateDeck(Long deckId) {
+    }public String validateDeck(Long deckId) {
         List<DeckCards> deckCards = getDeckCards(deckId);
         List<String> violations = new ArrayList<>(); // Lista per raccogliere le violazioni
 
@@ -124,7 +123,7 @@ public class DeckCardsService {
 
         // Controllo che il mazzo non superi il limite massimo di 60 carte
         int totalCards = deckCards.stream().mapToInt(DeckCards::getCardQuantity).sum();
-        if (totalCards != 60) { // Cambiato a != per riflettere che deve essere esattamente 60
+        if (totalCards != 60) {
             violations.add("Il mazzo deve contenere esattamente 60 carte. Carte nel mazzo: " + totalCards);
         }
 
@@ -146,9 +145,11 @@ public class DeckCardsService {
                 }
             }
 
-            // Conto le copie delle carte, escluso il tipo "Energy"
-            if (!"Energy".equals(card.getTypes())) {
-                String cardName = card.getName();
+            // Conto le copie delle carte, escludendo il tipo "Energy" dal limite di 4 copie
+            String cardName = card.getName();
+            String cardType = card.getSupertypes();
+
+            if (!"Energy".equals(cardType)) {
                 cardCountMap.put(cardName, cardCountMap.getOrDefault(cardName, 0) + deckCard.getCardQuantity());
             }
         }
@@ -158,7 +159,8 @@ public class DeckCardsService {
             violations.add("Il mazzo deve includere almeno un Pokémon base.");
         }
 
-        boolean noExcessCopies = cardCountMap.values().stream().allMatch(count -> count <= 4); // Massimo 4 carte con lo stesso nome (escluse le energie)
+        // Verifica che nessuna carta (escluse le Energy) abbia più di 4 copie
+        boolean noExcessCopies = cardCountMap.values().stream().allMatch(count -> count <= 4);
         if (!noExcessCopies) {
             violations.add("Non è possibile avere più di 4 copie per carta (eccetto Energy).");
         }
