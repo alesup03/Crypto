@@ -25,6 +25,7 @@ public class UserCardController {
 	@Autowired
 	private CardService cardService;
 	
+	//endpoint per impostare la quantità di una carta all'interno della collezione di un utente 
 	@PostMapping("/userCard")
 	public String addCardToUser(@AuthenticationPrincipal Object principal, @RequestParam String cardId, @RequestParam int quantity){
 		User user = userService.userCheck(principal);
