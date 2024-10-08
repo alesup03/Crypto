@@ -22,7 +22,7 @@ public class UserController
 {
 	@Autowired
 	private UserService userService;
-
+	
 	Deck deck = new Deck();
 	
 
@@ -41,17 +41,6 @@ public class UserController
 	    return images;
 	}
 	
-	/*public List<String> getStatus()
-	{
-		List<String> status = new ArrayList<>();
-		
-		status.add("Online");
-		status.add("Non disturbare");
-		status.add("Offline");
-		
-		return status;
-	}*/
-	
 	// Mostra il profilo utente con le immagini disponibili
     @GetMapping("")
     public String showProfile(@AuthenticationPrincipal Object principal, Model model)
@@ -61,16 +50,15 @@ public class UserController
         
         List<Deck> userDecks = user.getDecks();
         
+        
         model.addAttribute("username", user.getName()); // Aggiunge il nome utente al model
         model.addAttribute("email", user.getEmail()); // Aggiunge l'email dell'utente al model
         model.addAttribute("id", user.getId()); // Aggiunge id dell'utente al model
-        model.addAttribute("deck", deck.getNameDeck()); // Aggiunge il nome del mazzo al model
+        model.addAttribute("deck", deck.getNameDeck() ); // Aggiunge il nome del mazzo al model
+        
 
         // Aggiunge la lista delle immagini per la scelta
         model.addAttribute("starterImages", getFavouriteStarter());
-        
-        //Aggiune la lista degli stati per la scelta
-       // model.addAttribute("currentState", getStatus());
         
         //Aggiunge la lista dei deck al model
         model.addAttribute("userDecks", userDecks);
@@ -81,8 +69,7 @@ public class UserController
 
     // Gestisce la selezione dell'immagine del Pokémon da parte dell'utente
     @PostMapping("")
-    public String submitProfile(@RequestParam("selectedImage") String selectedImage, 
-    		                    //@RequestParam("selectedStatus") String selectedStatus, 
+    public String submitProfile(@RequestParam("selectedImage") String selectedImage,
                                 @AuthenticationPrincipal Object principal, Model model) 
     {
         User user = userService.userCheck(principal);
@@ -95,9 +82,7 @@ public class UserController
         model.addAttribute("deck", deck.getNameDeck());
 
         model.addAttribute("starterImages", getFavouriteStarter()); // Mantiene la lista delle immagini e aggiungi l'immagine selezionata
-        //model.addAttribute("currentState", getStatus()); // Mantiene la lista degli stati e aggiunge lo stato selezionato
-        model.addAttribute("selectedStarterImage", selectedImage); // Immagine selezionata
-        //model.addAttribute("selectedStatus", selectedStatus); // Stato selezionato
+        model.addAttribute("selectedStarterImage", selectedImage); // Immagine selezionato
         model.addAttribute("userDecks", userDecks);
 
         return "userProfile"; // Ricarica il profilo con l'immagine scelta
