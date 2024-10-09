@@ -110,6 +110,7 @@ public class DeckController {
     	List<Card> allCards = cardService.getCardsByPage(cards,page, 131);//cambiare il find all dopo i filtri
     	int totPages=cardService.totPages(allCards, 131);
     	model.addAttribute("deckId", deckId);
+    	model.addAttribute("deckName",deckService.getDeckById(deckId).get().getNameDeck());
         model.addAttribute("cards", allCards);
         model.addAttribute("currentPage", page);
         model.addAttribute("totPages", totPages);
