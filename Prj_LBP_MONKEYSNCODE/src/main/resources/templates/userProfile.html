@@ -58,7 +58,8 @@
 
 </style>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<!-- navBar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
     <div class="container-fluid">
         <a class="navbar-brand" href="http://localhost:8080">
             <img src="/logo.png" alt="Logo" width="150" height="50" class="d-inline-block align-text-top"> 
@@ -67,26 +68,29 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <!-- Ancora che mi rimanda alla pagina Mazzo,Cards e Regolamento -->
+            <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                        <a class="nav-link" href="http://localhost:8080/cards">Carte</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="http://localhost:8080/decks">Mazzi</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="http://localhost:8080/deckRules">Regolamento</a>
-                    </li>
+                    <a class="nav-link" href="http://localhost:8080/cards">Carte</a>
+                </li>
+                <li>
+                  	<a class="nav-link" href="http://localhost:8080/profile">Profilo</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8080/deckRules">Regolamento</a>
+                </li> 
             </ul>
-            <div class="ms-auto"> 
-            <!-- Ancora che mi rimanda al login e regsistrazione-->
-                <a href="http://localhost:8080/login" class="btn btn-outline-success me-2">Login</a>
-                <a href="http://localhost:8080/register" class="btn btn-primary">Registrati</a>
+            <div class="ms-auto d-flex align-items-center">
+
+                <a class="nav-link" href="http://localhost:8080/profile" th:text="'Benvenuto, ' + ${username}" style="margin-right: 15px;">User</a>
+                
+                <a href="http://localhost:8080/logout" class="btn btn-outline-danger" style="transition: background-color 0.3s, color 0.3s;">Logout</a>
+            
             </div>
+            
         </div>
     </div>
 </nav>
+<!-- navBar -->
 
 
 <!-- Container centrale per il layout -->
