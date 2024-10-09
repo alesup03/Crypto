@@ -38,7 +38,7 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/","/logo.png", "/login", "/register", "/css/**", "/js/**").permitAll();  // Accesso libero a home, login, registrazione e risorse statiche
+                    auth.requestMatchers("/","/logo.png", "/login", "/register", "/style/**", "/script/**","/image/**").permitAll();  // Accesso libero a home, login, registrazione e risorse statiche
                     auth.anyRequest().authenticated();  // Tutte le altre pagine richiedono autenticazione
                 })
                 .formLogin(form -> form
