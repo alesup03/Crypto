@@ -9,7 +9,28 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Include SweetAlert2 per i popup -->
 </head>
-
+<style>
+    .filter-menu {
+            display: none;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .filter-menu.active {
+            display: block;
+        }
+        .filter-button {
+            cursor: pointer;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-left: 30px;
+        }
+</style>
 <body>
     <!-- navBar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
@@ -185,21 +206,23 @@
 
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h1>Mazzo ID: <span th:text="${deckId}"></span></h1>
+        <h1>Nome del Mazzo: <span th:text="${deckName}"></span></h1>
         <button class="btn btn-warning validate-deck" th:data-deck-id="${deckId}">Convalida Mazzo</button>
     </div>
 
     <h2>Carte nel Mazzo</h2>
-    <div class="bg-light border rounded p-4 shadow-sm">
+    <div class="bg-light border rounded p-5 shadow-lg my-5"> <!-- Aggiunto p-5 e my-5 -->
         <div class="row" id="deckCards">
             <div class="col-1" th:each="deckCard : ${deckCards}">
                 <div class="card mb-3 remove-card" style="cursor: pointer;" th:data-deck-id="${deckId}" th:data-card-id="${deckCard.card.id}">
-                    <img th:src="@{${deckCard.card.img}}" class="card-img-top" alt="Carta" style="width: 100%; height: auto;">
+                    <img th:src="@{${deckCard.card.img}}" class="card-img-top" alt="Carta" style="width: 120%; height: auto;">
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
 
 
         
@@ -213,8 +236,8 @@
 
 <h2 class="text-center mb-3">Tutte le Carte</h2>
 
-<div class="container-fluid">
-    <div class="row mx-n1" id="allCards">
+<div class="container-fluid bg-light border rounded p-4 shadow-sm overflow-hidden"> <!-- Aggiunto overflow-hidden -->
+    <div class="row g-3" id="allCards"> <!-- Rimosso mx-n1 -->
         <div class="col-1" th:each="card : ${cards}">
             <div class="card mb-3 add-card" style="cursor: pointer;" th:data-deck-id="${deckId}" th:data-card-id="${card.id}">
                 <img th:src="@{${card.img}}" class="card-img-top" alt="Carta" style="width: 100%; height: auto;">
@@ -222,6 +245,7 @@
         </div>
     </div>
 </div>
+
 
 
 
