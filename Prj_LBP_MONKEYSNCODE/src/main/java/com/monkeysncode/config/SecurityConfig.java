@@ -68,8 +68,14 @@ public class SecurityConfig {
         return (request, response, authentication) -> {
             OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
             serviceUser.saveOrUpdateUser(oAuth2User);
-            String username = oAuth2User.getAttribute("name");//puts in session the user name
-            request.getSession().setAttribute("name", username);
+            if(serviceUser.findByEmail(oAuth2User.getAttribute("email"))!=null) {
+
+            	String username=serviceUser.findByEmail(oAuth2User.getAttribute("email")).getName();
+            	request.getSession().setAttribute("name", username);
+            }else {
+            	String username = oAuth2User.getAttribute("name");//puts in session the user name            	
+            	request.getSession().setAttribute("name", username);
+            }
             response.sendRedirect("/");
         };
     }
