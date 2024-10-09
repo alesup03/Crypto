@@ -47,8 +47,14 @@ public class CardController {
         @RequestParam(required = false) String supertype,
         @RequestParam(required = false) String subtypes,
         @RequestParam(required = false,defaultValue = "name") String sort,
-        @RequestParam(defaultValue = "false") boolean desc){
+        @RequestParam(defaultValue = "false") boolean desc,
+        @RequestParam(defaultValue = "1") int blocco){
 		
+	    
+	    if(blocco < 1) {
+	    	blocco = 1;
+	    }
+	    
 		User user = userService.userCheck(principal);
 		
 		HashMap<String, String> param = new HashMap<String, String>();
@@ -67,17 +73,28 @@ public class CardController {
 	 		cards = cardService.filterByParam(param, usercardService.getCollection(user.getId()));
 	 	else cards = cardService.filterByParam(param, cardService.findAllSorted(sort,desc));
 	 	
-	 	
-        // Paginazione
-	 	int size = 30;   //questo  il numero di carte visualizzato in una singola pagina
-        int start = page * size;
-        int end = Math.min((page + 1) * size, cards.size());
-        List<Card> paginatedCards = cards.subList(start, end);
+	 	// Paginazione
+	    int size = 30;  // numero di carte per pagina
+	    int start = page * size;
+	    int end = Math.min((page + 1) * size, cards.size());
+	    List<Card> paginatedCards = cards.subList(start, end);
+	    
+	    int totalPages = (int) Math.ceil((double) cards.size() / size);
 
-        model.addAttribute("cards", paginatedCards);
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", (int) Math.ceil((double) cards.size() / size));
-        model.addAttribute("size", size);  
+	    // Gestione dei blocchi di pagine (15 pagine per blocco)
+	    int bloccoDimensione = 15;
+	    int inizioPagina = (blocco - 1) * bloccoDimensione;
+	    int finePagina = Math.min(blocco * bloccoDimensione, totalPages);
+	    int ultimoBlocco = (int) Math.ceil((double) totalPages / bloccoDimensione);
+
+	    model.addAttribute("bloccoDimensione", bloccoDimensione);
+	    model.addAttribute("totalPages", totalPages);
+	    model.addAttribute("cards", paginatedCards);
+	    model.addAttribute("currentPage", page);
+	    model.addAttribute("inizioPagina", inizioPagina);
+	    model.addAttribute("finePagina", finePagina);
+	    model.addAttribute("bloccoCorrente", blocco);
+	    model.addAttribute("ultimoBlocco", ultimoBlocco); 
         
         param.put("sort", sort);
 	 	param.put("desc", desc!= true ? "false" : "true");
