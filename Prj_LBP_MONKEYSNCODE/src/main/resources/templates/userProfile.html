@@ -134,7 +134,7 @@ ul
             <!-- Div per organizzare immagine e nome del deck -->
             <div class="deck-item">
                 <!-- Mostra l'immagine del deck -->
-                <a th:href="@{/decks/yourdeck/{deckId}(deckId=${deck.id})}"><img th:src="@{/mazzisfondo.jpg}" alt="Deck Image"></a>
+                <a th:href="@{/decks/yourdeck/1/{deckId}(deckId=${deck.id})}"><img th:src="@{/mazzisfondo.jpg}" alt="Deck Image"></a>
                 <!-- Mostra il nome del deck sotto l'immagine -->
                 <p th:text="${deck.nameDeck}"></p>
             </div>
