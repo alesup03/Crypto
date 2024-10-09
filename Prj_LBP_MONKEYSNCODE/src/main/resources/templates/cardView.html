@@ -39,6 +39,39 @@
 </head>
 
 <body>
+      <!-- navBar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="http://localhost:8080">
+            <img src="/logo.png" alt="Logo" width="150" height="50" class="d-inline-block align-text-top"> 
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8080/cards">Carte</a>
+                </li>
+                <li>
+                  	<a class="nav-link" href="http://localhost:8080/profile">Profilo</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8080/deckRules">Regolamento</a>
+                </li> 
+            </ul>
+            <div class="ms-auto d-flex align-items-center">
+
+                <a class="nav-link" href="http://localhost:8080/profile" th:text="'Benvenuto, ' + ${username}" style="margin-right: 15px;">User</a>
+                
+                <a href="http://localhost:8080/logout" class="btn btn-outline-danger" style="transition: background-color 0.3s, color 0.3s;">Logout</a>
+            
+            </div>
+            
+        </div>
+    </div>
+</nav>
+<!-- navBar -->
 
     <div class="col-md-4 card-image">
         <img th:src="@{${card.img}}" alt="Immagine della carta">
