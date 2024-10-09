@@ -120,7 +120,7 @@ body::-webkit-scrollbar {
   z-index: 99;
 }
 
-.bottone-menu, .bottone-chiudi{
+.bottone-menu, .bottone-chiudi,.bottone-google{
   display: block;
   background-color: var(--color-primary);
   text-align: center;
@@ -137,11 +137,11 @@ body::-webkit-scrollbar {
   overflow: hidden;
 }
 
-.bottone-menu:hover, .bottone-chiudi:hover{
+.bottone-menu:hover, .bottone-chiudi:hover,.bottone-google:hover{
   width: 150px;
 }
 
-.bottone-menu::before, .bottone-chiudi::before {
+.bottone-menu::before, .bottone-chiudi::before,.bottone-google::before {
   content: '';
   width: 0;
   height: 0;
@@ -195,7 +195,18 @@ body::-webkit-scrollbar {
 
 .menu-lingua {
   position: fixed;
-  right: 160px;
+  right: 250px;
+  top: 1%;
+  z-index: 199;
+  color: var(--color-primary);
+  background-color: var(--color-secondary);
+  border-radius: 30px;
+  padding: 15px;
+  text-align: center;
+}
+.utente {
+  position: fixed;
+  left: 50px;
   top: 1%;
   z-index: 199;
   color: var(--color-primary);
@@ -252,7 +263,9 @@ body::-webkit-scrollbar {
   height: 25px;
   margin-right: 10px;
 }
-
+.logged-on{
+  z-index: 200;
+}
 .modal-finestra {
   position: absolute;
   display: none;
@@ -310,10 +323,23 @@ body::-webkit-scrollbar {
   background-color: var(--color-secondary);
   color: var(--color-primary);
 }
-
+.bottone-google {
+  position: fixed; 
+  left:-20px; 
+  top: 65%;
+  background-color: var(--color-danger); 
+  color: var(--color-secondary); 
+  transform: rotate(330deg); 
+  padding: 13px 10px; 
+  border-radius: 30px;
+  font-family: var(--font-family); 
+  font-size: 19px;
+  text-decoration: none;
+  z-index: 100; 
+}
 .bottone-chiudi {
   position: fixed; 
-  left:-30px; 
+  left:-20px; 
   top: 58%;
   background-color: var(--color-danger); 
   color: var(--color-secondary); 
