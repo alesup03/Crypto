@@ -2,6 +2,7 @@ package com.monkeysncode.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -29,34 +30,30 @@ public class UserController
 	
 
 	//Crea una lista di immagini per quanto riguarda lo starter 
-	private List<String> getFavouriteStarter()
+	private List<UserImg> getFavouriteStarter()
 	{
-		List<String> images = new ArrayList<>();
-		
-	    images.add("/charmender.jpg");
-	    images.add("/bulbasaur.jpg");
-	    images.add("/piplup.jpg");
-	    images.add("/squirtle.jpg");
-	    images.add("/popplio.png");
-	    images.add("/mudkip.jpg");
-		
+		List<UserImg> images = userService.getAllUserImg();
+	    	
 	    return images;
 	}
 	
 	// Mostra il profilo utente con le immagini disponibili
     @GetMapping("")
-    public String showProfile(@AuthenticationPrincipal Object principal, Model model)
+    public String showProfile(@AuthenticationPrincipal Object principal, Model model) throws Exception
     {
     	//Controlla se l'utente è registrato
         User user = userService.userCheck(principal);
         
         List<Deck> userDecks = user.getDecks();
+        long img =  userService.getUserProfileImage(user.getId());
         
         
         model.addAttribute("username", user.getName()); // Aggiunge il nome utente al model
         model.addAttribute("email", user.getEmail()); // Aggiunge l'email dell'utente al model
         model.addAttribute("id", user.getId()); // Aggiunge id dell'utente al model
         model.addAttribute("deck", deck.getNameDeck() ); // Aggiunge il nome del mazzo al model
+        model.addAttribute("userImg", user.getUserImg()); // Assuming userImg is defined
+        model.addAttribute("userImgId", img); // Assuming userImg is defined
         
 
         // Aggiunge la lista delle immagini per la scelta
@@ -71,12 +68,16 @@ public class UserController
 
     // Gestisce la selezione dell'immagine del Pokémon da parte dell'utente
     @PostMapping("")
-    public String submitProfile(@RequestParam("selectedImage") String selectedImage,
+    public String submitProfile(@RequestParam("selectedImage") long selectedImage,
                                 @AuthenticationPrincipal Object principal, Model model) 
     {
         User user = userService.userCheck(principal);
         
         List<Deck> userDecks = user.getDecks();
+        
+        Optional<UserImg> imgOptional = userService.getUserImgById(selectedImage);
+        UserImg img = imgOptional.orElseThrow(() -> new RuntimeException("Image not found!"));
+
         
         model.addAttribute("username", user.getName()); 
         model.addAttribute("email", user.getEmail()); 
@@ -84,37 +85,17 @@ public class UserController
         model.addAttribute("deck", deck.getNameDeck());
 
         model.addAttribute("starterImages", getFavouriteStarter()); // Mantiene la lista delle immagini e aggiungi l'immagine selezionata
-        model.addAttribute("selectedStarterImage", selectedImage); // Immagine selezionato
+        model.addAttribute("userImg",  img); // Immagine selezionato
         model.addAttribute("userDecks", userDecks);
-
-        return "userProfile"; // Ricarica il profilo con l'immagine scelta
+        
+        try {
+			userService.updateProfileImage(user.getId(), selectedImage);
+			return "userProfile"; // Ricarica il profilo con l'immagine scelta
+		} catch (Exception e) {
+			
+			 return "Home" ;
+		}
+ 
     }
     
-    // Restituisce tutte le immagini del profilo disponibili (link preesistenti)
-    @GetMapping("/available-profile-images")
-    public List<UserImg> getAvailableProfileImages() {
-        return userService.getAllUserImg();
-    }
-
-    // Permette a un utente di selezionare un'immagine del profilo
-    @PostMapping("/{userId}/selectProfileImage/{UserImgId}")
-    public String selectProfileImage(@PathVariable String userId, @PathVariable Long UserImgId) {
-        try {
-            userService.updateProfileImage(userId, UserImgId);
-            return "Immagine del profilo aggiornata con successo!";
-        } catch (Exception e) {
-            return "Errore: " + e.getMessage();
-        }
-    }
-
-    // Mostra l'immagine del profilo di un utente
-    @GetMapping("/{userId}/profileImage")
-    public String getUserProfileImage(@PathVariable String userId) {
-        try {
-            return userService.getUserProfileImage(userId);
-        } catch (Exception e) {
-            return "Errore: " + e.getMessage();
-        }
-    }
-
 }

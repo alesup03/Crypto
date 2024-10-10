@@ -127,10 +127,12 @@ public class UserService  implements UserDetailsService{
     public List<UserImg> getAllUserImg() {
         return userImgDAO.findAll();
     }
-    
+    public Optional<UserImg> getUserImgById(Long id) {
+        return userImgDAO.findById(id);
+    }
     // Seleziona un'immagine del profilo per l'utente
     public void updateProfileImage(String id, Long userImgId) throws Exception {
-        Optional<User> optionalUser = userDAO.findByEmail(id);
+        Optional<User> optionalUser = userDAO.findById(id);
         Optional<UserImg> optionalImage = userImgDAO.findById(userImgId);
 
         if (optionalUser.isPresent() && optionalImage.isPresent()) {
@@ -146,14 +148,14 @@ public class UserService  implements UserDetailsService{
     }
 
     // Restituisce l'immagine del profilo di un utente
-    public String getUserProfileImage(String id) throws Exception {
+    public long getUserProfileImage(String id) throws Exception {
         Optional<User> optionalUser = userDAO.findById(id);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             if (user.getUserImg() != null) {
-                return user.getUserImg().getImgPath();
+                return user.getUserImg().getId();
             } else {
-                return "Nessuna immagine selezionata";
+            	throw new Exception("img not found");
             }
         } else {
             throw new Exception("User not found");

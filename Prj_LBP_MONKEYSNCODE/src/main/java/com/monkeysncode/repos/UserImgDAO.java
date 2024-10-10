@@ -11,5 +11,4 @@ import com.monkeysncode.entites.UserImg;
 public interface UserImgDAO extends JpaRepository<UserImg, Long>{
 	
 	public List<UserImg> findAll();
-	public Optional<UserImg> findById(Long Id);
 }

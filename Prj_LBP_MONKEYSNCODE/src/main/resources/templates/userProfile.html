@@ -95,7 +95,7 @@ ul
        <div class="card text-center">
         <div class="card-body">
             <h3 class="card-title">Immagine del Profilo</h3>
-            <img th:src="${selectedStarterImage}" alt="Immagine del Profilo" class="img-fluid rounded-circle" style="max-width: 200px;">
+            <img th:src="${userImg.imgPath}" alt="Immagine del Profilo" class="img-fluid rounded-circle" style="max-width: 200px;">
         </div>
     </div>
 </div>
@@ -111,9 +111,9 @@ ul
 			        <!-- Ciclo per le immagini -->
 			         <label class="m-2" th:each="image : ${starterImages}">
 			            <!-- Le immagini vengono rese cliccabili -->
-			            <input type="radio" name="selectedImage" th:value="${image}" class="d-none">
+			            <input type="radio" name="selectedImage" th:value="${image.getId}" class="d-none">
 			            <!-- Si riferisce a tutte le immagini-->
-			            <img th:src="${image}" alt="Starter" class="img-thumbnail" style="width: 150px; height: 150px;">
+			            <img th:src="${image.imgPath}" alt="Starter" class="img-thumbnail" style="width: 150px; height: 150px;">
 			         </label>
 			       </div>
 			       </div>
