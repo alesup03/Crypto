@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="it">
+<head xmlns:th="http://www.thymeleaf.org">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accesso/Registrazione</title>
+  <link rel="icon" sizes="48x48" href="/icona_pokedecks.ico">
+  <link rel="stylesheet" href="/style/style.css">
+
+  
+</head>
+<body>
+
+  <section class="sezione-homepage" id="sezione-accesso">
+    <div>
+      <div class="menu-lingua">
+        <a href="javascript:void(0);" data-translate="menuLingua"></a>
+        <div class="opzioni-lingua" >
+            <a href="javascript:void(0);" onclick="changeLanguage('it')"><img src="/image/bandiera-italia.png" alt="Italiano" class="bandiera" data-translate="italiano">Italiano</a>
+            <a href="javascript:void(0);" onclick="changeLanguage('en')"><img src="/image/bandiera-uk.png" alt="English" class="bandiera" data-translate="inglese">English</a>
+            <a href="javascript:void(0);" onclick="changeLanguage('es')"><img src="/image/bandiera-spagna.png" alt="Español" class="bandiera" data-translate="spagnolo">Español</a>
+        </div>
+
+      </div>
+      <div th:if="${session.name}!=null" class="ms-auto utente" >
+        <div class="ms-auto d-flex align-items-center">
+
+            <a class="nav-link" href="http://localhost:8080/profile" th:text="'Benvenuto, ' + ${session.name}" style="margin-right: 15px;">User</a>
+            
+            <a href="http://localhost:8080/logout" class="btn btn-outline-danger" style="transition: background-color 0.3s, color 0.3s;">Logout</a>
+        
+        </div>
+    </div>
+
+      <img class="immagine-blob" id="blob-1" src="/image/blob-grande-2.svg" alt="contenitore-accesso-registrazione">
+      <img id="immagine-logo-app" src="/image/nome-applicazione.png" alt="PokeDecks">
+      <img id="immagine-slogan" src="/image/slogan-italiano.png" alt="slogan-PokeDecks">
+      <img class="immagine-blob" id="blob-2" src="/image/blob-piccolo.svg" alt="contenitore-social">
+      <img id="icona-pokeball" src="/image/pokeball-aperta.png" alt="icona-pokeball">
+      <img id="immagine-seguici" src="/image/seguici-italiano.png" alt="seguici">
+      
+      <div class="container-social">
+        <a href="https://www.linkedin.com/"><img id="icona-linkedin" src="/image/linkedin.png" alt="linkedin"></a>
+        <a href="https://www.instagram.com/"><img id="icona-instagram" src="/image/instagram.png" alt="instagram"></a>
+        <a href="https://www.facebook.com/login"><img id="icona-facebook" src="/image/facebook.png" alt="facebook"></a>
+        <a href="https://www.tiktok.com/login"><img id="icona-tiktok" src="/image/tiktok.png" alt="tiktok"></a>
+      </div>
+      
+      <p id="introduzione-app" data-translate="slogan"></p>
+
+      <div th:if="${session.name}==null" class="container-bottoni-accesso">
+        <a href="#" class="bottone-accesso" data-translate="accesso"></a>
+        <a href="#" class="bottone-accesso" data-translate="registrati"></a>
+      </div>
+
+      <div class="container-bottoni-menu">
+        <a href="#sezione-accesso" class="bottone-menu" data-translate="accessoBottone"></a>
+        <a href="#sezione-regole-gioco" class="bottone-menu" data-translate="giocoBottone"></a>
+        <a href="#sezione-funzionalita" class="bottone-menu" data-translate="funzioniBottone"></a>
+        <a href="#sezione-link" class="bottone-menu" data-translate="link"></a>
+        <a href="http://localhost:8080/decks" class="bottone-menu" data-translate="decks"></a>
+        <a href="http://localhost:8080/cards" class="bottone-menu" data-translate="cards"></a>
+        <a href="http://localhost:8080/profile" class="bottone-menu" data-translate="profilo"></a>
+        <a href="http://localhost:8080/deckRules" class="bottone-menu" data-translate="regolamento"></a>
+      </div>
+    </div>
+    <div th:if="${session.name}!=null" class="logged-on">
+                    <div class="ms-auto d-flex align-items-center">
+
+                        <a class="nav-link" href="http://localhost:8080/profile" th:text="'Benvenuto, ' + ${session.name}" style="margin-right: 15px;">User</a>
+                        
+                        <a href="http://localhost:8080/logout" class="btn btn-outline-danger" style="transition: background-color 0.3s, color 0.3s;">Logout</a>
+                    
+                    </div>
+                </div>
+    <div th:if="${session.name}==null" class="modal-finestra" id="modal-accesso">
+      <div>
+        <img src="/image/blob-medio.svg" alt="">
+        <div class="modal-contenuto">
+          <h2 data-translate="accesso"></h2>
+          <p data-translate="mail-password"></p>
+          <form th:action="@{/login}" method="post">
+            <input type="text" class="form-control" id="email" name="email" placeholder="Enter your Email" required>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+            <button type="submit" data-translate="accesso"></button>
+            <button type="button" class="bottone-chiudi" onclick="chiudiModal('modal-accesso')">Chiudi</button>
+            <div class="mt-3 text-center">
+              <a href="/oauth2/authorization/google" class="bottone-google">Login with Google</a>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div th:if="${session.name}==null" class="modal-finestra" id="modal-registrazione">
+      <div>
+        <img src="/image/blob-medio.svg" alt="">
+        <div class="modal-contenuto">
+          <h2 data-translate="registrazione"></h2>
+          <p data-translate="registrazione-nuova"></p>
+          <form action="/register" method="post">
+            <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+            <button type="submit" data-translate="registrati"></button>
+            <button type="button" class="bottone-chiudi" onclick="chiudiModal('modal-registrazione')">Chiudi</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <img id="pokemon-1" src="/image/pokemon-1.png" alt="" >
+    <img id="pokemon-3" src="/image/pokemon-3.png" alt="" >
+    <img id="pokemon-4" src="/image/pokemon-4.png" alt="" >
+    <img id="pokemon-5" src="/image/pokemon-5.png" alt="" >
+  </section>
+
+  <section class="sezione-regole-gioco" id="sezione-regole-gioco"></section>
+  <section class="sezione-funzionalita" id="sezione-funzionalita"></section>
+  <section class="sezione-link" id="sezione-link"></section>
+
+  <script src="/script/logiche.js" ></script>
+  <script src="/script/traduzioni.js"></script>
+</body>
+</html>

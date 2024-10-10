@@ -14,19 +14,26 @@ import org.springframework.stereotype.Service;
 
 import com.monkeysncode.entites.Deck;
 import com.monkeysncode.entites.User;
+import com.monkeysncode.entites.UserCards;
 import com.monkeysncode.entites.UserImg;
+import com.monkeysncode.repos.DeckDAO;
+import com.monkeysncode.repos.UserCardDAO;
 import com.monkeysncode.repos.UserDAO;
 import com.monkeysncode.repos.UserImgDAO;
 @Service
 public class UserService  implements UserDetailsService{
 	private final UserDAO userDAO;
 	private final UserImgDAO userImgDAO;
+	private final UserCardDAO userCardDAO;
+	private final DeckDAO deckDAO;
 	private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserDAO userDAO,UserImgDAO userImgDAO,PasswordEncoder passwordEncoder) {
+    public UserService(UserDAO userDAO,UserImgDAO userImgDAO,PasswordEncoder passwordEncoder, UserCardDAO userCardDAO, DeckDAO deckDAO) {
         this.userDAO = userDAO;
 		this.userImgDAO = userImgDAO;
         this.passwordEncoder=passwordEncoder;
+        this.userCardDAO = userCardDAO;
+        this.deckDAO = deckDAO;
     }
     
     @Override
@@ -103,13 +110,29 @@ public class UserService  implements UserDetailsService{
     public User findByName(String name) {
         return userDAO.findByEmail(name).orElse(null);
     }
-    public void DeleteUser(String id)throws UsernameNotFoundException {
-    	 if (!userDAO.existsById(id)) {
-             throw new UsernameNotFoundException("Utente non trovato");
-         }
+    // Metodo eliminazione account
+    public void DeleteUser(String id) throws UsernameNotFoundException {
+        // Controlla se l'utente esiste
+        User user = userDAO.findById(id).orElseThrow(() -> new UsernameNotFoundException("Utente non trovato"));
 
-         userDAO.deleteById(id);
-    	 
+        // Elimina i mazzi collegati all'utente
+        if (user.getDecks() != null) {
+            for (Deck deck : user.getDecks()) {
+                deckDAO.delete(deck);
+            }
+        }
+        // Elimina  le UserCards collegate all'utente
+        List<UserCards> userCards = userCardDAO.findByUserId(id);
+        if (userCards != null) {
+            for (UserCards card : userCards) {
+                userCardDAO.delete(card); 
+            }
+        }
+        // Elimina l'immagine del profilo se presente
+        if (user.getUserImg() != null) {
+            userImgDAO.delete(user.getUserImg());
+        }
+        userDAO.deleteById(id);
     }
     public User userCheck(Object principal) {
         if (principal instanceof UserDetails) {

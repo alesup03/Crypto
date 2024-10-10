@@ -25,6 +25,7 @@ import com.monkeysncode.entites.User;
 import com.monkeysncode.servicies.CardService;
 import com.monkeysncode.servicies.DeckCardsService;
 import com.monkeysncode.servicies.DeckService;
+import com.monkeysncode.servicies.UserCardsService;
 import com.monkeysncode.servicies.UserService;
 
 @Controller
@@ -32,6 +33,8 @@ import com.monkeysncode.servicies.UserService;
 public class DeckController {
     @Autowired
     private DeckCardsService deckCardsService;
+    @Autowired
+    private UserCardsService usercardService;
     @Autowired
     private CardService cardService;
     @Autowired
@@ -42,7 +45,6 @@ public class DeckController {
     @GetMapping("")
     public String decks(@AuthenticationPrincipal Object principal, Model model) {
         User user = userService.userCheck(principal);
-        model.addAttribute("username",user.getName());
         List<Deck> decks = user.getDecks();
         
         // Validazione di ogni mazzo
@@ -64,9 +66,7 @@ public class DeckController {
 
     
     @GetMapping("/create")
-    public String create(@AuthenticationPrincipal Object principal, Model model) {
-    	User user = userService.userCheck(principal);
-        model.addAttribute("username",user.getName());
+    public String create() {
         return "create";
     }
 
@@ -78,9 +78,7 @@ public class DeckController {
     }
 
     @GetMapping("/deletedeck/{deckId}")
-    public String deleteDeck(@AuthenticationPrincipal Object principal,@PathVariable("deckId") Long deckId, Model model) {
-    	User user = userService.userCheck(principal);
-        model.addAttribute("username",user.getName());
+    public String deleteDeck(@PathVariable("deckId") Long deckId, Model model) {
     	model.addAttribute("deckId", deckId);
         model.addAttribute("deck", deckService.getDeckById(deckId).get().getNameDeck());
         return "deleteDeck";
@@ -96,9 +94,12 @@ public class DeckController {
     }
     
     @GetMapping("/yourdeck/{page}/{deckId}")
-    public String viewDeck(@AuthenticationPrincipal Object principal,
+    public String viewDeck(
+    		@AuthenticationPrincipal Object principal,
+    		Model model,
     		@PathVariable("deckId") Long deckId,
-            @PathVariable int page, Model model,
+            @PathVariable int page,
+            @RequestParam(defaultValue = "false") boolean owned,
             @RequestParam(required = false) String set,
 	        @RequestParam(required = false) String types,
 	        @RequestParam(required = false) String name,
@@ -109,27 +110,36 @@ public class DeckController {
 	        @RequestParam(defaultValue = "false") boolean desc) {
     	
     	//List<Card> cards = cardService.filterByParam(param, cardService.findAllSorted(sort,desc));
-    	List<Card> cards = cardService.findByParam(set, types, name, rarity, supertype, subtypes, sort, desc);
+    	//List<Card> cards = cardService.findByParam(set, types, name, rarity, supertype, subtypes, sort, desc);
     	
     	User user = userService.userCheck(principal);
-    	List<Card> allCards = cardService.getCardsByPage(cards,page, 131);//cambiare il find all dopo i filtri
-    	int totPages=cardService.totPages(allCards, 131);
-        model.addAttribute("username",user.getName());
-    	model.addAttribute("deckId", deckId);
-        model.addAttribute("cards", allCards);
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totPages", totPages);
-        
-        HashMap<String, String> param = new HashMap<String, String>();
+    	
+    	HashMap<String, String> param = new HashMap<String, String>();
 	 	param.put("set", set);
 	 	param.put("types", types);
 	 	param.put("name", name);
 	 	param.put("rarity", rarity);
 	 	param.put("supertype", supertype);
 	 	param.put("subtypes", subtypes);
-	 	param.put("sort", sort);
-	 	param.put("desc", desc!= true ? "false" : "true");
-	 	model.addAttribute("param", param);
+	 	
+		
+		List<Card> cards = new ArrayList<Card>();
+		
+		//in base al parametro owned prende la lista da due service diversi
+	 	if(owned == true)
+	 		cards = cardService.filterByParam(param, usercardService.getCollection(user.getId()));
+	 	else cards = cardService.filterByParam(param, cardService.findAllSorted(sort,desc));
+    	
+    	
+    	List<Card> allCards = cardService.getCardsByPage(cards,page, 131);//cambiare il find all dopo i filtri
+    	int totPages=cardService.totPages(allCards, 131);
+    	model.addAttribute("deckId", deckId);
+    	model.addAttribute("deckName",deckService.getDeckById(deckId).get().getNameDeck());
+        model.addAttribute("cards", allCards);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totPages", totPages);
+        
+       
         
         List<DeckCards> originalCards = deckCardsService.getDeckCards(deckId);
         List<DeckCards> displayCards = new ArrayList<>();

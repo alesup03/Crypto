@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regolamento</title>
+    <link rel="icon" sizes="48x48" href="/icona_pokedecks.ico">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- NavBar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="http://localhost:8080">
+                <img src="/logo.png" alt="Logo" width="150" height="50" class="d-inline-block align-text-top"> 
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:8080/cards">Carte</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:8080/decks">Mazzi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:8080/profile">Profilo</a>
+                    </li>
+                </ul>
+                <div th:if="${session.name}!=null" class="ms-auto">
+                    <div class="ms-auto d-flex align-items-center">
+
+                        <a class="nav-link" href="http://localhost:8080/profile" th:text="'Benvenuto, ' + ${session.name}" style="margin-right: 15px;">User</a>
+                        
+                        <a href="http://localhost:8080/logout" class="btn btn-outline-danger" style="transition: background-color 0.3s, color 0.3s;">Logout</a>
+                    
+                    </div>
+                </div>
+                <div th:if="${session.name}==null" class="ms-auto"> 
+                    <a href="http://localhost:8080/login" class="btn btn-outline-success me-2" style="transition: background-color 0.3s, color 0.3s;">Login</a>
+                    <a href="http://localhost:8080/register" class="btn btn-primary">Registrati</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Fine NavBar -->
+
+    <div class="container mt-5">
+        <h1>Regolamento del Gioco di Carte</h1>
+        <p>Benvenuti nel regolamento del nostro gioco di carte Pokémon. Assicurati di seguire queste linee guida per una migliore esperienza di gioco:</p>
+        
+        <h2>Regole di Base</h2>
+        <ul>
+            <li>Tutti i mazzi devono contenere almeno 60 carte.</li>
+            <li>È consentito un massimo di 4 copie di ogni carta, ad eccezione delle carte con nome "Base".</li>
+            <li>Ogni partita inizia con 7 carte nella mano.</li>
+            <li>Ogni giocatore può avere un massimo di 6 Pokémon in gioco alla volta.</li>
+            <li>Se un giocatore non ha più carte nel mazzo, perde la partita.</li>
+        </ul>
+
+        <h2>Regole Avanzate</h2>
+        <ul>
+            <li>Le carte possono avere effetti speciali che influenzano il gioco.</li>
+            <li>Le carte Trainer possono essere giocate in qualsiasi momento.</li>
+            <li>Utilizza il tuo mazzo strategicamente per vincere contro il tuo avversario.</li>
+        </ul>
+
+        <h2>Termini e Condizioni</h2>
+        <p>Divertiti!</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
