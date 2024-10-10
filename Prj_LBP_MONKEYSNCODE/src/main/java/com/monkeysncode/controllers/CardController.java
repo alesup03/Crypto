@@ -38,7 +38,7 @@ public class CardController {
 	public String getCards(
 		@AuthenticationPrincipal Object principal,
         Model model,
-        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "1") int page,
         @RequestParam(defaultValue = "false") boolean owned,
 		@RequestParam(required = false) String set,
         @RequestParam(required = false) String types,
@@ -74,11 +74,14 @@ public class CardController {
 	 	else cards = cardService.filterByParam(param, cardService.findAllSorted(sort,desc));
 	 	
 	 	// Paginazione
-	    int size = 30;  // numero di carte per pagina
-	    int start = page * size;
-	    int end = Math.min((page + 1) * size, cards.size());
-	    List<Card> paginatedCards = cards.subList(start, end);
-	    
+	    //int start = page * size;
+	    //int end = Math.min((page + 1) * size, cards.size());
+	    //List<Card> paginatedCards = cards.subList(start, end);
+	 	
+	 	
+	 	int size = 30;  // numero di carte per pagina
+	 	List<Card> allCards = cardService.getCardsByPage(cards,page, size);
+	 	
 	    int totalPages = (int) Math.ceil((double) cards.size() / size);
 
 	    // Gestione dei blocchi di pagine (15 pagine per blocco)
@@ -89,7 +92,7 @@ public class CardController {
 
 	    model.addAttribute("bloccoDimensione", bloccoDimensione);
 	    model.addAttribute("totalPages", totalPages);
-	    model.addAttribute("cards", paginatedCards);
+	    model.addAttribute("cards", allCards);
 	    model.addAttribute("currentPage", page);
 	    model.addAttribute("inizioPagina", inizioPagina);
 	    model.addAttribute("finePagina", finePagina);
