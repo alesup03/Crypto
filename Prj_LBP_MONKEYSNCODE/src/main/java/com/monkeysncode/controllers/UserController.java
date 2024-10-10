@@ -55,7 +55,6 @@ public class UserController
         model.addAttribute("id", user.getId()); // Aggiunge id dell'utente al model
         model.addAttribute("deck", deck.getNameDeck() ); // Aggiunge il nome del mazzo al model
         model.addAttribute("userImg", user.getUserImg()); // Assuming userImg is defined
-        model.addAttribute("userImgId", img); // Assuming userImg is defined
         
 
         // Aggiunge la lista delle immagini per la scelta
