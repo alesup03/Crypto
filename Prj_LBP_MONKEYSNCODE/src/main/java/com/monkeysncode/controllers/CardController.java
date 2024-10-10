@@ -93,7 +93,7 @@ public class CardController {
 
 	    model.addAttribute("bloccoDimensione", bloccoDimensione);
 	    model.addAttribute("totalPages", totalPages);
-	    model.addAttribute("cards", allCards);
+	    model.addAttribute("cards", paginatedCards);
 	    model.addAttribute("currentPage", page);
 	    model.addAttribute("inizioPagina", inizioPagina);
 	    model.addAttribute("finePagina", finePagina);
