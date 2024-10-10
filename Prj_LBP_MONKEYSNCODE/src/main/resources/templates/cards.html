@@ -286,13 +286,13 @@
         </div>
     
 </div>
-<div class="col-2"></div>
+<div class="col-2" ></div>
 </div>
 
     
 
-<!-- Sezione per la paginazione, mostrata solo se ci sono carte -->
-<div th:if="${!#lists.isEmpty(cards)}" class="d-flex justify-content-center my-3"> 
+<!-- Sezione per la paginazione, mostrata solo se ci sono più di 30 carte -->
+<div th:if="${cards.size()>30}" class="d-flex justify-content-center my-3"> 
 
     <!-- Link "Vai alla Prima pagina" -->
     <a th:if="${currentPage > 1}" 
