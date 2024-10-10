@@ -281,24 +281,24 @@
 <div th:if="${!#lists.isEmpty(cards)}" class="d-flex justify-content-center my-3"> 
 
     <!-- Link "Vai alla Prima pagina" -->
-    <a th:if="${currentPage > 0}" 
-       th:href="@{/cards(page=0, blocco=1, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
+    <a th:if="${currentPage > 1}" 
+       th:href="@{/cards(page=1, blocco=1, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
        class="btn btn-outline-primary mx-1">Prima pagina</a>
 
     <!-- Bottone precedente -->
-    <a th:if="${currentPage > 0}" 
+    <a th:if="${currentPage > 1}" 
        th:href="@{/cards(page=${currentPage - 1}, blocco=${(currentPage - 1) / bloccoDimensione + 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
        class="btn btn-outline-primary mx-1">Precedente</a>
 
     <!-- Ellissi per il blocco precedente -->
-    <span th:if="${inizioPagina > 0}"> 
+    <span th:if="${inizioPagina > 1}"> 
         <a class="btn btn-outline-primary mx-1" th:href="@{/cards(page=${currentPage}, blocco=${bloccoCorrente - 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}">...</a>
     </span>
 
     <!-- Pagine numerate -->
     <span th:each="i : ${#numbers.sequence(inizioPagina + 1, finePagina)}">
         <a th:href="@{/cards(page=${i - 1}, blocco=${bloccoCorrente}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
-           th:text="${i}" 
+           th:text="${i-1}" 
            class="btn btn-outline-primary mx-1" 
            th:classappend="${i - 1 == currentPage} ? 'btn-primary text-white' : ''"></a>
     </span>

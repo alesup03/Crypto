@@ -74,19 +74,20 @@ public class CardController {
 	 	else cards = cardService.filterByParam(param, cardService.findAllSorted(sort,desc));
 	 	
 	 	// Paginazione
-	    //int start = page * size;
+	 	int size = 30;  // numero di carte per pagina
+	 	//int start = page * size;
 	    //int end = Math.min((page + 1) * size, cards.size());
 	    //List<Card> paginatedCards = cards.subList(start, end);
 	 	
 	 	
-	 	int size = 30;  // numero di carte per pagina
+	 	
 	 	List<Card> allCards = cardService.getCardsByPage(cards,page, size);
 	 	
 	    int totalPages = (int) Math.ceil((double) cards.size() / size);
 
 	    // Gestione dei blocchi di pagine (15 pagine per blocco)
-	    int bloccoDimensione = 15;
-	    int inizioPagina = (blocco - 1) * bloccoDimensione;
+	    int bloccoDimensione = 5;
+	    int inizioPagina = (blocco - 1) * bloccoDimensione +1;
 	    int finePagina = Math.min(blocco * bloccoDimensione, totalPages);
 	    int ultimoBlocco = (int) Math.ceil((double) totalPages / bloccoDimensione);
 
