@@ -13,9 +13,11 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import com.monkeysncode.entites.Deck;
+import com.monkeysncode.entites.DeckCards;
 import com.monkeysncode.entites.User;
 import com.monkeysncode.entites.UserCards;
 import com.monkeysncode.entites.UserImg;
+import com.monkeysncode.repos.DeckCardDAO;
 import com.monkeysncode.repos.DeckDAO;
 import com.monkeysncode.repos.UserCardDAO;
 import com.monkeysncode.repos.UserDAO;
@@ -26,16 +28,18 @@ public class UserService  implements UserDetailsService{
 	private final UserImgDAO userImgDAO;
 	private final UserCardDAO userCardDAO;
 	private final DeckDAO deckDAO;
+	private final DeckCardDAO deckCardDAO;
 	private final PasswordEncoder passwordEncoder;
 	
 
 
-    public UserService(UserDAO userDAO,UserImgDAO userImgDAO,PasswordEncoder passwordEncoder, UserCardDAO userCardDAO, DeckDAO deckDAO) {
+    public UserService(UserDAO userDAO,UserImgDAO userImgDAO,PasswordEncoder passwordEncoder, UserCardDAO userCardDAO, DeckDAO deckDAO, DeckCardDAO deckCardDAO) {
         this.userDAO = userDAO;
 		this.userImgDAO = userImgDAO;
         this.passwordEncoder=passwordEncoder;
         this.userCardDAO = userCardDAO;
         this.deckDAO = deckDAO;
+        this.deckCardDAO = deckCardDAO;
     }
     
     @Override
@@ -110,6 +114,23 @@ public class UserService  implements UserDetailsService{
 		}
     	return null;
     }
+    
+    public void changePassword(String userId, String oldPassword, String newPassword) throws Exception {
+        // Trova l'utente nel database
+        User user = userDAO.findById(userId).orElseThrow(() -> new UsernameNotFoundException("Utente non trovato"));
+
+        // Verifica che la vecchia password inserita sia corretta
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+            throw new Exception("La vecchia password è errata.");
+        }
+
+        // Codifica la nuova password e aggiorna l'utente
+        String encodedNewPassword = passwordEncoder.encode(newPassword);
+        user.setPassword(encodedNewPassword);
+
+        // Salva l'utente con la nuova password
+        userDAO.save(user);
+    }
 
     public User findByEmail(String email) {
         return userDAO.findByEmail(email).orElse(null);
@@ -125,9 +146,17 @@ public class UserService  implements UserDetailsService{
         // Elimina i mazzi collegati all'utente
         if (user.getDecks() != null) {
             for (Deck deck : user.getDecks()) {
-                deckDAO.delete(deck);
+                // Rimuove le carte dal mazzo prima di eliminare il mazzo stesso
+                List<DeckCards> deckCards = deckCardDAO.findByDeck(deck);
+                if (deckCards != null) {
+                    for (DeckCards deckCard : deckCards) {
+                        deckCardDAO.delete(deckCard); // Elimina ogni carta dal mazzo
+                    }
+                }
+                deckDAO.delete(deck); // Elimina il mazzo
             }
         }
+        
         // Elimina  le UserCards collegate all'utente
         List<UserCards> userCards = userCardDAO.findByUserId(id);
         if (userCards != null) {
