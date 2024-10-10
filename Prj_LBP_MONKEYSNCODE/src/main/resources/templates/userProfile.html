@@ -58,8 +58,7 @@
 
 </style>
 
-<!-- navBar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="http://localhost:8080">
             <img src="/logo.png" alt="Logo" width="150" height="50" class="d-inline-block align-text-top"> 
@@ -68,29 +67,26 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
+            <ul class="navbar-nav">
+                <!-- Ancora che mi rimanda alla pagina Mazzo,Cards e Regolamento -->
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost:8080/cards">Carte</a>
-                </li>
-                <li>
-                  	<a class="nav-link" href="http://localhost:8080/profile">Profilo</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="http://localhost:8080/deckRules">Regolamento</a>
-                </li> 
+                        <a class="nav-link" href="http://localhost:8080/cards">Carte</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:8080/decks">Mazzi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:8080/deckRules">Regolamento</a>
+                    </li>
             </ul>
-            <div class="ms-auto d-flex align-items-center">
-
-                <a class="nav-link" href="http://localhost:8080/profile" th:text="'Benvenuto, ' + ${session.name}" style="margin-right: 15px;">User</a>
-                
-                <a href="http://localhost:8080/logout" class="btn btn-outline-danger" style="transition: background-color 0.3s, color 0.3s;">Logout</a>
-            
+            <div class="ms-auto"> 
+            <!-- Ancora che mi rimanda al login e regsistrazione-->
+                <a href="http://localhost:8080/login" class="btn btn-outline-success me-2">Login</a>
+                <a href="http://localhost:8080/register" class="btn btn-primary">Registrati</a>
             </div>
-            
         </div>
     </div>
 </nav>
-<!-- navBar -->
 
 
 <!-- Container centrale per il layout -->
@@ -160,7 +156,13 @@
                 <div class="card-body">
                     <h3 class="card-title">Dettagli Utente</h3>
                     <p>Email: <span th:text="${email}"></span></p>
+                    
+                    <a href="/profile/delete">cancella account</a>
+					<div th:if="${param.accountDeleted}" class="alert alert-success">
+					    Il tuo account è stato cancellato con successo. Puoi registrarti nuovamente in qualsiasi momento.
+					</div>
                 </div>
+                
             </div>
         </div>
     </div>
