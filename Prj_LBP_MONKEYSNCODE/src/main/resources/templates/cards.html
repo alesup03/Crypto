@@ -73,6 +73,7 @@
         }
         .filter-menu.active {
             display: block;
+            transform: translate(265%, 0%); /*sposta verso destra il filtro*/
         }
         .filter-button {
             cursor: pointer;
@@ -81,6 +82,7 @@
             color: white;
             border: none;
             border-radius: 5px;
+            transform: translate(1800%, 0%); /*sposta verso destra il bottone*/
             margin-left: 30px;
         }
         nav{
@@ -89,8 +91,8 @@
         	background-color:red;
         }
         h1{
-            margin-left: 30px;
-            
+            margin-left: -10px;
+            text-align: center;
             padding-top: 100px;
         }
     </style>
@@ -275,41 +277,49 @@
     </div>
 
 
-	<!-- Sezione per la paginazione, mostrata solo se ci sono carte -->
-	<div th:if="${!#lists.isEmpty(cards)}">
-	
-	    <!-- Link "Vai alla Prima pagina" -->
-	    <a th:if="${currentPage > 0}" th:href="@{/cards(page=0, blocco=1, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}">Prima pagina</a>
-	
-	    <!-- Bottone precedente -->
-	    <a th:if="${currentPage > 0}" th:href="@{/cards(page=${currentPage - 1}, blocco=${(currentPage - 1) / bloccoDimensione + 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}">Precedente</a>
-	
-	    <!-- Ellissi per il blocco precedente -->
-	    <span th:if="${inizioPagina > 0}">
-	        <a class="ellipsis" th:href="@{/cards(page=${currentPage}, blocco=${bloccoCorrente - 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}">...</a>
-	    </span>
-	
-	    <!-- Pagine numerate -->
-	    <span th:each="i : ${#numbers.sequence(inizioPagina + 1, finePagina)}">
-	        <a th:href="@{/cards(page=${i - 1}, blocco=${bloccoCorrente}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
-	           th:text="${i}" 
-	           th:classappend="${i - 1 == currentPage} ? 'selected' : ''"></a>
-	    </span>
-	
-	    <!-- Ellissi per il blocco successivo -->
-	    <span th:if="${finePagina < totalPages}">
-	        <a class="ellipsis" th:href="@{/cards(page=${currentPage}, blocco=${bloccoCorrente + 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}">...</a>
-	    </span>
-	
-	    <!-- Bottone successivo -->
-    	<a th:if="${currentPage + 1 < totalPages}" th:href="@{/cards(page=${currentPage + 1}, blocco=${((currentPage +1) / bloccoDimensione) + 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}">Successivo</a>
+<!-- Sezione per la paginazione, mostrata solo se ci sono carte -->
+<div th:if="${!#lists.isEmpty(cards)}" class="d-flex justify-content-center my-3"> 
 
-		<!-- Ultima pagina -->
-	    <a th:if="${finePagina < totalPages}" th:href="@{/cards(page=${totalPages - 1}, blocco=${(totalPages - 1) / bloccoDimensione + 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}">Ultima pagina</a>
-	
-	</div>
+    <!-- Link "Vai alla Prima pagina" -->
+    <a th:if="${currentPage > 0}" 
+       th:href="@{/cards(page=0, blocco=1, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
+       class="btn btn-outline-primary mx-1">Prima pagina</a>
 
-    
+    <!-- Bottone precedente -->
+    <a th:if="${currentPage > 0}" 
+       th:href="@{/cards(page=${currentPage - 1}, blocco=${(currentPage - 1) / bloccoDimensione + 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
+       class="btn btn-outline-primary mx-1">Precedente</a>
+
+    <!-- Ellissi per il blocco precedente -->
+    <span th:if="${inizioPagina > 0}"> 
+        <a class="btn btn-outline-primary mx-1" th:href="@{/cards(page=${currentPage}, blocco=${bloccoCorrente - 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}">...</a>
+    </span>
+
+    <!-- Pagine numerate -->
+    <span th:each="i : ${#numbers.sequence(inizioPagina + 1, finePagina)}">
+        <a th:href="@{/cards(page=${i - 1}, blocco=${bloccoCorrente}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
+           th:text="${i}" 
+           class="btn btn-outline-primary mx-1" 
+           th:classappend="${i - 1 == currentPage} ? 'btn-primary text-white' : ''"></a>
+    </span>
+
+    <!-- Ellissi per il blocco successivo -->
+    <span th:if="${finePagina < totalPages}">
+        <a class="btn btn-outline-primary mx-1" th:href="@{/cards(page=${currentPage}, blocco=${bloccoCorrente + 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}">...</a>
+    </span>
+
+    <!-- Bottone successivo -->
+    <a th:if="${currentPage + 1 < totalPages}" 
+       th:href="@{/cards(page=${currentPage + 1}, blocco=${((currentPage +1) / bloccoDimensione) + 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
+       class="btn btn-outline-primary mx-1">Successivo</a>
+
+    <!-- Ultima pagina -->
+    <a th:if="${finePagina < totalPages}" 
+       th:href="@{/cards(page=${totalPages - 1}, blocco=${(totalPages - 1) / bloccoDimensione + 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
+       class="btn btn-outline-primary mx-1">Ultima pagina</a>
+
+</div>
+
     <!-- Contenitore delle card -->
     <div class="row my-5">
         <div class="col-2"></div>
