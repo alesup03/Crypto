@@ -11,11 +11,10 @@ public class UserImg {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 	
 	private String imgPath;
 	
-
 	public long getId() {
 		return id;
 	}
