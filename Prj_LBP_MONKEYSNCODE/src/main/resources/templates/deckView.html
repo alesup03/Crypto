@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visualizzazione Mazzo</title>
+    <link rel="icon" sizes="48x48" href="/icona_pokedecks.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Include SweetAlert2 per i popup -->
@@ -70,137 +71,141 @@
 <div class="row">
         
     <div class="col">
-        <!-- Pulsante per aprire il menu di filtro -->
-        <button class="filter-button" onclick="toggleFilterMenu()">Filtra</button>
+            <!-- Pulsante per aprire il menu di filtro -->
+            <button class="filter-button" onclick="toggleFilterMenu()">Filtra</button>
 
-        <!-- Menu a tendina per il filtro e l'ordinamento -->
-        <div id="filterMenu" class="filter-menu">
-            <form id="filter" th:action="@{/decks/yourdeck/1/{deckId}(deckId=${deckId})}" method="get">
-
-                <div>
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name">
-                </div>
-                <div>
-                    <label for="set">Set:</label>
-                    <input type="text" id="set" name="set">
-                </div>
-                <!-- <div>
-                    <label for="types">Type:</label>
-                    <input type="text" id="types" name="types" th:value="${param.types}">
-                </div> -->
-                <div>
-                    <label for="types">Choose a type:</label>
-                    <select name="types" id="types1">
-                        <option value=""></option>
-                        <option value="Colorless">Colorless</option>
-                        <option value="Grass">Grass</option>
-                        <option value="Fire">Fire</option>
-                        <option value="Water">Water</option>
-                        <option value="Lightning">Lightning</option>
-                        <option value="Fighting">Fighting</option>
-                        <option value="Psychic">Psychic</option>
-                        <option value="Darkness">Darkness</option>
-                        <option value="Metal">Metal</option>
-                        <option value="Dragon">Dragon</option>
-                        <option value="Fairy">Fairy</option>
-                    </select>
-                
-                    <label for="types2">Secondary type:</label>
-                    <select name="types2" id="types2">
-                        <option value=""></option>
-                        <option value="Colorless">Colorless</option>
-                        <option value="Grass">Grass</option>
-                        <option value="Fire">Fire</option>
-                        <option value="Water">Water</option>
-                        <option value="Lightning">Lightning</option>
-                        <option value="Fighting">Fighting</option>
-                        <option value="Psychic">Psychic</option>
-                        <option value="Darkness">Darkness</option>
-                        <option value="Metal">Metal</option>
-                        <option value="Dragon">Dragon</option>
-                        <option value="Fairy">Fairy</option>
-                    </select>
+            <!-- Menu a tendina per il filtro e l'ordinamento -->
+            <div id="filterMenu" class="filter-menu">
+                <form id="filter" th:action="@{/decks/yourdeck/1/{deckId}(deckId=${deckId})}" method="get">
+                    <div>
+                        <label for="owned">Owned:</label>
+                        <input type="checkbox" id="owned" name="owned">
+                    </div>
+                    <div>
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name">
+                    </div>
+                    <div>
+                        <label for="set">Set:</label>
+                        <input type="text" id="set" name="set">
+                    </div>
+                    <!-- <div>
+                        <label for="types">Type:</label>
+                        <input type="text" id="types" name="types" th:value="${param.types}">
+                    </div> -->
+                    <div>
+                        <label for="types">Choose a type:</label>
+                        <select name="types" id="types1">
+                            <option value=""></option>
+                            <option value="Colorless">Colorless</option>
+                            <option value="Grass">Grass</option>
+                            <option value="Fire">Fire</option>
+                            <option value="Water">Water</option>
+                            <option value="Lightning">Lightning</option>
+                            <option value="Fighting">Fighting</option>
+                            <option value="Psychic">Psychic</option>
+                            <option value="Darkness">Darkness</option>
+                            <option value="Metal">Metal</option>
+                            <option value="Dragon">Dragon</option>
+                            <option value="Fairy">Fairy</option>
+                        </select>
                     
-                    <input type="hidden" name="types" id="types">
-                </div>
-                
-                <div>
-                    <label for="rarity">Rarity:</label>
-                    <select id="rarity" name="rarity" th:value="${param.rarity}">
-                        <option value=""></option>
-                        <option value="Classic Collection">Classic Collection</option>
-                        <option value="Common">Common</option>
-                        <option value="LEGEND">LEGEND</option>
-                        <option value="Promo">Promo</option>
-                        <option value="Rare">Rare</option>
-                        <option value="Rare ACE">Rare ACE</option>
-                        <option value="Rare Holo">Rare Holo</option>
-                        <option value="Rare Holo EX">Rare Holo EX</option>
-                        <option value="Rare Holo GX">Rare Holo GX</option>
-                        <option value="Rare Holo LV.X">Rare Holo LV.X</option>
-                        <option value="Rare Holo Star">Rare Holo Star</option>
-                        <option value="Rare Holo V">Rare Holo V</option>
-                        <option value="Rare Holo VMAX">Rare Holo VMAX</option>
-                        <option value="Rare Holo VSTAR">Rare Holo VSTAR</option>
-                        <option value="Rare Prime">Rare Prime</option>
-                        <option value="Rare Rainbow">Rare Rainbow</option>
-                        <option value="Rare Secret">Rare Secret</option>
-                        <option value="Rare Shining">Rare Shining</option>
-                        <option value="Rare Shiny">Rare Shiny</option>
-                        <option value="Rare Shiny GX">Rare Shiny GX</option>
-                        <option value="Rare Ultra">Rare Ultra</option>
-                        <option value="Rare Prism Star">Rare Prism Star</option>
-                        <option value="Uncommon">Uncommon</option>
-                    </select>
-                </div>
-                
-                <div>
-                    <label for="supertype">Supertype:</label>
-                    <select id="supertype" name="supertype">
-                        <option value="" ></option>
-                        <option value="Pokémon" >Pokémon</option>
-                        <option value="Trainer" >Trainer</option>
-                        <option value="Energy" >Energy</option>
-                    </select>
-                </div>
+                        <label for="types2">Secondary type:</label>
+                        <select name="types2" id="types2">
+                            <option value=""></option>
+                            <option value="Colorless">Colorless</option>
+                            <option value="Grass">Grass</option>
+                            <option value="Fire">Fire</option>
+                            <option value="Water">Water</option>
+                            <option value="Lightning">Lightning</option>
+                            <option value="Fighting">Fighting</option>
+                            <option value="Psychic">Psychic</option>
+                            <option value="Darkness">Darkness</option>
+                            <option value="Metal">Metal</option>
+                            <option value="Dragon">Dragon</option>
+                            <option value="Fairy">Fairy</option>
+                        </select>
+                        
+                        <input type="hidden" name="types" id="types">
+                    </div>
+                    
+                    <div>
+                        <label for="rarity">Rarity:</label>
+                        <select id="rarity" name="rarity" th:value="${param.rarity}">
+                            <option value=""></option>
+                            <option value="Classic Collection">Classic Collection</option>
+                            <option value="Common">Common</option>
+                            <option value="LEGEND">LEGEND</option>
+                            <option value="Promo">Promo</option>
+                            <option value="Rare">Rare</option>
+                            <option value="Rare ACE">Rare ACE</option>
+                            <option value="Rare Holo">Rare Holo</option>
+                            <option value="Rare Holo EX">Rare Holo EX</option>
+                            <option value="Rare Holo GX">Rare Holo GX</option>
+                            <option value="Rare Holo LV.X">Rare Holo LV.X</option>
+                            <option value="Rare Holo Star">Rare Holo Star</option>
+                            <option value="Rare Holo V">Rare Holo V</option>
+                            <option value="Rare Holo VMAX">Rare Holo VMAX</option>
+                            <option value="Rare Holo VSTAR">Rare Holo VSTAR</option>
+                            <option value="Rare Prime">Rare Prime</option>
+                            <option value="Rare Rainbow">Rare Rainbow</option>
+                            <option value="Rare Secret">Rare Secret</option>
+                            <option value="Rare Shining">Rare Shining</option>
+                            <option value="Rare Shiny">Rare Shiny</option>
+                            <option value="Rare Shiny GX">Rare Shiny GX</option>
+                            <option value="Rare Ultra">Rare Ultra</option>
+                            <option value="Rare Prism Star">Rare Prism Star</option>
+                            <option value="Uncommon">Uncommon</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="supertype">Supertype:</label>
+                        <select id="supertype" name="supertype">
+                            <option value="" ></option>
+                            <option value="Pokémon" >Pokémon</option>
+                            <option value="Trainer" >Trainer</option>
+                            <option value="Energy" >Energy</option>
+                        </select>
+                    </div>
 
-                <div>
-                    <label for="subtypes">Subtypes:</label>
-                    <select id="subtypes" name="subtypes">
-                        <option value=""></option>
-                        <option value="Basic">Basic</option>
-                        <option value="Stage 1">Stage 1</option>
-                        <option value="Stage 2">Stage 2</option>
-                        <option value="Baby">Baby</option>
-                        <option value="Item">Item</option>
-                        <option value="Tool">Tool</option>
-                        <option value="Special">Special</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="sort">Order:</label>
-                    <select id="sort" name="sort">
-                        <option value="name">Name</option>
-                        <option value="nationalPokedexNumbers">Pokedex n.</option>
-                        <option value="level">Level</option>
-                        <option value="rarity">Rarity</option>
-                    </select>
-                
+                    <div>
+                        <label for="subtypes">Subtypes:</label>
+                        <select id="subtypes" name="subtypes">
+                            <option value=""></option>
+                            <option value="Basic">Basic</option>
+                            <option value="Stage 1">Stage 1</option>
+                            <option value="Stage 2">Stage 2</option>
+                            <option value="Baby">Baby</option>
+                            <option value="Item">Item</option>
+                            <option value="Special">Special</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="sort">Order:</label>
+                        <select id="sort" name="sort">
+                            <option value="name">Name</option>
+                            <option value="nationalPokedexNumbers">Pokedex n.</option>
+                            <option value="level">Level</option>
+                            <option value="rarity">Rarity</option>
+                        </select>
+                    
 
-                    <!-- Checkbox per la direzione di ordinamento -->
-                    <label for="desc">Order descend:</label>
-                    <input type="checkbox" id="desc" name="desc">
-                </div>
-                
-                <div>
-                    <button type="submit">Applica</button>
-                    <button type="reset">Reset</button>
-                </div>
-            </form>
+                        <!-- Checkbox per la direzione di ordinamento -->
+                        <label for="desc">Order descend:</label>
+                        <input type="checkbox" id="desc" name="desc">
+                    </div>
+                    
+                    <div>
+                        <button type="submit">Applica</button>
+                        <button type="reset">Reset</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
-    <div class="col-10"></div>
+        <div class="col-10"></div>
+
+
 </div>
 
 
@@ -300,6 +305,7 @@
         var sort = "[[${param.sort}]]";
         var desc = "[[${param.desc}]]";
         var types = "[[${param.types}]]";
+        var owned = "[[${param.owned}]]";
         
         document.getElementById("name").value = name;
         document.getElementById("set").value = set;
@@ -310,6 +316,9 @@
         if(desc)
         	document.getElementById("desc").checked = true;
         else document.getElementById("desc").checked = false;
+        if(owned)
+        	document.getElementById("owned").checked = true;
+        else document.getElementById("owned").checked = false;
         if(types.length > 10){
         	types= types.split(', ');
         	document.getElementById("types1").value = types[0];
