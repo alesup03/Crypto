@@ -80,7 +80,10 @@ public class CardController {
 	 	
 	 	
 	 	int size = 30;  // numero di carte per pagina
-	 	List<Card> allCards = cardService.getCardsByPage(cards,page, size);
+	 	int start = page * size;
+	    int end = Math.min((page + 1) * size, cards.size());
+	    List<Card> paginatedCards = cards.subList(start, end);
+	 	
 	 	
 	    int totalPages = (int) Math.ceil((double) cards.size() / size);
 
@@ -92,7 +95,7 @@ public class CardController {
 
 	    model.addAttribute("bloccoDimensione", bloccoDimensione);
 	    model.addAttribute("totalPages", totalPages);
-	    model.addAttribute("cards", allCards);
+	    model.addAttribute("cards", paginatedCards);
 	    model.addAttribute("currentPage", page);
 	    model.addAttribute("inizioPagina", inizioPagina);
 	    model.addAttribute("finePagina", finePagina);
