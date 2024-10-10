@@ -27,6 +27,8 @@ public class UserService  implements UserDetailsService{
 	private final UserCardDAO userCardDAO;
 	private final DeckDAO deckDAO;
 	private final PasswordEncoder passwordEncoder;
+	
+
 
     public UserService(UserDAO userDAO,UserImgDAO userImgDAO,PasswordEncoder passwordEncoder, UserCardDAO userCardDAO, DeckDAO deckDAO) {
         this.userDAO = userDAO;
@@ -53,7 +55,6 @@ public class UserService  implements UserDetailsService{
         String email = oAuth2User.getAttribute("email");
         String name = oAuth2User.getAttribute("name");
         String oauthProviderId = oAuth2User.getName();
-
         Optional<User> existingUser = userDAO.findByEmail(email);
 
         User user;
@@ -63,11 +64,14 @@ public class UserService  implements UserDetailsService{
                 user.setId(oauthProviderId);
             }
         } else {
-            // Se non esiste, crea un nuovo utente
+        	Optional<UserImg> imgOptional = getUserImgById(1L);
+            UserImg imgDefault = imgOptional.orElseThrow(() -> new RuntimeException("Image not found!"));
+        	// Se non esiste, crea un nuovo utente
             user = new User();
             user.setId(oauthProviderId);  // Imposta l'ID del provider OAuth2
             user.setEmail(email);
             user.setName(name);
+            user.setUserImg(imgDefault);
         }
 
         // Salva l'utente nel database
@@ -77,11 +81,14 @@ public class UserService  implements UserDetailsService{
     	String id = UUID.randomUUID().toString();
         String name = user.getName();
         String email = user.getEmail();
+        Optional<UserImg> imgOptional = getUserImgById(1L);
+        UserImg imgDefault = imgOptional.orElseThrow(() -> new RuntimeException("Image not found!"));
         String password=passwordEncoder.encode(user.getPassword());
         user.setId(id);
         user.setName(name);
         user.setEmail(email);
         user.setPassword(password);
+        user.setUserImg(imgDefault);
         userDAO.save(user);
     }
     public boolean exists(User user) {//check se esiste la mail nel db durante la registrazione
@@ -184,4 +191,5 @@ public class UserService  implements UserDetailsService{
             throw new Exception("User not found");
         }
         }
+
 }

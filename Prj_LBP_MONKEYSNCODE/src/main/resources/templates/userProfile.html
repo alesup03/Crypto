@@ -102,7 +102,7 @@
        <div class="card text-center">
         <div class="card-body">
             <h3 class="card-title">Immagine del Profilo</h3>
-            <img th:src="${userImg.imgPath}" alt="Immagine del Profilo" class="img-fluid rounded-circle" style="max-width: 200px;">
+            <img th:src="${userImg != null && userImg.imgPath != null ? userImg.imgPath : '/images/charmender.jpg'}"  alt="Immagine del Profilo" class="img-fluid rounded-circle" style="max-width: 200px;">
         </div>
     </div>
 </div>
