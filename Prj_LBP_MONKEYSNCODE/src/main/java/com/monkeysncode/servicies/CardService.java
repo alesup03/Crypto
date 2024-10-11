@@ -230,11 +230,6 @@ public class CardService {
 		return result;
 	}
 	
-	public int totPages(List<Card> cards,int cardsPage) {
-		int quantity=cards.size();
-		return quantity/cardsPage;
-		
-	}
 	
 	public Optional<Card> getCardById(String cardId){
 		return cardDAO.findById(cardId);

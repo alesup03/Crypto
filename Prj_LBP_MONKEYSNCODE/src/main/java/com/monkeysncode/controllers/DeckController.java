@@ -107,10 +107,15 @@ public class DeckController {
 	        @RequestParam(required = false) String supertype,
 	        @RequestParam(required = false) String subtypes,
 	        @RequestParam(required = false,defaultValue = "name") String sort,
-	        @RequestParam(defaultValue = "false") boolean desc) {
+	        @RequestParam(defaultValue = "false") boolean desc,
+	        @RequestParam(defaultValue = "1") int blocco) {
     	
     	//List<Card> cards = cardService.filterByParam(param, cardService.findAllSorted(sort,desc));
     	//List<Card> cards = cardService.findByParam(set, types, name, rarity, supertype, subtypes, sort, desc);
+    	
+    	if(blocco < 1) {
+	    	blocco = 1;
+	    }
     	
     	User user = userService.userCheck(principal);
     	
@@ -132,7 +137,22 @@ public class DeckController {
     	
     	
     	List<Card> allCards = cardService.getCardsByPage(cards,page, 131);//cambiare il find all dopo i filtri
-    	int totPages=cardService.totPages(allCards, 131);
+    	
+    	int totPages=(int) Math.ceil((double) cards.size() / 132);
+    	 // Gestione dei blocchi di pagine (15 pagine per blocco)
+	    int bloccoDimensione = 5;
+	    int inizioPagina = (blocco - 1) * bloccoDimensione +1;
+	    int finePagina = Math.min(blocco * bloccoDimensione, totPages);
+	    int ultimoBlocco = (int) Math.ceil((double) totPages / bloccoDimensione);
+	    
+	    
+	    model.addAttribute("bloccoDimensione", bloccoDimensione);
+	    model.addAttribute("inizioPagina", inizioPagina);
+	    model.addAttribute("finePagina", finePagina);
+	    model.addAttribute("bloccoCorrente", blocco);
+	    model.addAttribute("ultimoBlocco", ultimoBlocco); 
+	    
+	    
     	model.addAttribute("deckId", deckId);
     	model.addAttribute("deckName",deckService.getDeckById(deckId).get().getNameDeck());
         model.addAttribute("cards", allCards);

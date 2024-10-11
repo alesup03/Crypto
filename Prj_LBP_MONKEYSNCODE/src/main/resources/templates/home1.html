@@ -58,10 +58,10 @@
         <a href="#sezione-regole-gioco" class="bottone-menu" data-translate="giocoBottone"></a>
         <a href="#sezione-funzionalita" class="bottone-menu" data-translate="funzioniBottone"></a>
         <a href="#sezione-link" class="bottone-menu" data-translate="link"></a>
-        <a href="http://localhost:8080/decks" class="bottone-menu" data-translate="decks"></a>
-        <a href="http://localhost:8080/cards" class="bottone-menu" data-translate="cards"></a>
-        <a href="http://localhost:8080/profile" class="bottone-menu" data-translate="profilo"></a>
-        <a href="http://localhost:8080/deckRules" class="bottone-menu" data-translate="regolamento"></a>
+        <a th:if="${session.name}!=null" href="http://localhost:8080/decks" class="bottone-menu" data-translate="decks"></a>
+        <a th:if="${session.name}!=null" href="http://localhost:8080/cards" class="bottone-menu" data-translate="cards"></a>
+        <a th:if="${session.name}!=null" href="http://localhost:8080/profile" class="bottone-menu" data-translate="profilo"></a>
+        <a th:if="${session.name}!=null" href="http://localhost:8080/deckRules" class="bottone-menu" data-translate="regolamento"></a>
       </div>
     </div>
     <div th:if="${session.name}!=null" class="logged-on">

@@ -239,7 +239,54 @@
     }
 </style>
 
+
+<!-- Sezione per la paginazione, mostrata solo se ci sono più di 30 carte -->
+<div class="d-flex justify-content-center my-3"> 
+
+    <!-- Link "Vai alla Prima pagina" -->
+    <a th:if="${currentPage > 1}" 
+       th:href="@{/decks/yourdeck/{page}/{deckId}(deckId=${deckId},page=1, blocco=1, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
+       class="btn btn-outline-primary mx-1">Prima pagina</a>
+
+    <!-- Bottone precedente -->
+    <a th:if="${currentPage > 1}" 
+       th:href="@{/decks/yourdeck/{page}/{deckId}(deckId=${deckId},page=${currentPage - 1},blocco=${(currentPage - 1) % bloccoDimensione == 0 ? bloccoCorrente - 1 : bloccoCorrente}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
+       class="btn btn-outline-primary mx-1">Precedente</a>
+
+    <!-- Ellissi per il blocco precedente -->
+    <span th:if="${inizioPagina > 1}"> 
+        <a class="btn btn-outline-primary mx-1" th:href="@{/decks/yourdeck/{page}/{deckId}(deckId=${deckId},page=${currentPage}, blocco=${bloccoCorrente - 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}">...</a>
+    </span>
+
+    <!-- Pagine numerate -->
+    <span th:each="i : ${#numbers.sequence(inizioPagina, finePagina)}">
+        <a th:href="@{/decks/yourdeck/{page}/{deckId}(deckId=${deckId},page=${i}, blocco=${bloccoCorrente}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
+           th:text="${i}" 
+           class="btn btn-outline-primary mx-1" 
+           th:classappend="${i == currentPage} ? 'btn-primary text-white' : ''"></a>
+    </span>
+
+    <!-- Ellissi per il blocco successivo -->
+    <span th:if="${finePagina < totPages}">
+        <a class="btn btn-outline-primary mx-1" th:href="@{/decks/yourdeck/{page}/{deckId}(deckId=${deckId},page=${currentPage}, blocco=${bloccoCorrente + 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}">...</a>
+    </span>
+
+    <!-- Bottone successivo -->
+    <a th:if="${currentPage + 1 < totPages}" 
+       th:href="@{/decks/yourdeck/{page}/{deckId}(deckId=${deckId},page=${currentPage + 1},  blocco=${((currentPage) / bloccoDimensione) + 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
+       class="btn btn-outline-primary mx-1">Successivo</a>
+
+    <!-- Ultima pagina -->
+    <a th:if="${finePagina < totPages}" 
+       th:href="@{/decks/yourdeck/{page}/{deckId}(deckId=${deckId},page=${totPages }, blocco=${(totPages - 1) / bloccoDimensione + 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
+       class="btn btn-outline-primary mx-1">Ultima pagina</a>
+
+
+</div>
+
+
 <h2 class="text-center mb-3">Tutte le Carte</h2>
+
 
 <div class="container-fluid bg-light border rounded p-4 shadow-sm overflow-hidden"> <!-- Aggiunto overflow-hidden -->
     <div class="row g-3" id="allCards"> <!-- Rimosso mx-n1 -->

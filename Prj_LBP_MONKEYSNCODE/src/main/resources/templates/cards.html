@@ -290,10 +290,8 @@
 <div class="col-2" ></div>
 </div>
 
-    
-
-<!-- Sezione per la paginazione, mostrata solo se ci sono più di 30 carte -->
-<div th:if="${cards.size()>30}" class="d-flex justify-content-center my-3"> 
+    <!-- Sezione per la paginazione, mostrata solo se ci sono più di 30 carte -->
+<div class="d-flex justify-content-center my-3"> 
 
     <!-- Link "Vai alla Prima pagina" -->
     <a th:if="${currentPage > 1}" 
@@ -302,7 +300,7 @@
 
     <!-- Bottone precedente -->
     <a th:if="${currentPage > 1}" 
-       th:href="@{/cards(page=${currentPage - 1}, blocco=${(currentPage - 1) / bloccoDimensione + 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
+       th:href="@{/cards(page=${currentPage - 1},blocco=${(currentPage - 1) % bloccoDimensione == 0 ? bloccoCorrente - 1 : bloccoCorrente}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
        class="btn btn-outline-primary mx-1">Precedente</a>
 
     <!-- Ellissi per il blocco precedente -->
@@ -311,11 +309,11 @@
     </span>
 
     <!-- Pagine numerate -->
-    <span th:each="i : ${#numbers.sequence(inizioPagina + 1, finePagina)}">
-        <a th:href="@{/cards(page=${i - 1}, blocco=${bloccoCorrente}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
-           th:text="${i-1}" 
+    <span th:each="i : ${#numbers.sequence(inizioPagina, finePagina)}">
+        <a th:href="@{/cards(page=${i}, blocco=${bloccoCorrente}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
+           th:text="${i}" 
            class="btn btn-outline-primary mx-1" 
-           th:classappend="${i - 1 == currentPage} ? 'btn-primary text-white' : ''"></a>
+           th:classappend="${i    == currentPage} ? 'btn-primary text-white' : ''"></a>
     </span>
 
     <!-- Ellissi per il blocco successivo -->
@@ -325,16 +323,18 @@
 
     <!-- Bottone successivo -->
     <a th:if="${currentPage + 1 < totalPages}" 
-       th:href="@{/cards(page=${currentPage + 1}, blocco=${((currentPage +1) / bloccoDimensione) + 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
+       th:href="@{/cards(page=${currentPage + 1},  blocco=${((currentPage) / bloccoDimensione) + 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
        class="btn btn-outline-primary mx-1">Successivo</a>
 
     <!-- Ultima pagina -->
-    <a th:if="${finePagina < totalPages}" 
-       th:href="@{/cards(page=${totalPages - 1}, blocco=${(totalPages - 1) / bloccoDimensione + 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
+    <a th:if="${finePagina < (totalPages - 1)}" 
+       th:href="@{/cards(page=${totalPages }, blocco=${(totalPages - 1) / bloccoDimensione + 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
        class="btn btn-outline-primary mx-1">Ultima pagina</a>
 
 
 </div>
+
+
 
     <!-- Contenitore delle card -->
     <div class="row my-5">
