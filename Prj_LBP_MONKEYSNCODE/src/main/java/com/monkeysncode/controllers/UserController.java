@@ -158,8 +158,9 @@ public class UserController
     }
 
     @GetMapping("/delete")
-    public String deleteUserView( Model model) {
-
+    public String deleteUserView(@AuthenticationPrincipal Object principal,Model model) {
+    	User user=userService.userCheck(principal);
+    	model.addAttribute("userId",user.getId());
     	return "deleteUser";
     }
     
