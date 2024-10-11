@@ -106,7 +106,7 @@
       
        <!-- Menu a tendina per il filtro e l'ordinamento -->
         <div id="filterMenu" class="filter-menu">
-            <form id="filter" th:action="@{/decks}" method="get" class="row g-3">
+            <form id="filter" th:action="@{/decks/yourdeck/1/{deckId}(deckId=${deckId})}" method="get" class="row g-3">
                 <div class="col-md-2">
                     <div class="form-check">
                         <input class="btn-check" type="checkbox" id="owned" name="owned" autocomplete="off">

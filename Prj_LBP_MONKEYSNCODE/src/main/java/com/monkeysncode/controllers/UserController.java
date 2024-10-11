@@ -25,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.monkeysncode.entites.Deck;
 import com.monkeysncode.entites.User;
 import com.monkeysncode.entites.UserImg;
+import com.monkeysncode.servicies.UserImgService;
 import com.monkeysncode.servicies.UserService;
 
 import jakarta.servlet.http.HttpSession;
@@ -35,6 +36,8 @@ public class UserController
 {
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private UserImgService imgService;
 	
 	Deck deck = new Deck();
 	
@@ -106,6 +109,12 @@ public class UserController
 			 return "Home" ;
 		}
  
+    }
+    
+    @GetMapping("/profile-image")
+    public String setImg(Model model) {
+    	model.addAttribute("images",imgService.getAll());
+    	return "profileImg";
     }
 
     //cambio password
