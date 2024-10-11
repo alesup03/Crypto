@@ -42,7 +42,7 @@ public class SecurityConfig {
                     auth.anyRequest().authenticated();  // Tutte le altre pagine richiedono autenticazione
                 })
                 .formLogin(form -> form
-                    .loginPage("/home1")  // Definisci la pagina di login personalizzata
+                    .loginPage("/")  // Definisci la pagina di login personalizzata
                     .defaultSuccessUrl("/", true)  // Reindirizza dopo il successo del login form-based
                     .loginProcessingUrl("/login")
                     .usernameParameter("email")  //set il controllo di spring a email invece del default username
@@ -55,7 +55,7 @@ public class SecurityConfig {
                     .successHandler(oAuth2AuthenticationSuccessHandler())
                 )
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/login?logout")
+                        .logoutSuccessUrl("/?logout")
                         .invalidateHttpSession(true)  
                         .deleteCookies("JSESSIONID")  
                         .permitAll()  
