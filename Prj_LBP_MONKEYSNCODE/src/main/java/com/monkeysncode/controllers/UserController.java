@@ -63,6 +63,7 @@ public class UserController
         model.addAttribute("id", user.getId()); // Aggiunge id dell'utente al model
         model.addAttribute("deck", deck.getNameDeck() ); // Aggiunge il nome del mazzo al model
         model.addAttribute("userImg", user.getUserImg()); // Assuming userImg is defined
+        model.addAttribute("user",user);
         
 
         // Aggiunge la lista delle immagini per la scelta
@@ -109,8 +110,12 @@ public class UserController
 
     //cambio password
     @GetMapping("/change-password")
-    public String changePasswordView() {
-        
+    public String changePasswordView(@AuthenticationPrincipal Object principal,Model model) {
+    	User user=userService.userCheck(principal);
+        if(user.getPassword()!=null) {
+        	model.addAttribute("passNULL",false);
+        }
+        else model.addAttribute("passNULL",true);
         return "changePassword"; 
     }
     
@@ -153,9 +158,8 @@ public class UserController
     }
 
     @GetMapping("/delete")
-    public String deleteUserView(@AuthenticationPrincipal Object principal, Model model) {
-    	User user = userService.userCheck(principal);
-    	model.addAttribute("userId",user.getId());
+    public String deleteUserView( Model model) {
+
     	return "deleteUser";
     }
     

@@ -157,7 +157,9 @@
                 <div class="card-body">
                     <h3 class="card-title">Dettagli Utente</h3>
                     <p>Email: <span th:text="${email}"></span></p>
-                    <a href="/profile/change-password">Cambia Password</a>
+                    <div  th:if="${user.password}!=null">
+                        <a href="/profile/change-password">Cambia Password</a>
+                    </div>
                     <a href="/profile/delete">cancella account</a>
 					<div th:if="${param.accountDeleted}" class="alert alert-success">
 					    Il tuo account è stato cancellato con successo. Puoi registrarti nuovamente in qualsiasi momento.

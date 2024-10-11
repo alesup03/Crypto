@@ -138,7 +138,6 @@ public class UserService  implements UserDetailsService{
     public User findByName(String name) {
         return userDAO.findByEmail(name).orElse(null);
     }
-    // Metodo eliminazione account
     public void DeleteUser(String id) throws UsernameNotFoundException {
         // Controlla se l'utente esiste
         User user = userDAO.findById(id).orElseThrow(() -> new UsernameNotFoundException("Utente non trovato"));
@@ -157,19 +156,18 @@ public class UserService  implements UserDetailsService{
             }
         }
         
-        // Elimina  le UserCards collegate all'utente
+        // Elimina le UserCards collegate all'utente
         List<UserCards> userCards = userCardDAO.findByUserId(id);
         if (userCards != null) {
             for (UserCards card : userCards) {
                 userCardDAO.delete(card); 
             }
         }
-        // Elimina l'immagine del profilo se presente
-        if (user.getUserImg() != null) {
-            userImgDAO.delete(user.getUserImg());
-        }
+
+        
         userDAO.deleteById(id);
     }
+
     public User userCheck(Object principal) {
         if (principal instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) principal;
