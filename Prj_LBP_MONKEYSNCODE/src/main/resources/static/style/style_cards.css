@@ -1,0 +1,100 @@
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.selected {
+    font-weight: bold;
+}
+.ellipsis {
+    cursor: pointer;
+    font-weight: bold;
+}
+.card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 150px;
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
+}
+.card img {
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid #ccc;
+    border-radius: 8px 8px 0 0;
+    transition: transform 0.3s ease;
+    
+}
+.card img:hover{
+    position: absolute;
+    transform:scale(1.8);
+    z-index:10;
+    
+}
+.up{
+    /*position: fixed;
+    top:50px;
+    right:50px;*/
+    margin-top: 20px;
+    margin-left:50px;
+}
+.down{
+    /*position: fixed;
+    bottom:50px;
+    right:50px;*/
+    margin-top: 20px;
+    margin-left:50px;
+}
+.pagination a {
+    margin: 0 5px;
+    background-color:grey;
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+.pagination a.current {
+    font-weight: bold;
+    background-color: #eee;
+}
+.filter-menu {
+    display: none;
+    /*position: absolute;  Posiziona il menu fisso rispetto alla finestra */
+    top: 350px; /* Puoi regolare questa distanza dalla parte superiore */
+    /*left: 20%;  Posiziona il menu al 50% da sinistra */
+    z-index: 1000; /* Assicurati che sia sopra gli altri elementi */
+    /*width: 300px;  Larghezza del form */
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    margin-top: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Aggiungi un'ombra */
+}
+.filter-menu.active {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    /*display: block;*/
+    /*transform: translate(265%, 0%); sposta verso destra il filtro*/
+}
+.filter-button {
+    cursor: pointer;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    /*transform: translate(1800%, 0%); sposta verso destra il bottone*/
+    margin-left: 30px;
+}
+nav{
+    position: sticky;
+    top: 0px;
+    background-color:red;
+}
+h1{
+    margin-left: -10px;
+    text-align: center;
+    padding-top: 100px;
+}
