@@ -234,6 +234,11 @@ public class CardService {
 	public Optional<Card> getCardById(String cardId){
 		return cardDAO.findById(cardId);
 	}
+
+	public Card findById(String cardId) {
+	    Optional<Card> card = cardDAO.findById(cardId);
+	    return card.orElse(null); // Restituisce la Card se presente, altrimenti null
+	}
 	 
 
 

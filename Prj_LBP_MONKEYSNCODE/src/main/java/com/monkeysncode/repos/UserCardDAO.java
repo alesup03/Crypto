@@ -15,6 +15,6 @@ public interface UserCardDAO extends JpaRepository<UserCards, Long> {
 	public List<UserCards> findByUserId(String userId);
 	
 	public Optional<UserCards> findByUserAndCard(User user, Card card);
-
+	
 
 }

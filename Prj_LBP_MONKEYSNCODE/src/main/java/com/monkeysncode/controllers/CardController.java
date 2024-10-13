@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +26,7 @@ import com.monkeysncode.servicies.UserCardsService;
 import com.monkeysncode.servicies.UserService;
 
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
@@ -70,7 +75,7 @@ public class CardController {
 		
 		//in base al parametro owned prende la lista da due service diversi
 	 	if(owned == true)
-	 		cards = cardService.filterByParam(param, usercardService.getCollection(user.getId()));
+	 		cards = cardService.filterByParam(param, usercardService.getSortedCollection(user.getId(),sort,desc));
 	 	else cards = cardService.filterByParam(param, cardService.findAllSorted(sort,desc));
 	 	
 	 	// Paginazione
@@ -106,8 +111,25 @@ public class CardController {
 	 	model.addAttribute("param", param);
 
         return "cards";
-        
 	 }
+	
+	
+	@PostMapping("/collection/add")
+    @ResponseBody
+    public ResponseEntity<String> addCardToCollection(@AuthenticationPrincipal Object principal, @RequestParam String cardId) {
+		User user = userService.userCheck(principal);
+		Card card = cardService.findById(cardId);
+		usercardService.addOrRemoveCard(user, card, 1); 
+		return ResponseEntity.ok("Carta aggiunta alla collezione");
+    }
+	@PostMapping("/collection/remove")
+    @ResponseBody
+    public ResponseEntity<String> removeCard(@AuthenticationPrincipal Object principal, @RequestParam String cardId) {
+		User user = userService.userCheck(principal);
+		Card card = cardService.findById(cardId);
+		usercardService.addOrRemoveCard(user, card, -1); 
+		return ResponseEntity.ok("Carta rimossa dalla collezione");
+    }
 	
 	 @GetMapping("/card/{cardId}")
 	 public String viewCard(@AuthenticationPrincipal Object principal, @PathVariable("cardId") String cardId, Model model) {
