@@ -80,36 +80,19 @@ public class UserController
 
 
     // Gestisce la selezione dell'immagine del Pokémon da parte dell'utente
-    @PostMapping("")
-    public String submitProfile(@RequestParam("selectedImage") long selectedImage,
-                                @AuthenticationPrincipal Object principal, Model model) 
-    {
-        User user = userService.userCheck(principal);
-        
-        List<Deck> userDecks = user.getDecks();
-        
-        Optional<UserImg> imgOptional = userService.getUserImgById(selectedImage);
-        UserImg img = imgOptional.orElseThrow(() -> new RuntimeException("Image not found!"));
-
-        
-        model.addAttribute("username", user.getName()); 
-        model.addAttribute("email", user.getEmail()); 
-        model.addAttribute("id", user.getId()); 
-        model.addAttribute("deck", deck.getNameDeck());
-
-        model.addAttribute("starterImages", getFavouriteStarter()); // Mantiene la lista delle immagini e aggiungi l'immagine selezionata
-        model.addAttribute("userImg",  img); // Immagine selezionato
-        model.addAttribute("userDecks", userDecks);
-        
+    @PostMapping("profile-image")
+    public String updateProfileImage( @RequestParam("userId") String userId, @RequestParam("id") Long imageId, RedirectAttributes redirectAttributes) {
         try {
-			userService.updateProfileImage(user.getId(), selectedImage);
-			return "userProfile"; // Ricarica il profilo con l'immagine scelta
-		} catch (Exception e) {
-			
-			 return "Home" ;
-		}
- 
+            userService.updateProfileImage(userId, imageId);  // Aggiorna l'immagine profilo dell'utente
+            redirectAttributes.addFlashAttribute("successMessage", "Immagine del profilo aggiornata con successo!");
+            
+        
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Errore durante l'aggiornamento dell'immagine del profilo.");
+        }
+        return "redirect:/profile";  // Reindirizza l'utente alla pagina del profilo
     }
+
     
     @GetMapping("/profile-image")
     public String setImg(Model model) {
