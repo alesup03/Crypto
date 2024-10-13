@@ -32,26 +32,41 @@
             transition: transform 0.3s ease;
             
         }
-        .card img:hover{
-        	position: absolute;
-        	transform:scale(1.8);
-        	z-index:10;
-        	
+        .card:hover{
+        	/*position: absolute;*/
+        	transform:scale(1.3);
+        	z-index:8;
         }
-        .up{
-        	/*position: fixed;
-        	top:50px;
-        	right:50px;*/
-            margin-top: 20px;
-            margin-left:50px;
+        .card-buttons {
+            display: none; /* Nasconde i pulsanti di default */
+            position: absolute;
+            bottom: 10px; /* Posizione dei pulsanti */
+            left: 50%;
+            transform: translateX(-50%); /* Centra i pulsanti */
         }
-        .down{
-        	/*position: fixed;
-        	bottom:50px;
-        	right:50px;*/
-            margin-top: 20px;
-            margin-left:50px;
-        }
+        .card-buttons {
+		    display: flex;               /* Imposta i pulsanti su flex */
+		    gap: 50px;                   /* Spazio tra i pulsanti */
+		    z-index: 10;                 /* Imposta il livello per sovrapporre correttamente */
+		}
+		
+		.card-buttons button {
+		    font-size: 16px;             /* Dimensione del testo */
+		    color: white;                /* Colore del testo */
+		    border-radius: 50%;          /* Angoli arrotondati per rendere i pulsanti rotondi */
+		    cursor: pointer;             /* Cambia il cursore per indicare che è cliccabile */
+		    opacity: 0;                  /* Rende i pulsanti invisibili */
+		    transition: opacity 0.4s ease; /* Transizione per l'opacità più rapida */
+		}
+		
+		.card:hover .card-buttons button {
+		    opacity: 0.5;                /* Pulsanti diventano semitrasparenti quando si passa sopra la carta */
+		}
+		
+		.card .card-buttons button:hover {
+			color: white;
+		    opacity: 1;                  /* Pulsante completamente opaco quando si passa il mouse su di esso */
+		}
         .pagination a {
             margin: 0 5px;
             background-color:grey;
@@ -109,6 +124,11 @@
         .owned{
         	margin-top: 20px;
             margin-left: 10px;
+        }
+        .swal2-popup {
+            width: 250px !important; /* Riduci la larghezza del popup */
+            height: auto; /* Mantiene un'altezza dinamica in base al contenuto */
+            font-size: 14px; /* Font più piccolo */
         }
 
     </style>
@@ -333,28 +353,37 @@
 
 
 </div>
-
-
-
-    <!-- Contenitore delle card -->
+    
     <div class="row my-5">
-        <div class="col-2"></div>
-        <div class="col card-container">
-        
-            <div th:if="${#lists.isEmpty(cards)}">
-                <p>No cards found</p>
-            </div>
-            <!-- Thymeleaf loop per visualizzare ogni carta -->
-            <div class="card" th:each="card : ${cards}">
+    <div class="col-2"></div>
+    <div class="col card-container">
+        <div th:if="${#lists.isEmpty(cards)}">
+            <p>No cards found</p>
+        </div>
+
+        <!-- Loop Thymeleaf per ogni carta -->
+        <div class="card mb-3" th:each="card : ${cards}">
+            <div class="card">
                 <a th:href="@{/card/{cardId}(cardId=${card.id})}">
-                	<img th:src="${card.img}" alt="Card Image" />
+                    <img th:src="${card.img}" alt="Card Image"/>
                 </a>
+                <div class="card-buttons">
+                    <!-- Bottone per aggiungere la carta alla collezione -->
+                    <button class="btn add-to-collection" th:data-card-id="${card.id}" style="background-color: green;"><i class="bi bi-plus-lg"></i></button>
+                    <!-- Nuovo bottone per visualizzare i dettagli -->
+                    <a th:href="@{/card/{cardId}(cardId=${card.id})}">
+                    	<button class="btn remove" th:data-card-id="${card.id}" style="background-color: red;"><i class="bi bi-dash-lg"></i></button>
+                	</a>
+                </div>
             </div>
         </div>
-        <div class="col-2"></div>
     </div>
-
+    <div class="col-2"></div>
+</div>
     
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         //variabili passate alla pagina in forma di hashmap
         var name = "[[${param.name}]]";
@@ -386,6 +415,65 @@
 		    document.getElementById("types2").value = types[1];
 		}
 		else document.getElementById("types1").value = types;
+		
+		
+	    $(document).ready(function () {
+    // Configurazione per SweetAlert2 Toast
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+    });
+
+    // Aggiungi carta alla collezione
+    $('.add-to-collection').click(function () {
+        var cardId = $(this).data('card-id');
+
+        // Invio richiesta AJAX per aggiungere la carta alla collezione
+        $.post('/collection/add', { cardId: cardId })
+            .done(function (data) {
+                Toast.fire({
+                    icon: "success",
+                    title: "Carta aggiunta!"
+                });
+                setTimeout(function () {
+                    location.reload();  // Ricarica la pagina per aggiornare il numero di carte possedute
+                }, 2000);
+            })
+            .fail(function () {
+                alert('Errore durante l\'aggiunta della carta.');
+            });
+    });
+
+    // Rimuovi carta dalla collezione
+    $('.remove').click(function (event) {
+        event.preventDefault(); // Impedisce il comportamento predefinito del link
+        var cardId = $(this).data('card-id');
+
+        // Invio richiesta AJAX per rimuovere la carta dalla collezione
+        $.post('/collection/remove', { cardId: cardId })
+            .done(function (data) {
+                Toast.fire({
+                    icon: "error",
+                    title: "Carta rimossa!"
+                });
+                setTimeout(function () {
+                    location.reload();  // Ricarica la pagina per aggiornare il numero di carte possedute
+                }, 2000);
+            })
+            .fail(function () {
+                alert('Errore durante la rimozione della carta.');
+            });
+    });
+});
+
+		
     </script>
     <script src="/script/script_cards.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

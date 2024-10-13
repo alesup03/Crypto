@@ -132,7 +132,7 @@ public class DeckController {
 		
 		//in base al parametro owned prende la lista da due service diversi
 	 	if(owned == true)
-	 		cards = cardService.filterByParam(param, usercardService.getCollection(user.getId()));
+	 		cards = cardService.filterByParam(param, usercardService.getSortedCollection(user.getId(),sort,desc));
 	 	else cards = cardService.filterByParam(param, cardService.findAllSorted(sort,desc));
     	
     	
