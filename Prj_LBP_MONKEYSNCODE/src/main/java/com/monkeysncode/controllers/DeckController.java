@@ -49,7 +49,7 @@ public class DeckController {
         
         // Validazione di ogni mazzo
         for (Deck deck : decks) {
-            String validationResult = deckCardsService.validateDeck(deck.getId());
+            String validationResult = deckCardsService.validateDeck(deck.getId(), user);
             
             // Se il mazzo è valido, impostiamo valid a true, altrimenti a false
             if (validationResult.contains("Il mazzo è valido!")) {
@@ -187,9 +187,11 @@ public class DeckController {
     }
     
     @PostMapping("/validate")
-    public @ResponseBody String validate(@RequestParam Long deckIdValidate) {
-        // Chiama il metodo di validazione che ora restituisce una stringa già formattata
-        String validationResult = deckCardsService.validateDeck(deckIdValidate);
+    public @ResponseBody String validate(@RequestParam Long deckIdValidate, @AuthenticationPrincipal Object principal) {
+    	// Ottieni l'utente corrente
+        User user = userService.userCheck(principal);
+    	// Chiama il metodo di validazione che ora restituisce una stringa già formattata
+        String validationResult = deckCardsService.validateDeck(deckIdValidate, user);
         
         // Restituisci direttamente il risultato della validazione (che è già formattato)
         return validationResult;
