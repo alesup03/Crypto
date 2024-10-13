@@ -15,6 +15,7 @@ import java.util.Set;
 import com.monkeysncode.entites.Card;
 import com.monkeysncode.entites.Deck;
 import com.monkeysncode.entites.DeckCards;
+import com.monkeysncode.entites.User;
 import com.monkeysncode.repos.CardsDAO;
 import com.monkeysncode.repos.DeckCardDAO;
 import com.monkeysncode.repos.DeckDAO;
@@ -28,6 +29,8 @@ public class DeckCardsService {
     private  CardsDAO cardDAO;
 	@Autowired
     private  DeckCardDAO deckCardDAO;
+	@Autowired
+	private UserCardsService userCardsService;
   
     
     // metodo per aggiungere o aggiornare una nuova relazione tra deck e carte
@@ -112,7 +115,7 @@ public class DeckCardsService {
         }
 
         return formattedErrors.toString();
-    }public String validateDeck(Long deckId) {
+    }public String validateDeck(Long deckId, User user) {
         List<DeckCards> deckCards = getDeckCards(deckId);
         List<String> violations = new ArrayList<>(); // Lista per raccogliere le violazioni
 
@@ -134,6 +137,7 @@ public class DeckCardsService {
 
         for (DeckCards deckCard : deckCards) {
             Card card = deckCard.getCard();
+            String cardName = card.getName();
             String cardSupertype = card.getSupertypes();
 
             // Controllo se la carta è un Pokémon base
@@ -146,11 +150,17 @@ public class DeckCardsService {
             }
 
             // Conto le copie delle carte, escludendo il tipo "Energy" dal limite di 4 copie
-            String cardName = card.getName();
+            
             String cardType = card.getSupertypes();
 
             if (!"Energy".equals(cardType)) {
                 cardCountMap.put(cardName, cardCountMap.getOrDefault(cardName, 0) + deckCard.getCardQuantity());
+            }
+            // Controllo se l'utente ha abbastanza copie della carta
+            int userCardQuantity = userCardsService.getQuantityByCardUser(user, card); // Usa l'oggetto user
+
+            if (userCardQuantity < deckCard.getCardQuantity()) {
+                violations.add("Non possiedi abbastanza copie della carta " + cardName + ". Ne hai: " + userCardQuantity + ", ne vuoi mettere: " + deckCard.getCardQuantity());
             }
         }
 
