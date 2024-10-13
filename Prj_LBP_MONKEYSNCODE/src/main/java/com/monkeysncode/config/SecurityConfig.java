@@ -71,10 +71,14 @@ public class SecurityConfig {
             if(serviceUser.findByEmail(oAuth2User.getAttribute("email"))!=null) {
 
             	String username=serviceUser.findByEmail(oAuth2User.getAttribute("email")).getName();
+            	String userId=serviceUser.findByEmail(oAuth2User.getAttribute("email")).getId();
             	request.getSession().setAttribute("name", username);
+            	request.getSession().setAttribute("userId", userId);
             }else {
-            	String username = oAuth2User.getAttribute("name");//puts in session the user name            	
+            	String username = oAuth2User.getAttribute("name");//puts in session the user name
+            	String userId = oAuth2User.getAttribute("userId");
             	request.getSession().setAttribute("name", username);
+            	request.getSession().setAttribute("userId", userId);
             }
             response.sendRedirect("/");
         };
@@ -85,7 +89,9 @@ public class SecurityConfig {
         	UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         	String email = userDetails.getUsername(); //email
         	 String fullName = userDAO.findByEmail(email).get().getName();
+        	 String userId = userDAO.findByEmail(email).get().getId();
             request.getSession().setAttribute("name", fullName);
+            request.getSession().setAttribute("userId", userId);
             
             response.sendRedirect("/");
         };
