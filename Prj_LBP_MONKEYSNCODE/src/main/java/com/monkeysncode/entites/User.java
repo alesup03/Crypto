@@ -5,6 +5,8 @@ import java.util.List;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -26,6 +28,26 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "userImg_id")
     private UserImg userImg;
+    
+    @ManyToMany
+    @JoinTable(
+        name = "user_roles",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private List<Role> roles; // A user can have multiple roles
+
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        if (roles.size() < 1 || roles.size() > 2) {
+            throw new IllegalArgumentException("User must have at least 1 role and a maximum of 2 roles.");
+        }
+        this.roles = roles;
+    }
     
 	public UserImg getUserImg() {
 		return userImg;

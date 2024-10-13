@@ -30,10 +30,11 @@ public class AuthController {
     	boolean userExists=userService.exists(user);
     	if(userExists) {
     		model.addAttribute("exist", "Errore,Profilo esiste già");
-    		return "register";
+    		return "home1";
     	}
         userService.register(user);
-        return "login";  // Dopo la registrazione, reindirizza alla pagina di login
+        model.addAttribute("exist", "Registrato con successo");
+        return "home1";  // Dopo la registrazione, reindirizza alla pagina di login
     }
 }
 

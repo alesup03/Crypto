@@ -1,5 +1,6 @@
 package com.monkeysncode.servicies;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.monkeysncode.entites.Deck;
 import com.monkeysncode.entites.DeckCards;
+import com.monkeysncode.entites.Role;
 import com.monkeysncode.entites.User;
 import com.monkeysncode.entites.UserCards;
 import com.monkeysncode.entites.UserImg;
@@ -22,6 +24,8 @@ import com.monkeysncode.repos.DeckDAO;
 import com.monkeysncode.repos.UserCardDAO;
 import com.monkeysncode.repos.UserDAO;
 import com.monkeysncode.repos.UserImgDAO;
+
+import jakarta.persistence.EntityNotFoundException;
 @Service
 public class UserService  implements UserDetailsService{
 	private final UserDAO userDAO;
@@ -50,7 +54,7 @@ public class UserService  implements UserDetailsService{
         return org.springframework.security.core.userdetails.User.builder()
             .username(user.getEmail())
             .password(user.getPassword())
-            //.roles("USER")//da implementare per i ruoli
+            .roles("USER")
             .build();
     }
     
@@ -68,7 +72,7 @@ public class UserService  implements UserDetailsService{
                 user.setId(oauthProviderId);
             }
         } else {
-        	Optional<UserImg> imgOptional = getUserImgById(1L);
+        	Optional<UserImg> imgOptional = getUserImgById((long) 4095);
             UserImg imgDefault = imgOptional.orElseThrow(() -> new RuntimeException("Image not found!"));
         	// Se non esiste, crea un nuovo utente
             user = new User();
@@ -76,6 +80,9 @@ public class UserService  implements UserDetailsService{
             user.setEmail(email);
             user.setName(name);
             user.setUserImg(imgDefault);
+            List<Role> roles = new ArrayList<>();
+            roles.add(new Role("1", "ROLE_USER"));
+            user.setRoles(roles);
         }
 
         // Salva l'utente nel database
@@ -85,7 +92,7 @@ public class UserService  implements UserDetailsService{
     	String id = UUID.randomUUID().toString();
         String name = user.getName();
         String email = user.getEmail();
-        Optional<UserImg> imgOptional = getUserImgById(1L);
+        Optional<UserImg> imgOptional = getUserImgById((long) 4095);
         UserImg imgDefault = imgOptional.orElseThrow(() -> new RuntimeException("Image not found!"));
         String password=passwordEncoder.encode(user.getPassword());
         user.setId(id);
@@ -93,6 +100,17 @@ public class UserService  implements UserDetailsService{
         user.setEmail(email);
         user.setPassword(password);
         user.setUserImg(imgDefault);
+        List<Role> roles = new ArrayList<>();
+        roles.add(new Role("1", "ROLE_USER"));
+        user.setRoles(roles);
+
+        userDAO.save(user);
+    }
+    public void assignRoles(User user, List<Role> roles) {
+        if (roles.size() < 1 || roles.size() > 2) {
+            throw new IllegalArgumentException("User must have at least 1 role and a maximum of 2 roles.");
+        }
+        user.setRoles(roles);
         userDAO.save(user);
     }
     public boolean exists(User user) {//check se esiste la mail nel db durante la registrazione
@@ -163,8 +181,8 @@ public class UserService  implements UserDetailsService{
                 userCardDAO.delete(card); 
             }
         }
-
-        
+        user.getRoles().clear();
+        userDAO.save(user);
         userDAO.deleteById(id);
     }
 
@@ -218,5 +236,12 @@ public class UserService  implements UserDetailsService{
             throw new Exception("User not found");
         }
         }
+    public List<Role> getUserRoles(String idUser){
+    	Optional<User> user=userDAO.findById(idUser);
+    	if (user.isPresent()) {
+            return user.get().getRoles(); // Return the roles associated with the user
+        }
+        throw new EntityNotFoundException("User not found with ID: " + idUser);
+    }
 
 }
