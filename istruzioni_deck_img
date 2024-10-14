@@ -1,0 +1,6 @@
+All'interno della tabella deck_img bisogna eseguire questa query per poter aggiungere le immagini:
+
+INSERT INTO `deck_img` (`id`, `img_deck_path`) VALUES
+(1, '/images/retro-carta-pokemon.png'),
+(2, '/images/retro-carta-pokemon-2.png'),
+(3, '/images/retro-carta-pokemon-3.png');
