@@ -72,7 +72,7 @@ public class CardController {
 	 	
 		
 		List<Card> cards = new ArrayList<Card>();
-		
+		List<String> ownedCards = usercardService.getCollectionById(user.getId());
 		//in base al parametro owned prende la lista da due service diversi
 	 	if(owned == true)
 	 		cards = cardService.filterByParam(param, usercardService.getSortedCollection(user.getId(),sort,desc));
@@ -99,6 +99,7 @@ public class CardController {
 	    model.addAttribute("bloccoDimensione", bloccoDimensione);
 	    model.addAttribute("totalPages", totalPages);
 	    model.addAttribute("cards", allCards);
+	    model.addAttribute("ownedCards", ownedCards);
 	    model.addAttribute("currentPage", page);
 	    model.addAttribute("inizioPagina", inizioPagina);
 	    model.addAttribute("finePagina", finePagina);
