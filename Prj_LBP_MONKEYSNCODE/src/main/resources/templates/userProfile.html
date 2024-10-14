@@ -165,8 +165,8 @@
                         <div class="deck-item text-center">
                             <!-- Mostra l'immagine del deck -->
                             <a th:href="@{/decks/yourdeck/1/{deckId}(deckId=${deck.id})}">
-                                <img th:src="@{/mazzisfondo.jpg}" alt="Deck Image" class="img-fluid">
-                            </a>
+		                        <img th:src="@{${deck.deckImg.imgDeckPath}}" alt="Deck Image" class="img-fluid" onerror="this.onerror=null; this.src='path/to/default/image.jpg';">
+		                    </a>
                             <!-- Mostra il nome del deck sotto l'immagine -->
                             <p th:text="${deck.nameDeck}"></p>
                         </div>

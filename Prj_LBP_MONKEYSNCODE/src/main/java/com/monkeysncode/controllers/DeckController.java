@@ -21,9 +21,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.monkeysncode.entites.Card;
 import com.monkeysncode.entites.Deck;
 import com.monkeysncode.entites.DeckCards;
+import com.monkeysncode.entites.DeckImg;
 import com.monkeysncode.entites.User;
 import com.monkeysncode.servicies.CardService;
 import com.monkeysncode.servicies.DeckCardsService;
+import com.monkeysncode.servicies.DeckImgService;
 import com.monkeysncode.servicies.DeckService;
 import com.monkeysncode.servicies.UserCardsService;
 import com.monkeysncode.servicies.UserService;
@@ -41,6 +43,8 @@ public class DeckController {
     private UserService userService;
     @Autowired
     private DeckService deckService;
+    @Autowired
+    private DeckImgService deckImgService;
     
     @GetMapping("")
     public String decks(@AuthenticationPrincipal Object principal, Model model) {
@@ -66,14 +70,21 @@ public class DeckController {
 
     
     @GetMapping("/create")
-    public String create() {
+    public String create(Model model) {
+    	List<DeckImg> images = deckImgService.getAll();
+    	model.addAttribute("images", images);
         return "create";
     }
 
     @PostMapping("/create")
-    public String createPost(@AuthenticationPrincipal Object principal, @RequestParam String deckName) {
+    public String createPost(@AuthenticationPrincipal Object principal, @RequestParam String deckName, @RequestParam Long deckImgId) {
         User user = userService.userCheck(principal);
-        deckService.saveOrUpdateDeck(user.getId(), deckName, Optional.empty());
+        
+        // Recupera l'immagine selezionata tramite il suo ID dal DAO
+        Optional<DeckImg> selectedImg = deckImgService.getDeckImgById(deckImgId);
+        
+        deckService.saveOrUpdateDeck(user.getId(), deckName, Optional.empty(), selectedImg);
+        
         return "redirect:/decks";
     }
 

@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import com.monkeysncode.entites.Deck;
-
+import com.monkeysncode.entites.DeckImg;
 import com.monkeysncode.entites.User;
 
 import com.monkeysncode.repos.DeckDAO;
@@ -22,7 +22,7 @@ public class DeckService {
         this.userDAO = userDAO;
     }
     //metodo per salvare il deck
-    public void saveOrUpdateDeck(String userId, String nameDeck, Optional<Long> deckId) {
+    public void saveOrUpdateDeck(String userId, String nameDeck, Optional<Long> deckId, Optional<DeckImg> deckImg) {
     	
     	// Recupera l'utente dal database
         User user = userDAO.findById(userId).orElseThrow(() -> new RuntimeException("User non trovato"));
@@ -30,6 +30,7 @@ public class DeckService {
         if (deckId.isEmpty()) {
             // Se non viene fornito un ID del deck, crea un nuovo deck
             Deck newDeck = new Deck();
+            deckImg.ifPresent(newDeck::setDeckImg);
             newDeck.setNameDeck(nameDeck);
             newDeck.setUser(user); 
             deckDAO.save(newDeck);
@@ -38,6 +39,7 @@ public class DeckService {
             Deck existingDeck = deckDAO.findById(deckId.get())
                 .orElseThrow(() -> new RuntimeException("Deck non trovato"));
             
+            deckImg.ifPresent(existingDeck::setDeckImg);
             existingDeck.setNameDeck(nameDeck); 
             deckDAO.save(existingDeck);
         }
