@@ -55,11 +55,6 @@ public class CardController {
         @RequestParam(defaultValue = "false") boolean desc,
         @RequestParam(defaultValue = "1") int blocco){
 		
-	    
-	    if(blocco < 1) {
-	    	blocco = 1;
-	    }
-	    
 		User user = userService.userCheck(principal);
 		
 		HashMap<String, String> param = new HashMap<String, String>();
@@ -86,9 +81,17 @@ public class CardController {
 	 	
 	 	
 	 	
-	 	List<Card> allCards = cardService.getCardsByPage(cards,page, size);
+	 	List<Card> allCards = cardService.getCardsByPage(cards,page -1, size);
 	 	
 	    int totalPages = (int) Math.ceil((double) cards.size() / size);
+	    
+	    if (page < 1) 
+	    {
+	        page = 1;  // Imposta alla prima pagina se l'indice è inferiore a 1
+	    } else if (page > totalPages) 
+	    {
+	        page = totalPages;  // Imposta all'ultima pagina se l'indice è superiore al massimo
+	    }
 
 	    // Gestione dei blocchi di pagine (15 pagine per blocco)
 	    int bloccoDimensione = 5;
