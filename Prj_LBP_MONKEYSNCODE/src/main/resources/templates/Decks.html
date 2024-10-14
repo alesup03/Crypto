@@ -20,6 +20,12 @@
         .card-title {
             font-size: 1.25rem; /*dimensione testo */
         }
+        .deck-img {
+		    width: 100%; /* Assicurati che l'immagine riempia completamente il contenitore */
+		    height: 570px; /* Altezza fissa per tutte le immagini */
+		    object-fit: cover; /* Ritaglia l'immagine per adattarsi al contenitore */
+		    border-radius: 8px; /* Arrotonda gli angoli */
+		}
     </style>
 </head>
 <body>
@@ -68,9 +74,8 @@
                             <div class="card h-100">
                                 <!-- Aggiungi lo stesso percorso al tag <a> -->
                                 <a th:href="@{/decks/yourdeck/1/{deckId}(deckId=${deck.id})}">
-                                    <!-- Immagine che punta allo stesso percorso -->
-                                    <img src="/mazzisfondo.jpg" class="card-img-top" alt="Deck Image">
-                                </a>
+			                        <img th:src="@{${deck.deckImg.imgDeckPath}}" alt="Deck Image" class="img-fluid deck-img" onerror="this.onerror=null; this.src='path/to/default/image.jpg';">
+			                    </a>
                                 <div class="card-body"
                                      th:class="${deck.valid ? 'bg-valid' : 'bg-invalid'}">
                                     <div class="d-flex justify-content-between align-items-center">

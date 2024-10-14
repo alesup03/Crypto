@@ -33,6 +33,10 @@ public class Deck {
 	@ManyToOne
 	@JoinColumn(name="user_id")
 	private User user;
+	
+	@ManyToOne
+    @JoinColumn(name = "deckImg_id")
+    private DeckImg deckImg;
 
 	public Long getId() {
 		return id;
@@ -58,6 +62,12 @@ public class Deck {
 		this.user = user;
 	}
 	
+	public DeckImg getDeckImg() {
+		return deckImg;
+	}
+	public void setDeckImg(DeckImg deckImg) {
+		this.deckImg = deckImg;
+	}
 	
 	
 }
