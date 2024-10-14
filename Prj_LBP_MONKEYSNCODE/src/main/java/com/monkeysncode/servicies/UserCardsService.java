@@ -23,6 +23,17 @@ public class UserCardsService {
 		public List<UserCards> getUserCollection(String userId){
 			return dao.findByUserId(userId);
 		}
+		
+		//ritorna una lista di id delle carte possedute dall'utente
+		public List<String> getCollectionById(String userId){
+			List<UserCards> userCards = dao.findByUserId(userId);
+			List<String> ids = new ArrayList<String>();
+			for (UserCards userCard : userCards) {
+				ids.add(userCard.getCard().getId());
+			}
+			return ids;
+		}
+		//ritorna la lista delle carte possedute, ordinata per un certo parametro
 		public List<Card> getSortedCollection(String userId, String sort, boolean desc){
 			List<UserCards> userCards = dao.findByUserId(userId);
 			List<Card> cards = new ArrayList<Card>();

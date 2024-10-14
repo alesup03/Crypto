@@ -370,8 +370,9 @@
                 <div class="card-buttons">
                     <!-- Bottone per aggiungere la carta alla collezione -->
                     <button class="btn add-to-collection" th:data-card-id="${card.id}" style="background-color: green;"><i class="bi bi-plus-lg"></i></button>
-                    <!-- Nuovo bottone per visualizzare i dettagli -->
+                    <!-- Bottone per rimuovere la carta dalla collezione-->
                     <a th:href="@{/card/{cardId}(cardId=${card.id})}">
+                    	<button th:if=${owned} class="btn" th:data-card-id="${card.id}" style="background-color: grey;"><i class="bi bi-dash-lg"></i></button>
                     	<button class="btn remove" th:data-card-id="${card.id}" style="background-color: red;"><i class="bi bi-dash-lg"></i></button>
                 	</a>
                 </div>
@@ -395,6 +396,7 @@
         var desc = "[[${param.desc}]]";
         var types = "[[${param.types}]]";
         var owned = "[[${param.owned}]]";
+        var collection = "[[${ownedCards}]]";
         
         //usate per settare i valori della precedente ricerca nel form
 		document.getElementById("name").value = name;
@@ -455,7 +457,8 @@
     $('.remove').click(function (event) {
         event.preventDefault(); // Impedisce il comportamento predefinito del link
         var cardId = $(this).data('card-id');
-
+        
+        if (collection.includes(cardId)){
         // Invio richiesta AJAX per rimuovere la carta dalla collezione
         $.post('/collection/remove', { cardId: cardId })
             .done(function (data) {
@@ -470,6 +473,16 @@
             .fail(function () {
                 alert('Errore durante la rimozione della carta.');
             });
+        }
+        else {
+            Toast.fire({
+                    icon: "question",
+                    title: "Carta non presente"
+                });
+                setTimeout(function () {
+                    location.reload();  // Ricarica la pagina per aggiornare il numero di carte possedute
+                }, 2000);
+        }
     });
 });
 
