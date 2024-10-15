@@ -162,6 +162,9 @@ public class UserService  implements UserDetailsService{
     public User findByName(String name) {
         return userDAO.findByEmail(name).orElse(null);
     }
+    public User findById(String Id) {
+        return userDAO.findById(Id).orElse(null);
+    }
     public void DeleteUser(String id) throws UsernameNotFoundException {
         // Controlla se l'utente esiste
         User user = userDAO.findById(id).orElseThrow(() -> new UsernameNotFoundException("Utente non trovato"));
@@ -247,6 +250,17 @@ public class UserService  implements UserDetailsService{
             return user.get().getRoles(); // Return the roles associated with the user
         }
         throw new EntityNotFoundException("User not found with ID: " + idUser);
+    }
+    
+    public void updateNickname(String userId, String newNickname) { 
+        User user = userDAO.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+       
+        if (newNickname == null || newNickname.trim().isEmpty()) {
+            throw new IllegalArgumentException("Il nickname non può essere vuoto.");
+        }
+      
+        user.setName(newNickname);
+        userDAO.save(user);
     }
 
 }

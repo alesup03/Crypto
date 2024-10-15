@@ -97,7 +97,7 @@
     </style>
 </head>
 <body>
-  <!-- navBar -->
+ <!-- Inizio sezione navBar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
     <div class="container-fluid">
         <a class="navbar-brand" href="http://localhost:8080">
@@ -123,7 +123,7 @@
             </ul>
             <div class="ms-auto d-flex align-items-center">
 
-                <a class="nav-link" href="http://localhost:8080/profile" th:text="'Benvenuto, ' + ${session.name}" style="margin-right: 15px;">User</a>
+                <a id="userGreeting" class="nav-link" href="http://localhost:8080/profile" th:text="'Benvenuto, ' + ${session.name}" style="margin-right: 15px;">User</a>
                 
                 <a href="http://localhost:8080/logout" class="btn btn-outline-danger" style="transition: background-color 0.3s, color 0.3s;">Logout</a>
             
@@ -131,9 +131,9 @@
         </div>
     </div>
 </nav>
-<!-- navBar -->
+<!-- Fine sezione navBar -->
 
-<!-- Profilo Utente -->
+<!-- Inizio sezione Profilo Utente -->
 <div class="container profile-container mt-5">
 
     <div class="row mt-4">
@@ -150,7 +150,16 @@
                             <i class="fas fa-edit" style="font-size: 1.2rem;"></i>
                         </a>
                     </div>
-                    <h1 class="text-center section-title"><span th:text="${username}"></span></h1>
+                    <!-- Nickname profilo -->
+                    <h1 class="text-center section-title">
+					    <span id="username" th:text="${username}"></span> <!-- Change made here -->
+					    <button id="editNicknameBtn" class="btn btn-link ms-2" onclick="editNickname()">Modifica</button>
+					</h1>
+					<div id="nicknameEditSection" style="display: none;">
+					    <input type="text" id="newNickname" placeholder="Nuovo nickname" class="form-control" style="width: 200px; display: inline-block;">
+					    <button class="btn btn-primary" onclick="saveNickname()">Salva</button>
+					    <button class="btn btn-secondary" onclick="cancelEdit()">Annulla</button>
+					</div>
                 </div>
             </div>
         </div>
@@ -181,6 +190,7 @@
             </div>
         </div>
     </div>
+    <!-- Bottone per vedere la colleziona -->
     <div class="text-center mt-4">
     	<a href="/cards?owned=true&from=myCollection" class="btn btn-success" id="myCollectionBtn" data-title="La mia collezione">La mia collezione</a>
 	</div>
@@ -192,9 +202,13 @@
                 <div class="card-body">
                     <h3 class="card-title section-title">Dettagli Utente</h3>
                     <p>Email: <span th:text="${email}"></span></p>
+                    
+                    <!-- Cambio password -->
                     <div th:if="${user.password} != null">
                         <a href="/profile/change-password" class="btn btn-secondary">Cambia Password</a>
                     </div>
+                    
+                    <!-- Elimina profilo -->
                     <a href="/profile/delete" class="btn btn-danger">Cancella Account</a>
                     <div th:if="${param.accountDeleted}" class="alert alert-success mt-3">
                         Il tuo account è stato cancellato con successo. Puoi registrarti nuovamente in qualsiasi momento.
@@ -204,7 +218,57 @@
         </div>
     </div>
 </div>
+<!-- Fine sezione Profilo Utente -->
+<!-- Inizio script -->
+<script>
+	//Mostra la parte per modificare il nickname e recupera il nome attuale
+	function editNickname() {
+	    const currentNickname = document.getElementById('username').innerText;
+	    document.getElementById('newNickname').value = currentNickname;
+	    document.getElementById('nicknameEditSection').style.display = 'block';
+	    document.getElementById('editNicknameBtn').style.display = 'none';
+	}
+	
+	//Salva il nuovo nickname, invia la richiesta al server e aggiorna l'interfaccia utente
+	function saveNickname() {
+	    const newNickname = document.getElementById('newNickname').value;
 
+	    fetch('/profile/update-nickname', {
+	        method: 'POST',
+	        headers: {
+	            'Content-Type': 'application/json'
+	        },
+	        body: JSON.stringify({ nickname: newNickname })
+	    })
+	    .then(response => {
+	        if (response.ok) {
+	            return response.text(); // Restituisci solo il nickname
+	        } else {
+	            return response.text().then(text => {
+	                throw new Error('Response not OK: ' + text); // Log del contenuto della risposta
+	            });
+	        }
+	    })
+	    .then(updatedNickname => {
+	        // Aggiorna l'interfaccia utente con il nuovo nickname
+	        document.getElementById('username').innerText = updatedNickname;
+	        document.getElementById('userGreeting').innerText = 'Benvenuto, ' + updatedNickname;
+
+	        document.getElementById('nicknameEditSection').style.display = 'none';
+	        document.getElementById('editNicknameBtn').style.display = 'inline';
+	    })
+	    .catch(error => {
+	        console.error('Ci sono stati problemi durante la richiesta: ', error);
+	    });
+	}
+	
+	//Nasconde la parte per editare il nome
+	function cancelEdit() {
+	    document.getElementById('nicknameEditSection').style.display = 'none';
+	    document.getElementById('editNicknameBtn').style.display = 'inline';
+	}
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Fine script -->
 </body>
 </html>

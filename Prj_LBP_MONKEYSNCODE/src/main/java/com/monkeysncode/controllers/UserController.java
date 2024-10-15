@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -30,6 +31,7 @@ import com.monkeysncode.entites.UserImg;
 import com.monkeysncode.servicies.UserImgService;
 import com.monkeysncode.servicies.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -184,6 +186,40 @@ public class UserController
         Matcher matcher = pattern.matcher(password);
         return matcher.matches();
     }
+    
+    //Modifica del nickname
+    @GetMapping("/profile")
+    public String getProfile(Model model, @AuthenticationPrincipal Object principal, HttpServletRequest request) {
+        User user = userService.userCheck(principal);
+        String nickname = (String) request.getSession().getAttribute("name");
 
+        if (nickname == null) {
+            nickname = user.getName();
+        }
+
+        model.addAttribute("username", nickname);
+        return "profile";
+    }
+    
+    @PostMapping("/update-nickname")
+    public ResponseEntity<String> updateNickname(@AuthenticationPrincipal Object principal,
+                                                 @RequestBody Map<String, String> requestBody,
+                                                 HttpServletRequest request) {
+        User user = userService.userCheck(principal);
+        String newNickname = requestBody.get("nickname");
+
+        if (newNickname == null || newNickname.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("Il nickname non può essere vuoto.");
+        }
+
+        try {
+            userService.updateNickname(user.getId(), newNickname);
+            request.getSession().setAttribute("name", newNickname);
+
+            return ResponseEntity.ok(newNickname);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Errore durante l'aggiornamento del nickname.");
+        }
+    }
 
 }
