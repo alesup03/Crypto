@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -34,6 +35,11 @@ public class UserService  implements UserDetailsService{
 	private final DeckDAO deckDAO;
 	private final DeckCardDAO deckCardDAO;
 	private final PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private DeckService deckService;
+	@Autowired
+	private DeckCardsService deckCardsService;
 	
 
 
@@ -163,26 +169,25 @@ public class UserService  implements UserDetailsService{
         // Elimina i mazzi collegati all'utente
         if (user.getDecks() != null) {
             for (Deck deck : user.getDecks()) {
-                // Rimuove le carte dal mazzo prima di eliminare il mazzo stesso
-                List<DeckCards> deckCards = deckCardDAO.findByDeck(deck);
-                if (deckCards != null) {
-                    for (DeckCards deckCard : deckCards) {
-                        deckCardDAO.delete(deckCard); // Elimina ogni carta dal mazzo
-                    }
-                }
-                deckDAO.delete(deck); // Elimina il mazzo
+            	deckCardsService.deleteCardsFromDeck(deck.getId());
+            	deckService.DeleteDeck(deck.getId());
             }
+
         }
+
         
         // Elimina le UserCards collegate all'utente
         List<UserCards> userCards = userCardDAO.findByUserId(id);
         if (userCards != null) {
             for (UserCards card : userCards) {
+            	System.out.println("la carta è: "+ card.getId());
                 userCardDAO.delete(card); 
             }
         }
         user.getRoles().clear();
+        user.getDecks().clear();
         userDAO.save(user);
+
         userDAO.deleteById(id);
     }
 

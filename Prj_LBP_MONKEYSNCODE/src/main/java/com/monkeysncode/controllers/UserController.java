@@ -159,6 +159,7 @@ public class UserController
     @PostMapping("/delete")
     public String deleteUser(@RequestParam String userId) {
             userService.DeleteUser(userId);
+            System.out.println("è arrivato al controller");
             return "redirect:/logout";
         
     }
