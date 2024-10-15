@@ -1,6 +1,8 @@
 package com.monkeysncode.servicies;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -22,9 +24,62 @@ public class CardService {
 	}
 	
 	public List<Card> findAllSorted(String sort, boolean desc){
-		if(desc)
-		return cardDAO.findAll(Sort.by(Sort.Direction.DESC, sort));
-		else return cardDAO.findAll(Sort.by(Sort.Direction.ASC, sort));
+		List<Card> cards =cardDAO.findAll();
+		Comparator<Card> comparator;
+		if(sort.equals("level")) {
+	        	comparator = Comparator.comparingInt(card -> {
+	                String level = card.getLevel();
+	                // If the level is empty or invalid, use a default value (e.g., 0)
+	            	if(level.isEmpty() && (card.getSupertypes().equals("Trainer") || card.getSupertypes().equals("Energy") ))
+	            		return 0;
+	            	else {
+	            		if(level.isEmpty())
+	            			return 1;
+	            		if(level.equalsIgnoreCase("X"))
+	            			return 1000;
+	            	}
+	            	try {
+	            	    return Integer.parseInt(level);
+	            	} catch (NumberFormatException e) {
+	            	    return 0; // O un altro valore predefinito
+	            		}
+	            	});
+	        	comparator = comparator.reversed();
+        	if (desc) {
+	            comparator = comparator.reversed();
+	        }
+
+	        Collections.sort(cards, comparator);
+	        return cards;
+	    }
+	          
+		if(sort.equals("nationalPokedexNumbers")) {
+	            comparator = Comparator.comparingInt(card -> {
+	                String nationalPokedexNumbers = card.getNationalPokedexNumbers();
+	                // If the level is empty or invalid, use a default value (e.g., 0)
+	            	if(nationalPokedexNumbers.isEmpty() && (card.getSupertypes().equals("Trainer") || card.getSupertypes().equals("Energy") ))
+	            		return 1000;
+	            	try {
+	            	    return Integer.parseInt(nationalPokedexNumbers);
+	            	} catch (NumberFormatException e) {
+	            	    return 1000; // O un altro valore predefinito
+	            		}
+	                }); 
+
+	        	
+	        	if (desc) {
+		            comparator = comparator.reversed();
+		        }
+
+		        Collections.sort(cards, comparator);
+		        return cards;
+		        
+		}
+		else {
+			if(desc)
+			return cardDAO.findAll(Sort.by(Sort.Direction.DESC, sort));
+			else return cardDAO.findAll(Sort.by(Sort.Direction.ASC, sort));
+		}
 	}
 	
 	public List<Card> findByName(String name){

@@ -67,6 +67,7 @@ public class UserCardsService {
                     	}
                         return Integer.parseInt(level);
 	                    }); 
+	            	comparator = comparator.reversed();
 	                break;
 	            case "nationalPokedexNumbers":
 	                comparator = Comparator.comparingInt(card -> {
