@@ -89,7 +89,7 @@
     <h2>Carte nel Mazzo</h2>
     <div class="bg-light border rounded p-5 shadow-lg my-5"> <!-- Aggiunto p-5 e my-5 -->
         <div class="row" id="deckCards">
-            <div class="col-2" th:each="deckCard : ${deckCards}">
+            <div class="col-1" style =" width: 100%; max-width: 200px;" th:each="deckCard : ${deckCards}">
                 <div class="card mb-3 remove-card" style="cursor: pointer;" th:data-deck-id="${deckId}" th:data-card-id="${deckCard.card.id}">
                     <img th:src="@{${deckCard.card.img}}" class="card-img-top" alt="Carta" style="width: 120%; height: auto;">
                 </div>
@@ -428,16 +428,16 @@
 
 <h2 class="text-center mb-3">Tutte le Carte</h2>
 
-
 <div class="container-fluid bg-light border rounded p-4 shadow-sm overflow-hidden"> <!-- Aggiunto overflow-hidden -->
     <div class="row g-3" id="allCards"> <!-- Rimosso mx-n1 -->
-        <div class="col-2" th:each="card : ${cards}">
-            <div class="card mb-3 add-card" style="cursor: pointer;" th:data-deck-id="${deckId}" th:data-card-id="${card.id}">
-                <img th:src="@{${card.img}}" class="card-img-top" alt="Carta" style="width: 100%; height: auto;">
+        <div class="col-7 col-sm-5 col-md-3 col-lg-2" th:each="card : ${cards}"> <!-- Aggiunte classi responsive -->
+            <div class="card mb-3 add-card" style="cursor: pointer; width: 100%; max-width: 250px;" th:data-deck-id="${deckId}" th:data-card-id="${card.id}">
+                <img th:src="@{${card.img}}" class="card-img-top img-fluid" alt="Carta"> <!-- Aggiunto img-fluid -->
             </div>
         </div>
     </div>
 </div>
+
 
 <!-- Script per gestire le operazioni asincrone -->
     <script>
