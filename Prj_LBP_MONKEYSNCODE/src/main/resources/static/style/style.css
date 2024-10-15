@@ -67,9 +67,10 @@ body::-webkit-scrollbar {
 }
 
 #blob-1 {
-  height: 100%;
-  top: -50px;
-  width: 550px;  
+  height: 85vh;
+  top: 0;
+  width: auto;
+  max-width: 550px; 
 }
 
 #blob-2 {
