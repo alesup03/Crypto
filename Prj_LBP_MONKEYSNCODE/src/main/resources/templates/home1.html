@@ -64,15 +64,6 @@
         <a th:if="${session.name}!=null" href="http://localhost:8080/deckRules" class="bottone-menu" data-translate="regolamento"></a>
       </div>
     </div>
-    <div th:if="${session.name}!=null" class="logged-on">
-                    <div class="ms-auto d-flex align-items-center">
-
-                        <a class="nav-link" href="http://localhost:8080/profile" th:text="'Benvenuto, ' + ${session.name}" style="margin-right: 15px;">User</a>
-                        
-                        <a href="http://localhost:8080/logout" class="btn btn-outline-danger" style="transition: background-color 0.3s, color 0.3s;">Logout</a>
-                    
-                    </div>
-                </div>
     <div th:if="${session.name}==null" class="modal-finestra" id="modal-accesso">
       <div>
         <img src="/image/blob-medio.svg" alt="">
