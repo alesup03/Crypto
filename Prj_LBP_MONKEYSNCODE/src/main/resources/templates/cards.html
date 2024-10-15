@@ -312,7 +312,7 @@
 </div>
 
     <!-- Sezione per la paginazione, mostrata solo se ci sono più di 30 carte -->
-<div class="d-flex justify-content-center my-3"> 
+	<div class="d-flex justify-content-center my-3"> 
 
     <!-- Link "Vai alla Prima pagina" -->
     <a th:if="${currentPage > 1}" 
@@ -382,11 +382,10 @@
     </div>
     <div class="col-2"></div>
 </div>
-    
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
+<!-- Inizio script -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
         //variabili passate alla pagina in forma di hashmap
         var name = "[[${param.name}]]";
         var set = "[[${param.set}]]";
@@ -486,29 +485,27 @@
         }
     });
 });
+//Mostra la pagina della collezione personale
+ document.addEventListener("DOMContentLoaded", function () {
+     // Ottieni l'URL della pagina
+     const urlParams = new URLSearchParams(window.location.search);
+     const fromCollection = urlParams.get('from');
+  	
+     // Cambia il titolo della pagina solo se 'from=myCollection' è presente
+     if (fromCollection === 'myCollection') {
+         document.title = "Collezione";
+         document.querySelector("h1").textContent = "Collezione";
 
-		
-    </script>
-    <script>
-	    document.addEventListener("DOMContentLoaded", function () {
-	        // Ottieni l'URL della pagina
-	        const urlParams = new URLSearchParams(window.location.search);
-	        const fromCollection = urlParams.get('from'); // Rileva il parametro 'from'
-	     	
-	        // Cambia il titolo della pagina solo se 'from=myCollection' è presente
-	        if (fromCollection === 'myCollection') {
-	            document.title = "Collezione"; // Cambia il titolo della pagina
-	            document.querySelector("h1").textContent = "Collezione"; // Cambia il titolo visivo
-	
-	            // Nascondi il filtro per le carte "owned"
-	            const ownedFilter = document.getElementById('owned-filter');
-	            if (ownedFilter) {
-	                ownedFilter.style.display = 'none'; // Nascondi il div del filtro
-	            }
-	        }
-	    });
-	</script>
-    <script src="/script/script_cards.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+         // Nascondi il filtro per le carte "owned"
+         const ownedFilter = document.getElementById('owned-filter');
+         if (ownedFilter) {
+             ownedFilter.style.display = 'none';
+         }
+     }
+ });
+</script>
+<script src="/script/script_cards.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Fine script -->
 </body>
 </html>
