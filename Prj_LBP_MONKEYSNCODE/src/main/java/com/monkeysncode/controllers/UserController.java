@@ -1,8 +1,10 @@
 package com.monkeysncode.controllers;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import java.util.List;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 import java.util.Optional;
 
 import java.util.Map;
@@ -38,6 +40,9 @@ public class UserController
 	private UserService userService;
 	@Autowired
 	private UserImgService imgService;
+	
+	// Variabile statica per la validazione 
+	private static final String REGEX_CHANGE_PASSWORD = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
 	
 	Deck deck = new Deck();
 	
@@ -108,6 +113,7 @@ public class UserController
         	model.addAttribute("passNULL",false);
         }
         else model.addAttribute("passNULL",true);
+        
         return "changePassword"; 
     }
     
@@ -128,6 +134,13 @@ public class UserController
                 redirectAttributes.addFlashAttribute("error", "Le nuove password non corrispondono.");
                 return "redirect:/profile/change-password";
             }
+            
+            // Validazione della nuova password con regex
+            if (!isValidChangePassword(newPassword)) {
+                redirectAttributes.addFlashAttribute("error", "La nuova password deve contenere almeno 8 caratteri, una lettera maiuscola, minuscola, numero e carattere speciale");
+                return "redirect:/profile/change-password";
+            }
+
 
             userService.changePassword(user.getId(), oldPassword, newPassword);
 
@@ -162,6 +175,14 @@ public class UserController
             System.out.println("è arrivato al controller");
             return "redirect:/logout";
         
+    }
+    
+    // Metodo per la validazione della password con regex
+    private boolean isValidChangePassword(String password) 
+    {
+        Pattern pattern = Pattern.compile(REGEX_CHANGE_PASSWORD);
+        Matcher matcher = pattern.matcher(password);
+        return matcher.matches();
     }
 
 
