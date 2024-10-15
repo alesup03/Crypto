@@ -100,7 +100,7 @@
           <form action="/register" method="post">
             <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
             <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+            <input th:text="${exist}" type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
             <button type="submit" data-translate="registrati"></button>
             <button type="button" class="bottone-chiudi" onclick="chiudiModal('modal-registrazione')">Chiudi</button>
           </form>
