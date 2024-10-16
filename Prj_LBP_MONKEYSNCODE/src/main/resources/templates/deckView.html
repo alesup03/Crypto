@@ -27,6 +27,11 @@
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Aggiungi un'ombra */
 
         }
+        .card:hover{
+        	position: relative;
+        	transform:scale(1.5);
+        	z-index: 100;
+        }
         .filter-menu.active {
             display: flex;
             flex-wrap: wrap;
@@ -428,7 +433,6 @@
 
 <h2 class="text-center mb-3">Tutte le Carte</h2>
 
-
 <div class="container-fluid bg-light border rounded p-4 shadow-sm overflow-hidden"> <!-- Aggiunto overflow-hidden -->
     <div class="row g-3" id="allCards"> <!-- Rimosso mx-n1 -->
         <div class="col-2" th:each="card : ${cards}">
@@ -438,6 +442,9 @@
         </div>
     </div>
 </div>
+<div class="col-1"></div>
+</div>
+
 
 <!-- Script per gestire le operazioni asincrone -->
     <script>
