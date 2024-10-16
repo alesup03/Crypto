@@ -6,44 +6,45 @@
     <title>Create Deck</title>
     <link rel="icon" sizes="48x48" href="/icona_pokedecks.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-	<style>
-		/* Container delle immagini in flexbox */
-		.image-selection-container {
-		    display: flex;
-		    flex-wrap: wrap;
-		    gap: 15px;
-		}
-		
-		/* Singola opzione immagine */
-		.image-option {
-		    display: flex;
-		    flex-direction: column;
-		    align-items: center;
-		    width: 120px;
-		}
-		
-		/* Immagini dei deck */
-		.deck-img {
-		    width: 100px;
-		    height: auto;
-		    border-radius: 8px;
-		    transition: transform 0.3s ease, box-shadow 0.3s ease;
-		    cursor: pointer;
-		}
-		
-		/* Effetto hover */
-		.deck-img:hover {
-		    transform: scale(1.1); /* Ingrandisce leggermente l'immagine */
-		    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-		}
-		
-		/* Evidenzia l'immagine selezionata con un bordo */
-		.deck-img.selected {
-		    border: 4px solid #28a745; /* Colore verde per la selezione */
-		    transform: scale(1.1); /* Ingrandisce leggermente l'immagine */
-		    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-		}
-	</style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <style>
+        /* Container delle immagini in flexbox */
+        .image-selection-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        /* Singola opzione immagine */
+        .image-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 120px;
+        }
+        
+        /* Immagini dei deck */
+        .deck-img {
+            width: 100px;
+            height: auto;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        
+        /* Effetto hover */
+        .deck-img:hover {
+            transform: scale(1.1); /* Ingrandisce leggermente l'immagine */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Evidenzia l'immagine selezionata con un bordo */
+        .deck-img.selected {
+            border: 4px solid #28a745; /* Colore verde per la selezione */
+            transform: scale(1.1); /* Ingrandisce leggermente l'immagine */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+    </style>
 </head>
 <body>
     <!-- navBar -->
@@ -85,25 +86,25 @@
     <div class="container mt-5">
         <h1 class="text-center">Crea un nuovo mazzo!</h1>
 
-        <form th:action="@{/decks/create}" method="POST">
+        <form th:action="@{/decks/create}" method="POST" onsubmit="return validateForm()">
             <div class="mb-3">
                 <label for="deckName" class="form-label">Nome del mazzo</label>
-                <input type="text" class="form-control" id="deckName" name="deckName" required>
-		        <label for="deckImgId" class="form-label mt-3">Seleziona immagine di copertina:</label>
-		        
-		        <!-- Campo nascosto per salvare l'ID dell'immagine selezionata -->
-		        <input type="hidden" id="selectedDeckImgId" name="deckImgId" required>
-		        
-		        <!-- Container per le immagini -->
-		        <div class="image-selection-container d-flex flex-wrap justify-content-start mt-3">
-		            <div th:each="img : ${images}" class="image-option">
-		                <label class="text-center">
-		                    <!-- Immagine con click per selezionare -->
-		                    <img th:src="${img.imgDeckPath}" th:data-id="${img.id}" class="deck-img" alt="Immagine deck" onclick="selectImage(this)">
-		                </label>
-		            </div>
-		        </div>
-		    </div>
+                <input type="text" class="form-control" id="deckName" name="deckName">
+                <label for="deckImgId" class="form-label mt-3">Seleziona immagine di copertina:</label>
+                
+                <!-- Campo nascosto per salvare l'ID dell'immagine selezionata -->
+                <input type="hidden" id="selectedDeckImgId" name="deckImgId" required>
+                
+                <!-- Container per le immagini -->
+                <div class="image-selection-container d-flex flex-wrap justify-content-start mt-3">
+                    <div th:each="img : ${images}" class="image-option">
+                        <label class="text-center">
+                            <!-- Immagine con click per selezionare -->
+                            <img th:src="${img.imgDeckPath}" th:data-id="${img.id}" class="deck-img" alt="Immagine deck" onclick="selectImage(this)">
+                        </label>
+                    </div>
+                </div>
+            </div>
             <div class="text-center">
                 <button type="submit" class="btn btn-success">Crea mazzo</button>
             </div>
@@ -113,22 +114,76 @@
             <a href="/decks" class="btn btn-secondary">Indietro ai tuoi mazzi</a>
         </div>
     </div>
-	<script>
-	    function selectImage(imgElement) {
-	        // Rimuove la classe 'selected' da tutte le immagini
-	        const images = document.querySelectorAll('.deck-img');
-	        images.forEach(image => image.classList.remove('selected'));
-	
-	        // Aggiunge la classe 'selected' all'immagine cliccata
-	        imgElement.classList.add('selected');
-	
-	        // Ottiene l'ID dell'immagine selezionata
-	        const selectedImgId = imgElement.getAttribute('data-id');
-	        
-	        // Imposta l'ID nel campo nascosto
-	        document.getElementById('selectedDeckImgId').value = selectedImgId;
-	    }
-	</script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function selectImage(imgElement) {
+        // Rimuove la classe 'selected' da tutte le immagini
+        const images = document.querySelectorAll('.deck-img');
+        images.forEach(image => image.classList.remove('selected'));
+
+        // Aggiunge la classe 'selected' all'immagine cliccata
+        imgElement.classList.add('selected');
+
+        // Ottiene l'ID dell'immagine selezionata
+        const selectedImgId = imgElement.getAttribute('data-id');
+        
+        // Imposta l'ID nel campo nascosto
+        document.getElementById('selectedDeckImgId').value = selectedImgId;
+    }
+
+    function validateForm() {
+        const selectedImgId = document.getElementById('selectedDeckImgId').value;
+        const deckName = document.getElementById('deckName').value;
+
+        // Controlla se il campo "Nome del mazzo" è vuoto
+        if (!deckName) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Nome del mazzo mancante',
+                text: 'Per favore, inserisci un nome per il mazzo prima di continuare.',
+                toast: false,
+                position: 'center',
+                showConfirmButton: false, // Nasconde il pulsante OK
+                timer: 5000, // Scompare automaticamente dopo 5 secondi
+                timerProgressBar: false, // Rimuove la barra di progresso
+                allowOutsideClick: true, // Chiude l'alert cliccando ovunque
+                allowEscapeKey: true,   // Chiude l'alert con il tasto ESC
+                allowEnterKey: true,    // Chiude l'alert con il tasto ENTER
+                didOpen: (popup) => {
+                    popup.addEventListener('click', () => {
+                        Swal.close(); // Chiude l'alert cliccando al suo interno
+                    });
+                }
+            });
+            return false; // Previene l'invio del modulo
+        }
+
+        // Controlla se l'immagine è selezionata
+        if (!selectedImgId) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Nessuna immagine selezionata',
+                text: 'Per favore, seleziona un\'immagine per il mazzo prima di continuare.',
+                toast: false,
+                position: 'center',
+                showConfirmButton: false, // Nasconde il pulsante OK
+                timer: 5000, // Scompare automaticamente dopo 5 secondi
+                timerProgressBar: false, // Rimuove la barra di progresso
+                allowOutsideClick: true, // Chiude l'alert cliccando ovunque
+                allowEscapeKey: true,   // Chiude l'alert con il tasto ESC
+                allowEnterKey: true,    // Chiude l'alert con il tasto ENTER
+                didOpen: (popup) => {
+                    popup.addEventListener('click', () => {
+                        Swal.close(); // Chiude l'alert cliccando al suo interno
+                    });
+                }
+            });
+            return false; // Previene l'invio del modulo
+        }
+
+        return true; // Permette l'invio del modulo
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

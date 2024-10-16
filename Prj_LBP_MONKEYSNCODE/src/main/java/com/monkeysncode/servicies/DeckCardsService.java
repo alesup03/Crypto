@@ -115,9 +115,12 @@ public class DeckCardsService {
         }
 
         return formattedErrors.toString();
-    }public String validateDeck(Long deckId, User user) {
+    	}
+    
+    public String validateDeck(Long deckId, User user) {
         List<DeckCards> deckCards = getDeckCards(deckId);
         List<String> violations = new ArrayList<>(); // Lista per raccogliere le violazioni
+        List<String> missingCards = new ArrayList<>(); // Lista per le carte non possedute dall'utente
 
         // Controllo se il mazzo è vuoto
         if (deckCards.isEmpty()) {
@@ -150,17 +153,17 @@ public class DeckCardsService {
             }
 
             // Conto le copie delle carte, escludendo il tipo "Energy" dal limite di 4 copie
-            
             String cardType = card.getSupertypes();
 
             if (!"Energy".equals(cardType)) {
                 cardCountMap.put(cardName, cardCountMap.getOrDefault(cardName, 0) + deckCard.getCardQuantity());
             }
+
             // Controllo se l'utente ha abbastanza copie della carta
             int userCardQuantity = userCardsService.getQuantityByCardUser(user, card); // Usa l'oggetto user
 
             if (userCardQuantity < deckCard.getCardQuantity()) {
-                violations.add("Non possiedi abbastanza copie della carta " + cardName + ". Ne hai: " + userCardQuantity + ", ne vuoi mettere: " + deckCard.getCardQuantity());
+                missingCards.add(cardName); // Aggiungi il nome della carta non posseduta
             }
         }
 
@@ -187,9 +190,19 @@ public class DeckCardsService {
             violations.add("Alcune evoluzioni non hanno il Pokémon base corrispondente: " + String.join(", ", missingBases));
         }
 
+        // Se ci sono carte mancanti, aggiungi il messaggio personalizzato
+        if (!missingCards.isEmpty()) {
+            if (missingCards.size() == 1) {
+                violations.add("Nel mazzo è presente " + missingCards.get(0) + " che non hai ancora nella tua collezione.");
+            } else {
+                violations.add("Nel mazzo sono presenti carte che non hai nella tua collezione."); 
+            }
+        }
+
         // Restituisci la lista delle violazioni con formattazione ordinata
         return formatValidationErrors(violations);
     }
+
 
 
 

@@ -64,15 +64,6 @@
         <a th:if="${session.name}!=null" href="http://localhost:8080/deckRules" class="bottone-menu" data-translate="regolamento"></a>
       </div>
     </div>
-    <div th:if="${session.name}!=null" class="logged-on">
-                    <div class="ms-auto d-flex align-items-center">
-
-                        <a class="nav-link" href="http://localhost:8080/profile" th:text="'Benvenuto, ' + ${session.name}" style="margin-right: 15px;">User</a>
-                        
-                        <a href="http://localhost:8080/logout" class="btn btn-outline-danger" style="transition: background-color 0.3s, color 0.3s;">Logout</a>
-                    
-                    </div>
-                </div>
     <div th:if="${session.name}==null" class="modal-finestra" id="modal-accesso">
       <div>
         <img src="/image/blob-medio.svg" alt="">
@@ -100,7 +91,7 @@
           <form action="/register" method="post">
             <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
             <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+            <input th:text="${exist}" type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
             <button type="submit" data-translate="registrati"></button>
             <button type="button" class="bottone-chiudi" onclick="chiudiModal('modal-registrazione')">Chiudi</button>
           </form>

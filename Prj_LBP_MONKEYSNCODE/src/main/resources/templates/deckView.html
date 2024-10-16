@@ -544,10 +544,23 @@
                     .done(function (result) {
                         // Mostra il risultato in un popup
                         Swal.fire({
+                            icon: 'warning',
                             title: 'Risultato della Validazione',
-                            html: result, // Usa 'html' invece di 'text' per visualizzare l'output HTML
-                            icon: 'info',
-                            confirmButtonText: 'OK'
+                            html: result,
+                            toast: false,
+                            position: 'center',
+                            showConfirmButton: false, // Nasconde il pulsante OK
+                            timer: 5000, // Scompare automaticamente dopo 5 secondi
+                            timerProgressBar: false, // Rimuove la barra di progresso
+                            allowOutsideClick: true, // Chiude l'alert cliccando ovunque
+                            allowEscapeKey: true,   // Chiude l'alert con il tasto ESC
+                            allowEnterKey: true,    // Chiude l'alert con il tasto ENTER
+                            didOpen: (popup) => {
+                                // Aggiungi un gestore di eventi al popup
+                                popup.addEventListener('click', () => {
+                                    Swal.close(); // Chiude l'alert cliccando al suo interno
+                                });
+                            }
                         });
                     })
                     .fail(function () {
@@ -555,7 +568,20 @@
                             title: 'Errore',
                             text: 'Si è verificato un errore durante la validazione del mazzo.',
                             icon: 'error',
-                            confirmButtonText: 'OK'
+                            toast: false,
+                            position: 'center',
+                            showConfirmButton: false, // Nasconde il pulsante OK
+                            timer: 5000, // Scompare automaticamente dopo 5 secondi
+                            timerProgressBar: false, // Rimuove la barra di progresso
+                            allowOutsideClick: true, // Chiude l'alert cliccando ovunque
+                            allowEscapeKey: true,   // Chiude l'alert con il tasto ESC
+                            allowEnterKey: true,    // Chiude l'alert con il tasto ENTER
+                            didOpen: (popup) => {
+                                // Aggiungi un gestore di eventi al popup
+                                popup.addEventListener('click', () => {
+                                    Swal.close(); // Chiude l'alert cliccando al suo interno
+                                });
+                            }
                         });
                     });
             });

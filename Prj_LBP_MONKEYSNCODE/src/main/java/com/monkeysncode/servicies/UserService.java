@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -34,6 +35,11 @@ public class UserService  implements UserDetailsService{
 	private final DeckDAO deckDAO;
 	private final DeckCardDAO deckCardDAO;
 	private final PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private DeckService deckService;
+	@Autowired
+	private DeckCardsService deckCardsService;
 	
 
 
@@ -72,7 +78,7 @@ public class UserService  implements UserDetailsService{
                 user.setId(oauthProviderId);
             }
         } else {
-        	Optional<UserImg> imgOptional = getUserImgById((long) 4095);
+        	Optional<UserImg> imgOptional = getUserImgById((long) 5121);
             UserImg imgDefault = imgOptional.orElseThrow(() -> new RuntimeException("Image not found!"));
         	// Se non esiste, crea un nuovo utente
             user = new User();
@@ -92,7 +98,7 @@ public class UserService  implements UserDetailsService{
     	String id = UUID.randomUUID().toString();
         String name = user.getName();
         String email = user.getEmail();
-        Optional<UserImg> imgOptional = getUserImgById((long) 4095);
+        Optional<UserImg> imgOptional = getUserImgById((long) 5121);
         UserImg imgDefault = imgOptional.orElseThrow(() -> new RuntimeException("Image not found!"));
         String password=passwordEncoder.encode(user.getPassword());
         user.setId(id);
@@ -156,6 +162,9 @@ public class UserService  implements UserDetailsService{
     public User findByName(String name) {
         return userDAO.findByEmail(name).orElse(null);
     }
+    public User findById(String Id) {
+        return userDAO.findById(Id).orElse(null);
+    }
     public void DeleteUser(String id) throws UsernameNotFoundException {
         // Controlla se l'utente esiste
         User user = userDAO.findById(id).orElseThrow(() -> new UsernameNotFoundException("Utente non trovato"));
@@ -163,26 +172,25 @@ public class UserService  implements UserDetailsService{
         // Elimina i mazzi collegati all'utente
         if (user.getDecks() != null) {
             for (Deck deck : user.getDecks()) {
-                // Rimuove le carte dal mazzo prima di eliminare il mazzo stesso
-                List<DeckCards> deckCards = deckCardDAO.findByDeck(deck);
-                if (deckCards != null) {
-                    for (DeckCards deckCard : deckCards) {
-                        deckCardDAO.delete(deckCard); // Elimina ogni carta dal mazzo
-                    }
-                }
-                deckDAO.delete(deck); // Elimina il mazzo
+            	deckCardsService.deleteCardsFromDeck(deck.getId());
+            	deckService.DeleteDeck(deck.getId());
             }
+
         }
+
         
         // Elimina le UserCards collegate all'utente
         List<UserCards> userCards = userCardDAO.findByUserId(id);
         if (userCards != null) {
             for (UserCards card : userCards) {
+            	System.out.println("la carta è: "+ card.getId());
                 userCardDAO.delete(card); 
             }
         }
         user.getRoles().clear();
+        user.getDecks().clear();
         userDAO.save(user);
+
         userDAO.deleteById(id);
     }
 
@@ -242,6 +250,17 @@ public class UserService  implements UserDetailsService{
             return user.get().getRoles(); // Return the roles associated with the user
         }
         throw new EntityNotFoundException("User not found with ID: " + idUser);
+    }
+    
+    public void updateNickname(String userId, String newNickname) { 
+        User user = userDAO.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+       
+        if (newNickname == null || newNickname.trim().isEmpty()) {
+            throw new IllegalArgumentException("Il nickname non può essere vuoto.");
+        }
+      
+        user.setName(newNickname);
+        userDAO.save(user);
     }
 
 }

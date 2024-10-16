@@ -1,15 +1,66 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Regolamento</title>
     <link rel="icon" sizes="48x48" href="/icona_pokedecks.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Styling generale */
+        body {
+            background-color: #f4f4f9; /* Colore di sfondo */
+        }
+
+        .regolamento-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            color: black; /* Colore nero per i titoli */
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: #f4f4f9; /* Colore grigio chiaro per l'intestazione delle card */
+            color: black; /* Testo nero */
+        }
+
+        .list-group-item {
+            background-color: #FFF; /* Colore bianco per le voci della lista */
+        }
+
+        /* Rimuovi l'hover sulle voci delle liste */
+        .list-group-item:hover {
+            background-color: #FFF; /* Mantiene il colore bianco */
+        }
+
+        .text-success {
+            color: #32CD32; /* Verde per il testo di successo */
+        }
+
+        .text-dark-gray {
+            color: #4B4B4B; /* Grigio scuro per il testo */
+        }
+
+        .btn-outline-danger, .btn-outline-success {
+            transition: background-color 0.3s, color 0.3s; /* Transizione per i pulsanti */
+        }
+    </style>
 </head>
 <body>
     <!-- NavBar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
         <div class="container-fluid">
             <a class="navbar-brand" href="http://localhost:8080">
                 <img src="/logo.png" alt="Logo" width="150" height="50" class="d-inline-block align-text-top"> 
@@ -18,7 +69,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="http://localhost:8080/cards">Carte</a>
                     </li>
@@ -28,49 +79,66 @@
                     <li class="nav-item">
                         <a class="nav-link" href="http://localhost:8080/profile">Profilo</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="http://localhost:8080/deckRules">Regolamento</a>
+                    </li>                
                 </ul>
-                <div th:if="${session.name}!=null" class="ms-auto">
-                    <div class="ms-auto d-flex align-items-center">
-
-                        <a class="nav-link" href="http://localhost:8080/profile" th:text="'Benvenuto, ' + ${session.name}" style="margin-right: 15px;">User</a>
-                        
-                        <a href="http://localhost:8080/logout" class="btn btn-outline-danger" style="transition: background-color 0.3s, color 0.3s;">Logout</a>
-                    
+                <div class="ms-auto d-flex align-items-center">
+                    <a class="nav-link" href="http://localhost:8080/profile" th:text="'Benvenuto, ' + ${session.name}" style="margin-right: 15px;">User</a>
+                    <a href="http://localhost:8080/logout" class="btn btn-outline-danger">Logout</a>
+                    <div th:if="${session.name}==null" class="ms-auto"> 
+                        <a href="http://localhost:8080/login" class="btn btn-outline-success me-2">Login</a>
+                        <a href="http://localhost:8080/register" class="btn btn-primary">Registrati</a>
                     </div>
                 </div>
-                <div th:if="${session.name}==null" class="ms-auto"> 
-                    <a href="http://localhost:8080/login" class="btn btn-outline-success me-2" style="transition: background-color 0.3s, color 0.3s;">Login</a>
-                    <a href="http://localhost:8080/register" class="btn btn-primary">Registrati</a>
-                </div>
             </div>
+        </nav>
+        <!-- Fine NavBar -->
+        <div class="container regolamento-container mt-5">
+            <h1 class="text-center mb-4">REGOLAMENTO</h1>
+            <p class="lead text-center mb-4 text-black">Benvenuti nel regolamento del gioco di carte Pokémon. Assicurati di seguire queste linee guida per una migliore esperienza di gioco:</p>
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h2 class="mb-0">Regole di Base</h2>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Il mazzo dovrà contenere esattamente 60 carte.</li>
+                    <li class="list-group-item">Oltre alle carte energia, potrai avere un massimo di quattro carte con lo stesso nome all’interno del tuo mazzo.</li>
+                    <li class="list-group-item">Il mazzo dovrà includere almeno un Pokémon base.</li>
+                    <li class="list-group-item">Il mazzo dovrà includere obbligatoriamente per ogni evoluzione il Pokémon base stesso.</li>
+                    <li class="list-group-item">Ogni partita inizia con 7 carte nella mano.</li>
+                    <li class="list-group-item">Ogni giocatore può avere un massimo di 6 Pokémon in gioco alla volta.</li>
+                    <li class="list-group-item">Se un giocatore non ha più carte nel mazzo, perde la partita.</li>
+                </ul>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h2 class="mb-0">Consigli</h2>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Scegliere al massimo uno o due tipi di energia.</li>
+                    <li class="list-group-item">Nel mazzo, bisogna che ci siano almeno 12/15 carte energia.</li>
+                    <li class="list-group-item">Nel mazzo, bisogna che ci siano almeno 20/25 carte allenatore.</li>
+                    <li class="list-group-item">Se hai un Pokémon che si evolve, avere quattro copie del suo stadio evolutivo.</li>
+                </ul>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h2 class="mb-0">Regole Avanzate</h2>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Le carte possono avere effetti speciali che influenzano il gioco.</li>
+                    <li class="list-group-item">Le carte Trainer possono essere giocate in qualsiasi momento.</li>
+                    <li class="list-group-item">Utilizza il tuo mazzo strategicamente per vincere contro il tuo avversario.</li>
+                </ul>
+            </div>
+
+            <h2 class="text-center mb-4">Termini e Condizioni</h2>
+            <p class="text-center lead text-black">Divertiti!</p>
         </div>
-    </nav>
-    <!-- Fine NavBar -->
-
-    <div class="container mt-5">
-        <h1>Regolamento del Gioco di Carte</h1>
-        <p>Benvenuti nel regolamento del nostro gioco di carte Pokémon. Assicurati di seguire queste linee guida per una migliore esperienza di gioco:</p>
-        
-        <h2>Regole di Base</h2>
-        <ul>
-            <li>Tutti i mazzi devono contenere almeno 60 carte.</li>
-            <li>È consentito un massimo di 4 copie di ogni carta, ad eccezione delle carte con nome "Base".</li>
-            <li>Ogni partita inizia con 7 carte nella mano.</li>
-            <li>Ogni giocatore può avere un massimo di 6 Pokémon in gioco alla volta.</li>
-            <li>Se un giocatore non ha più carte nel mazzo, perde la partita.</li>
-        </ul>
-
-        <h2>Regole Avanzate</h2>
-        <ul>
-            <li>Le carte possono avere effetti speciali che influenzano il gioco.</li>
-            <li>Le carte Trainer possono essere giocate in qualsiasi momento.</li>
-            <li>Utilizza il tuo mazzo strategicamente per vincere contro il tuo avversario.</li>
-        </ul>
-
-        <h2>Termini e Condizioni</h2>
-        <p>Divertiti!</p>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
 </html>

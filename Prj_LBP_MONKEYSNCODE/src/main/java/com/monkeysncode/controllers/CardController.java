@@ -45,6 +45,7 @@ public class CardController {
         Model model,
         @RequestParam(defaultValue = "1") int page,
         @RequestParam(defaultValue = "false") boolean owned,
+        @RequestParam(required = false) String from,
 		@RequestParam(required = false) String set,
         @RequestParam(required = false) String types,
         @RequestParam(required = false) String name,
@@ -108,6 +109,7 @@ public class CardController {
 	    model.addAttribute("totalPages", totalPages);
 	    model.addAttribute("cards", allCards);
 	    model.addAttribute("ownedCards", ownedCards);
+	    model.addAttribute("from", from);
 	    model.addAttribute("currentPage", page);
 	    System.out.println("Questo è inizio pagina" + inizioPagina);
 	    model.addAttribute("inizioPagina", inizioPagina);

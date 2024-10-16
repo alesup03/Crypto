@@ -311,9 +311,11 @@
 </div>
 
     <!-- Sezione per la paginazione, mostrata solo se ci sono più di 30 carte -->
+
 	<div th:if="${!#lists.isEmpty(cards)}" class="d-flex justify-content-center my-3">
 
-    <!-- Link "Vai alla Prima pagina" -->
+
+     <!-- Link "Vai alla Prima pagina" -->
     <a th:if="${currentPage > 1}" 
        th:href="@{/cards(page=1, blocco=1, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned}, from=${param.from})}" 
        class="btn btn-outline-primary mx-1">Prima pagina</a>
