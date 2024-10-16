@@ -151,7 +151,7 @@ public class DeckController {
     	List<Card> allCards = cardService.getCardsByPage(cards,page, 132);//cambiare il find all dopo i filtri
 
     	
-    	int totPages=(int) Math.ceil((double) cards.size() / 72);
+    	int totPages=(int) Math.ceil((double) cards.size() / 132);
     	 // Gestione dei blocchi di pagine (15 pagine per blocco)
 	    int bloccoDimensione = 5;
 	    int inizioPagina = (blocco - 1) * bloccoDimensione +1;
