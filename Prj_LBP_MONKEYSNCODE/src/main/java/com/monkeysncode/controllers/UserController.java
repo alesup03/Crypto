@@ -1,24 +1,24 @@
 package com.monkeysncode.controllers;
 
-import java.util.ArrayList;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.regex.Matcher;
-import java.util.Optional;
 
+import java.util.Random;
 import java.util.Map;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -103,7 +103,10 @@ public class UserController
     
     @GetMapping("/profile-image")
     public String setImg(Model model) {
-    	model.addAttribute("images",imgService.getAll());
+    	List<UserImg> imgList=imgService.getAll();
+    	imgList.remove(imgList.size() - 1);
+    	Collections.shuffle(imgList, new Random());
+    	model.addAttribute("images",imgList.stream().limit(24).collect(Collectors.toList()));
     	return "profileImg";
     }
 

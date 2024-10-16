@@ -78,7 +78,7 @@ public class UserService  implements UserDetailsService{
                 user.setId(oauthProviderId);
             }
         } else {
-        	Optional<UserImg> imgOptional = getUserImgById((long) 4095);
+        	Optional<UserImg> imgOptional = getUserImgById((long) 5121);
             UserImg imgDefault = imgOptional.orElseThrow(() -> new RuntimeException("Image not found!"));
         	// Se non esiste, crea un nuovo utente
             user = new User();
@@ -98,7 +98,7 @@ public class UserService  implements UserDetailsService{
     	String id = UUID.randomUUID().toString();
         String name = user.getName();
         String email = user.getEmail();
-        Optional<UserImg> imgOptional = getUserImgById((long) 4095);
+        Optional<UserImg> imgOptional = getUserImgById((long) 5121);
         UserImg imgDefault = imgOptional.orElseThrow(() -> new RuntimeException("Image not found!"));
         String password=passwordEncoder.encode(user.getPassword());
         user.setId(id);
