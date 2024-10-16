@@ -17,7 +17,9 @@ import com.monkeysncode.servicies.UserService;
 @Controller
 public class AuthController {
 	
-	private static final String REGEX_PASSWORD = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
+	private static final String REGEX_PASSWORD = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[\\p{Punct}])(?=\\S+$).{8,}$";
+
+
 	
 	@Autowired
 	UserService userService;
