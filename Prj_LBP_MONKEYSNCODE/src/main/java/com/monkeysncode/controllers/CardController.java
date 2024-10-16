@@ -56,6 +56,11 @@ public class CardController {
         @RequestParam(defaultValue = "false") boolean desc,
         @RequestParam(defaultValue = "1") int blocco){
 		
+		if(blocco < 1) {
+	    	blocco = 1;
+	    }
+    	
+		
 		User user = userService.userCheck(principal);
 		
 		HashMap<String, String> param = new HashMap<String, String>();
@@ -82,9 +87,9 @@ public class CardController {
 	 	
 	 	
 	 	
-	 	List<Card> allCards = cardService.getCardsByPage(cards,page -1, size);
+	 	List<Card> allCards = cardService.getCardsByPage(cards, page, 132);
 	 	
-	    int totalPages = (int) Math.ceil((double) cards.size() / size);
+	    int totalPages = (int) Math.ceil((double) cards.size() / 132);
 	    
 	    if (page < 1) 
 	    {
@@ -106,6 +111,7 @@ public class CardController {
 	    model.addAttribute("ownedCards", ownedCards);
 	    model.addAttribute("from", from);
 	    model.addAttribute("currentPage", page);
+	    System.out.println("Questo è inizio pagina" + inizioPagina);
 	    model.addAttribute("inizioPagina", inizioPagina);
 	    model.addAttribute("finePagina", finePagina);
 	    model.addAttribute("bloccoCorrente", blocco);

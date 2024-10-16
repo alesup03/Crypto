@@ -147,7 +147,9 @@ public class DeckController {
 	 	else cards = cardService.filterByParam(param, cardService.findAllSorted(sort,desc));
     	
     	
-    	List<Card> allCards = cardService.getCardsByPage(cards,page, 71);//cambiare il find all dopo i filtri
+
+    	List<Card> allCards = cardService.getCardsByPage(cards,page, 132);//cambiare il find all dopo i filtri
+
     	
     	int totPages=(int) Math.ceil((double) cards.size() / 72);
     	 // Gestione dei blocchi di pagine (15 pagine per blocco)

@@ -270,21 +270,26 @@ public class CardService {
 		return i;
 	}
 	
-	public List<Card> getCardsByPage(List<Card> allCards,int page,int cardsPage){
-		if(page<1)
-			page=1;
-		page--;
-		page=page*cardsPage;
-		if(allCards.size()<cardsPage) {
-			cardsPage=allCards.size()-1;
-		}
-		List<Card> result=new ArrayList<Card>();
-		for(int j=page;j<=page+cardsPage;j++) {
-			result.add(allCards.get(j));
-		}
-		return result;
+	public List<Card> getCardsByPage(List<Card> allCards, int page, int cardsPerPage) {
+	    // Assicurati che la pagina non sia inferiore a 1
+	    if (page < 1) {
+	        page = 1;
+	    }
+
+	    // Calcola l'indice di partenza
+	    int startIndex = (page - 1) * cardsPerPage;
+
+	    // Se l'indice di partenza è oltre la dimensione della lista, restituisci una lista vuota
+	    if (startIndex >= allCards.size()) {
+	        return new ArrayList<>();
+	    }
+
+	    // Calcola l'indice finale
+	    int endIndex = Math.min(startIndex + cardsPerPage, allCards.size());
+
+	    // Restituisci il sottoinsieme della lista
+	    return new ArrayList<>(allCards.subList(startIndex, endIndex));
 	}
-	
 	
 	public Optional<Card> getCardById(String cardId){
 		return cardDAO.findById(cardId);
