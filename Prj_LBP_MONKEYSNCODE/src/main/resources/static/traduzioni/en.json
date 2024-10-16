@@ -16,5 +16,7 @@
   "decks":"Decks",
   "cards":"Cards",
   "profilo":"Profile",
-  "regolamento":"Rules"
+  "regolamento":"Rules",
+  "storia-pokemon":"The Pokémon Trading Card Game was created in 1996 in Japan, thanks to the idea of Satoshi Tajiri, the founder of Game Freak. Initially conceived as an extension of the popular Pokémon video game, the trading card game quickly transformed into a global phenomenon. The game mechanics are based on the use of cards representing various Pokémon creatures, each with unique abilities and characteristics. Players strategically build their decks and compete in duels, aiming to defeat their opponents by reducing the health points of their opponent's Pokémon. The collectible aspect has added further appeal, with rare cards and attractive illustrations attracting collectors of all ages. Since then, the Pokémon Trading Card Game has grown exponentially, giving rise to tournaments, events, and a passionate global community. In the Pokémon Trading Card Game, there are three main types of cards: Pokémon, Trainer, and Energy.",
+  "funzioni":"Our app offers an innovative experience for all Pokémon Trading Card Game enthusiasts, allowing players to easily and intuitively keep track of their collections. Users will be able to log all the cards they own, including detailed information about each card, such as name, type, expansion, and market value. Additionally, the app enables users to create personalized decks using all the expansions released to date. Players can select their desired cards and build unique strategies to take on opponents. With advanced filtering features, it will be easy to search and organize cards by type, energy, and other characteristics, making deck-building a fun and engaging experience."
 }

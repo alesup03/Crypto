@@ -366,19 +366,18 @@ body::-webkit-scrollbar {
 .closed2, .closed3{
     visibility: hidden;
     opacity: 0;
-    transition: visibility 0s 0.3s, opacity 0.3s ease-in-out;
+
 }
 
 .open2, .open3 {
     visibility: visible;
     opacity: 1;
-    transition: opacity 0.3s ease-in-out;
 }
 
 #sidebar2 .sidebar-content2, #sidebar3 .sidebar-content2 {
     visibility: hidden;
     opacity: 0;
-    transition: visibility 0s 0.3s, opacity 0.1s linear;
+    transition: none;
 }
 
 #sidebar2:not(.closed2) .sidebar-content2, #sidebar3:not(.closed3) .sidebar-content2 {
@@ -405,12 +404,79 @@ body::-webkit-scrollbar {
 .sidebar-content2{
 	text-decoration: none;
     font-family: var(--font-family);
-    font-size: 19px;
+    font-size: 16px;
     margin-left:20px;
     margin-right:20px;
     margin-top:20px;
     padding:0;
 }
 .form-contenuto{
-	margin-bottom:100px;
+	margin-bottom:85px;
+	color:black;
+}
+/* Stile per i campi di input */
+.form-control {
+	font-family: var(--font-family);
+	margin-left:35px;
+	
+    border: none; /* Rimuove il bordo */
+    border-radius: 20px; /* Rende i bordi tondeggianti */
+    padding: 10px; /* Aumenta l'altezza del campo */
+    font-size: 14px; /* Aumenta la dimensione del testo */
+    width: 60%;
+}
+
+/* Stile per i pulsanti */
+.btn {
+	font-family: var(--font-family);
+    border: none; /* Rimuove il bordo */
+    border-radius: 30px; /* Rende i bordi tondeggianti */
+    padding: 15px 20px; /* Aumenta l'altezza e la larghezza del pulsante */
+    font-size: 16px; /* Aumenta la dimensione del testo */
+}
+
+/*sezione regole gioco*/
+
+/* Stile per il contenitore principale */
+.sezione-regole-gioco, .sezione-funzionalita{
+    display: flex; /* Utilizza Flexbox per allineare il contenuto */
+    justify-content: center; /* Centra orizzontalmente */
+    align-items: center; /* Centra verticalmente */
+    min-height: 100vh; /* Occupare l'altezza intera della pagina */
+    background-color: var(--color-secondary); /* Sfondo chiaro per contrasto */
+}
+
+/* Stile per il contenitore interno */
+.contenitore-interno {
+    background-color: var(--color-secondary); 
+    border-radius: 20px; 
+    height:450px;
+    padding: 20px;
+    width: 75%;
+    display: flex; 
+    align-items: flex-start;
+    border: 20px solid var(--color-primary);
+}
+
+/* Stile per il contenitore del testo */
+.testo-container {
+	margin-top:20px;
+    margin-right: 180px; /* Distanza tra il testo e l'immagine */
+    margin-left: 80px;
+    font-family: var(--font-family);
+    font-size:19px;
+}
+
+/* Stile per il contenitore dell'immagine */
+.immagine-container {
+    flex-shrink: 0; /* Non ridurre l'immagine */
+    margin-right:80px;
+    margin-top:25px;
+}
+.container-social2 {
+    display: flex;              /* Abilita Flexbox */
+    justify-content: center;    /* Centra gli elementi orizzontalmente */
+    align-items: center;        /* Centra gli elementi verticalmente */
+    height: 100%;               /* Assicura che il contenitore occupi l'intera altezza della sezione */
+    gap: 60px;                  /* Spazio tra le icone, puoi modificarlo a piacere */
 }
