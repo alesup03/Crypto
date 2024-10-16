@@ -7,43 +7,52 @@
     <link rel="icon" sizes="48x48" href="/icona_pokedecks.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        /* Styling generale */
         body {
-            background-color: #F0F8FF; /* Colore di sfondo chiaro */
+            background-color: #f4f4f9; /* Colore di sfondo */
         }
-        h1 {
-            color: #FF4500; /* Colore rosso per il titolo principale */
+
+        .regolamento-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
         }
-        h2 {
-            color: black; /* Colore nero per i sottotitoli */
+
+        h1, h2 {
+            color: black; /* Colore nero per i titoli */
         }
+
         .card {
-            transition: background-color 0.3s; /* Transizione per il cambiamento di colore */
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
         }
+
         .card-header {
-            background-color: #32CD32; /* Verde per l'intestazione delle card */
-            color: #FFFFFF; /* Testo bianco */
+            background-color: #f4f4f9; /* Colore grigio chiaro per l'intestazione delle card */
+            color: black; /* Testo nero */
         }
+
         .list-group-item {
             background-color: #FFF; /* Colore bianco per le voci della lista */
         }
 
-        /* Colori di evidenziazione per le voci delle liste */
-        .card:nth-of-type(1) .list-group-item:hover {
-            background-color: rgba(50, 205, 50, 0.2); /* Verde chiaro per la prima card */
-        }
-        .card:nth-of-type(2) .list-group-item:hover {
-            background-color: rgba(30, 144, 255, 0.2); /* Blu chiaro per la seconda card */
-        }
-        .card:nth-of-type(3) .list-group-item:hover {
-            background-color: rgba(255, 215, 0, 0.2); /* Giallo chiaro per la terza card */
+        /* Rimuovi l'hover sulle voci delle liste */
+        .list-group-item:hover {
+            background-color: #FFF; /* Mantiene il colore bianco */
         }
 
         .text-success {
             color: #32CD32; /* Verde per il testo di successo */
         }
+
         .text-dark-gray {
             color: #4B4B4B; /* Grigio scuro per il testo */
         }
+
         .btn-outline-danger, .btn-outline-success {
             transition: background-color 0.3s, color 0.3s; /* Transizione per i pulsanti */
         }
@@ -67,7 +76,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="http://localhost:8080/decks">Mazzi</a>
                     </li>
-                    <li>
+                    <li class="nav-item">
                         <a class="nav-link" href="http://localhost:8080/profile">Profilo</a>
                     </li>
                     <li class="nav-item">
@@ -85,9 +94,9 @@
             </div>
         </nav>
         <!-- Fine NavBar -->
-        <div class="container mt-5">
+        <div class="container regolamento-container mt-5">
             <h1 class="text-center mb-4">REGOLAMENTO</h1>
-            <p class="lead text-center mb-4 text-black">Benvenuti nel regolamento del nostro gioco di carte Pokémon. Assicurati di seguire queste linee guida per una migliore esperienza di gioco:</p>
+            <p class="lead text-center mb-4 text-black">Benvenuti nel regolamento del gioco di carte Pokémon. Assicurati di seguire queste linee guida per una migliore esperienza di gioco:</p>
 
             <div class="card mb-4">
                 <div class="card-header">
@@ -105,7 +114,7 @@
             </div>
 
             <div class="card mb-4">
-                <div class="card-header bg-info">
+                <div class="card-header">
                     <h2 class="mb-0">Consigli</h2>
                 </div>
                 <ul class="list-group list-group-flush">
@@ -117,7 +126,7 @@
             </div>
 
             <div class="card mb-4">
-                <div class="card-header bg-warning text-dark">
+                <div class="card-header">
                     <h2 class="mb-0">Regole Avanzate</h2>
                 </div>
                 <ul class="list-group list-group-flush">
