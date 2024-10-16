@@ -6,8 +6,7 @@
   <title>Accesso/Registrazione</title>
   <link rel="icon" sizes="48x48" href="/icona_pokedecks.ico">
   <link rel="stylesheet" href="/style/style.css">
-
-  
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
@@ -22,37 +21,40 @@
         </div>
 
       </div>
-      <div th:if="${session.name}!=null" class="ms-auto utente" >
-        <div class="ms-auto d-flex align-items-center">
-
-            <a class="nav-link" href="http://localhost:8080/profile" th:text="'Benvenuto, ' + ${session.name}" style="margin-right: 15px;">User</a>
-            
-            <a href="http://localhost:8080/logout" class="btn btn-outline-danger" style="transition: background-color 0.3s, color 0.3s;">Logout</a>
-        
-        </div>
     </div>
-
-      <img class="immagine-blob" id="blob-1" src="/image/blob-grande-2.svg" alt="contenitore-accesso-registrazione">
-      <img id="immagine-logo-app" src="/image/nome-applicazione.png" alt="PokeDecks">
-      <img id="immagine-slogan" src="/image/slogan-italiano.png" alt="slogan-PokeDecks">
-      <img class="immagine-blob" id="blob-2" src="/image/blob-piccolo.svg" alt="contenitore-social">
-      <img id="icona-pokeball" src="/image/pokeball-aperta.png" alt="icona-pokeball">
-      <img id="immagine-seguici" src="/image/seguici-italiano.png" alt="seguici">
-      
-      <div class="container-social">
-        <a href="https://www.linkedin.com/"><img id="icona-linkedin" src="/image/linkedin.png" alt="linkedin"></a>
-        <a href="https://www.instagram.com/"><img id="icona-instagram" src="/image/instagram.png" alt="instagram"></a>
-        <a href="https://www.facebook.com/login"><img id="icona-facebook" src="/image/facebook.png" alt="facebook"></a>
-        <a href="https://www.tiktok.com/login"><img id="icona-tiktok" src="/image/tiktok.png" alt="tiktok"></a>
-      </div>
-      
-      <p id="introduzione-app" data-translate="slogan"></p>
-
-      <div th:if="${session.name}==null" class="container-bottoni-accesso">
-        <a href="#" class="bottone-accesso" data-translate="accesso"></a>
-        <a href="#" class="bottone-accesso" data-translate="registrati"></a>
-      </div>
-
+    <div id="sidebar" class="closed">
+            <div class="text-center">
+                <!-- Pulsante di apertura/chiusura della sidebar -->
+                <div class="toggle-btn" onclick="toggleSidebar()">&#9664;</div>
+            </div>
+            <div th:if="${session.name}!=null" class="ms-auto utente sidebar-content" >
+		        <div class="ms-auto d-flex align-items-center">
+		
+		            <a class="nav-link" href="http://localhost:8080/profile" th:text="'Benvenuto, ' + ${session.name}" style="margin-right: 15px;">User</a>
+		            
+		            <a href="http://localhost:8080/logout" class="btn btn-outline-danger" style="transition: background-color 0.3s, color 0.3s;">Logout</a>
+		        
+		        </div>
+		    </div>
+            <!-- Immagini logo e slogan allineate verticalmente e centrate -->
+            <div class="logo-container sidebar-content">
+                <img id="immagine-logo-app" src="/image/nome-applicazione.png" alt="PokeDecks" class="img-fluid logo">
+                <img id="immagine-slogan" src="/image/slogan-italiano.png" alt="slogan-PokeDecks" class="img-fluid mt-3">
+            </div>
+            <p id="introduzione-app" class="sidebar-content" data-translate="slogan"></p>
+            <!-- Contenitore per i pulsanti Accesso e Registrazione -->
+            <div th:if="${session.name}==null" class="container-bottoni-accesso sidebar-content">
+		        <a href="javascript:void(0);" class="bottone-accesso " data-translate="accesso" onclick="toggleSidebar2()"></a>
+		        <a href="javascript:void(0);" class="bottone-accesso" data-translate="registrati" onclick="toggleSidebar3()"></a>
+		      </div>
+            <div class="container-social mt-4 d-flex justify-content-around w-100 sidebar-content">
+                <a href="https://it.linkedin.com/company/kedos-srl"><img id="icona-linkedin" src="/image/linkedin.png" alt="linkedin"></a>
+                <a href="https://www.instagram.com/kedos.srl/"><img id="icona-instagram" src="/image/instagram.png" alt="instagram"></a>
+                <a href="https://www.facebook.com/p/Kedos-Srl-100078119546036/"><img id="icona-facebook" src="/image/facebook.png" alt="facebook"></a>
+                <a href="https://www.tiktok.com/login"><img id="icona-tiktok" src="/image/tiktok.png" alt="tiktok"></a>
+            </div>
+        </div>
+    
       <div class="container-bottoni-menu">
         <a href="#sezione-accesso" class="bottone-menu" data-translate="accessoBottone"></a>
         <a href="#sezione-regole-gioco" class="bottone-menu" data-translate="giocoBottone"></a>
@@ -64,51 +66,120 @@
         <a th:if="${session.name}!=null" href="http://localhost:8080/deckRules" class="bottone-menu" data-translate="regolamento"></a>
       </div>
     </div>
-    <div th:if="${session.name}==null" class="modal-finestra" id="modal-accesso">
-      <div>
-        <img src="/image/blob-medio.svg" alt="">
-        <div class="modal-contenuto">
-          <h2 data-translate="accesso"></h2>
-          <p data-translate="mail-password"></p>
-          <form th:action="@{/login}" method="post">
-            <input type="text" class="form-control" id="email" name="email" placeholder="Enter your Email" required>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
-            <button type="submit" data-translate="accesso"></button>
-            <button type="button" class="bottone-chiudi" onclick="chiudiModal('modal-accesso')">Chiudi</button>
-            <div class="mt-3 text-center">
-              <a href="/oauth2/authorization/google" class="bottone-google">Login with Google</a>
-          </div>
+    <div th:if="${session.name}==null" id="sidebar2" class="sidebar closed2">
+      <div class="sidebar-content2 text-center">
+	    <div class="p-4">
+		    <div class="form-contenuto">
+	          <h2 class="text-center" data-translate="accesso"></h2>
+	          <p class="text-center" data-translate="mail-password"></p>
+	          <form th:action="@{/login}" method="post">
+	          	<div class="mb-3">
+			        <label for="email" class="form-label">Email</label>
+				    <input type="text" class="form-control" id="email" name="email"  required>
+				</div>
+	            <div class="mb-3">
+			        <label for="password" class="form-label">Password</label>
+				    <input type="password" class="form-control" id="password" name="password"  required>
+            	</div>
+            	<button type="submit" class="btn btn-primary w-100" data-translate="accesso"></button>
+            </div>
+            <div class="d-flex justify-content-between mt-3 container-bottoni-registrazione1">
+            <button type="button" class="btn bottone-chiudi" onclick="toggleSidebar2()">Chiudi</button>
+	            <a href="/oauth2/authorization/google" class="btn bottone-google">Login con Google</a>
+	        </div>
           </form>
         </div>
       </div>
     </div>
-    <div th:if="${session.name}==null" class="modal-finestra" id="modal-registrazione">
-      <div>
-        <img src="/image/blob-medio.svg" alt="">
-        <div class="modal-contenuto">
-          <h2 data-translate="registrazione"></h2>
-          <p data-translate="registrazione-nuova"></p>
-          <form action="/register" method="post">
-            <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
-            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
-            <input th:text="${exist}" type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
-            <button type="submit" data-translate="registrati"></button>
-            <button type="button" class="bottone-chiudi" onclick="chiudiModal('modal-registrazione')">Chiudi</button>
+    
+    <div th:if="${session.name}==null" id="sidebar3" class="sidebar closed3">
+      <div class="sidebar-content2 text-center">
+	    <div class="p-4">
+		    <div class="form-contenuto">
+	          <h2 class="text-center" data-translate="registrati"></h2>
+	          <p class="text-center" data-translate="registrazione-nuova"></p>
+	          <form action="/register" method="post">
+	          	<div class="mb-3">
+			        <label for="name" class="form-label">Nickname</label>
+	            	<input type="text" class="form-control" id="name" name="name" required>
+	            <div class="mb-3">
+			        <label for="email" class="form-label">Email</label>
+	            	<input type="email" class="form-control" id="email" name="email"  required>
+	            </div>
+	            <div class="mb-3">	
+	            	<label for="password" class="form-label">Password</label>
+	            	<input th:text="${exist}" type="password" class="form-control" id="password" name="password" required>
+            	</div>
+            
+            	<button type="submit" class="btn btn-primary w-100" data-translate="registrati"></button>
+            </div>
+            <div class="d-flex justify-content-between mt-3 container-bottoni-registrazione2">
+            <button type="button" class="btn bottone-chiudi" onclick="toggleSidebar3()">Chiudi</button>
+	            <a href="/oauth2/authorization/google" class="btn bottone-google">Login con Google</a>
+	        </div>
           </form>
         </div>
       </div>
     </div>
-    <img id="pokemon-1" src="/image/pokemon-1.png" alt="" >
-    <img id="pokemon-3" src="/image/pokemon-3.png" alt="" >
-    <img id="pokemon-4" src="/image/pokemon-4.png" alt="" >
-    <img id="pokemon-5" src="/image/pokemon-5.png" alt="" >
   </section>
 
   <section class="sezione-regole-gioco" id="sezione-regole-gioco"></section>
   <section class="sezione-funzionalita" id="sezione-funzionalita"></section>
   <section class="sezione-link" id="sezione-link"></section>
-
   <script src="/script/logiche.js" ></script>
   <script src="/script/traduzioni.js"></script>
+  <script>
+        // Funzione per aprire e chiudere la sidebar
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const toggleBtn = document.querySelector('.toggle-btn');
+            
+            sidebar.classList.toggle('open'); // Apre o chiude la sidebar
+            // Se sidebar aperta, mostra la freccia verso sinistra, altrimenti verso destra
+            if (sidebar.classList.contains('open')) {
+                toggleBtn.innerHTML = '&#9664;'; // Freccia sinistra (chiudi)
+                sidebar.classList.remove('closed'); // Rimuove il comportamento di chiusura
+            } else {
+                toggleBtn.innerHTML = '&#9654;'; // Freccia destra (apri)
+                sidebar.classList.add('closed'); // Aggiunge il comportamento di chiusura
+            }
+        }
+
+        // Sidebar fissa solo alla sezione 1
+        window.addEventListener('scroll', function() {
+            const sidebar = document.getElementById('sidebar');
+            const firstSection = document.querySelector('.sezione-1');
+            const scrollTop = window.scrollY;
+
+            // Se si scende oltre la sezione 1, la sidebar non si sposta
+            if (scrollTop > firstSection.offsetHeight) {
+                sidebar.style.display = 'none'; // Nasconde la sidebar dopo la sezione 1
+            } else {
+                sidebar.style.display = 'block'; // Mostra la sidebar solo nella sezione 1
+            }
+        });
+        function toggleSidebar2() {
+            var sidebar = document.getElementById("sidebar2");
+            
+            if (sidebar.classList.contains("closed2")) {
+                sidebar.classList.remove("closed2");
+                sidebar.classList.add("open2");
+            } else {
+                sidebar.classList.remove("open2");
+                sidebar.classList.add("closed2");
+            }
+        }
+        function toggleSidebar3() {
+            var sidebar = document.getElementById("sidebar3");
+            
+            if (sidebar.classList.contains("closed3")) {
+                sidebar.classList.remove("closed3");
+                sidebar.classList.add("open3");
+            } else {
+                sidebar.classList.remove("open3");
+                sidebar.classList.add("closed3");
+            }
+        }
+    </script>
 </body>
 </html>

@@ -1,3 +1,4 @@
+
 :root {
   --color-primary: #365fac;
   --color-secondary: #ffcc01;
@@ -21,7 +22,7 @@ body::-webkit-scrollbar {
 }
 
 .sezione-homepage, .sezione-regole-gioco, .sezione-funzionalita, .sezione-link {
-  height: 100vh;
+  height: 100%;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -48,47 +49,12 @@ body::-webkit-scrollbar {
   background-image: url(../image/sfondo-paesaggio-pokemon-3.jpg);
 }
 
-#introduzione-app {
-  position: absolute;
-  top: 33%;
-  left: 1.7%;
-  right: 81.5%;
-  font-family: var(--font-family);
-  color: white;
-  font-size: 16px;
-}
-
 .immagine-blob, #immagine-logo-app, #immagine-slogan, #icona-pokeball, #immagine-seguici, .icone-social {
   position: absolute;  
   left: 0;  
   z-index: 1;
   pointer-events: none; 
   text-align: center;              
-}
-
-#blob-1 {
-  height: 85vh;
-  top: 0;
-  width: auto;
-  max-width: 550px; 
-}
-
-#blob-2 {
-  bottom: 0;
-  width: 550px;                
-}
-
-#immagine-logo-app, #immagine-slogan {
-  width: 380px;
-  height: auto;
-}
-
-#immagine-logo-app {
-  top: 15%;
-}
-
-#immagine-slogan {
-  top: 25%;
 }
 
 #icona-pokeball {
@@ -105,11 +71,6 @@ body::-webkit-scrollbar {
   width: 150px;
 }
 
-#icona-facebook, #icona-linkedin, #icona-instagram, #icona-tiktok {
-  width: 60px;
-  height: auto;
-}
-
 .container-bottoni-menu {
   position: fixed;
   right: -25px;
@@ -121,7 +82,7 @@ body::-webkit-scrollbar {
   z-index: 99;
 }
 
-.bottone-menu, .bottone-chiudi,.bottone-google{
+.bottone-menu{
   display: block;
   background-color: var(--color-primary);
   text-align: center;
@@ -138,38 +99,18 @@ body::-webkit-scrollbar {
   overflow: hidden;
 }
 
-.bottone-menu:hover, .bottone-chiudi:hover,.bottone-google:hover{
+.bottone-menu:hover{
   width: 150px;
 }
 
-.bottone-menu::before, .bottone-chiudi::before,.bottone-google::before {
+.bottone-menu::before {
   content: '';
   width: 0;
   height: 0;
   visibility: hidden;
 }
 
-.container-bottoni-accesso {
-  top: 50%;
-  left: 7%;
-  position: absolute;
-  flex-direction: column;
-  align-items: flex-end;
-}
-
-.container-social {
-  top: 87%;
-  left: 2.8%;
-  position: absolute;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 15px;
-  z-index: 10;
-}
-
-.bottone-accesso {
+.bottone-accesso, .bottone-google, .bottone-chiudi{
   display: block;
   background-color: var(--color-secondary); 
   color: white;
@@ -186,28 +127,13 @@ body::-webkit-scrollbar {
   transition: transform 0.3s ease;
 }
 
-.bottone-accesso:hover {
+.bottone-accesso:hover, .bottone-chiudi:hover, .bottone-google:hover {
   transform: scale(1.25);
-}
-
-#introduzione-app, .container-bottoni-accesso {
-  z-index: 10;
 }
 
 .menu-lingua {
   position: fixed;
   right: 250px;
-  top: 1%;
-  z-index: 199;
-  color: var(--color-primary);
-  background-color: var(--color-secondary);
-  border-radius: 30px;
-  padding: 15px;
-  text-align: center;
-}
-.utente {
-  position: fixed;
-  left: 50px;
   top: 1%;
   z-index: 199;
   color: var(--color-primary);
@@ -264,87 +190,10 @@ body::-webkit-scrollbar {
   height: 25px;
   margin-right: 10px;
 }
-.logged-on{
-  z-index: 200;
-}
-.modal-finestra {
-  position: absolute;
-  display: none;
-  top: 32.5%; /* Centra verticalmente */
-  left: 0%; /* Centra orizzontalmente */
-  background-size: cover;
-  background-position: center;
-  z-index: 200;
-}
 
-#modal-accesso img, #modal-registrazione img {
-  position: absolute;
-  height: 615px;
-  width: 605px;
-}
-
-.modal-contenuto {
-  position: absolute;
-  margin: 100px 0px 0px 190px;
-  align-items: center;
-}
-
-.modal-finestra.attiva {
-  display: block;
-}
-
-.modal-finestra h2, .modal-finestra p {
-  align-items: center;
-  font-family: var(--font-family);
-  font-size: 19px;
-}
-
-.modal-finestra form {
-  flex-direction: column;
-}
-
-.modal-finestra form input {
-  padding: 10px;
-  font-family: var(--font-family);
-  font-size: 19px;
-}
-
-.modal-finestra form button {
-  padding: 10px;
-  background-color: var(--color-primary);
-  color: white;
-  font-family: var(--font-family);
-  font-size: 19px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.modal-finestra form button:hover {
-  background-color: var(--color-secondary);
-  color: var(--color-primary);
-}
-.bottone-google {
-  position: fixed; 
-  left:-20px; 
-  top: 65%;
+.bottone-google, .bottone-chiudi {
   background-color: var(--color-danger); 
   color: var(--color-secondary); 
-  transform: rotate(330deg); 
-  padding: 13px 10px; 
-  border-radius: 30px;
-  font-family: var(--font-family); 
-  font-size: 19px;
-  text-decoration: none;
-  z-index: 100; 
-}
-.bottone-chiudi {
-  position: fixed; 
-  left:-20px; 
-  top: 58%;
-  background-color: var(--color-danger); 
-  color: var(--color-secondary); 
-  transform: rotate(330deg); 
   padding: 13px 10px; 
   border-radius: 30px;
   font-family: var(--font-family); 
@@ -353,35 +202,215 @@ body::-webkit-scrollbar {
   z-index: 100; 
 }
 
-#pokemon-1{
-  z-index: 150;
-  position: absolute;
-  top: 60%;
-  right: 50%;
-  width:350px;
-  height:300px;
+#sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height:98%; /* Sidebar copre tutta l'altezza della sezione */
+    width: 25%; /* 1/4 della larghezza della schermata */
+    background-color: var(--color-primary);
+    padding-top: 20px;
+    transition: transform 0.3s ease, width 0.3s ease;
+    z-index: 1000;
+    transform: translateX(-75%); /* Sidebar parzialmente chiusa */
+    border-top-right-radius: 20px; /* Arrotonda l'angolo in alto a destra */
+    border-bottom-right-radius: 20px; /* Arrotonda l'angolo in basso a destra */
 }
-#pokemon-3{
-  z-index: 150;
-  position: absolute;
-  top: 2%;
-  right: 25%;
-  width:240px;
-  height:260px;
+
+#sidebar.closed .sidebar-content {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 0.3s, opacity 0.1s linear;
 }
-#pokemon-4{
-  z-index: 150;
-  position: absolute;
-  top: 40%;
-  right: 35%;
-  width:300px;
-  height:160px;
+
+#sidebar.open {
+    transform: translateX(0); /* Sidebar aperta */
 }
-#pokemon-5{
-  z-index: 150;
-  position: absolute;
-  top: 45%;
-  right: 35%;
-  width:350px;
-  height:300px;
+
+#sidebar.closed {
+    width: 110px; /* Sidebar chiusa parzialmente visibile */
+}
+/* Pulsante di apertura/chiusura della sidebar, centrato verticalmente */
+.toggle-btn {
+    position: absolute;
+    top: 50%;
+    right: -20px;
+    transform: translateY(-50%);
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 0 5px 5px 0;
+}
+
+/* Pulsanti di accesso e registrazione */
+.btn-sidebar {
+    flex: 1;
+    width: 45%;
+    margin: 0 5px;
+    text-align: center;
+    min-width: 0px;
+    white-space: nowrap; /* Evita che il testo si spezzi */
+}
+
+/* Mantiene i pulsanti larghi uguali anche quando la sidebar è chiusa */
+#sidebar.closed .btn-sidebar {
+    width: 100%; /* I pulsanti occupano tutta la larghezza della sidebar chiusa */
+}
+.container-social {
+    position: absolute;
+    bottom: 8%; /* Posiziona a 1/12 della sidebar dal fondo */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex; /* Flexbox per posizionare le icone in fila */
+    justify-content: center; /* Centra le icone orizzontalmente */
+    gap: 10px; /* Spazio tra le icone */
+}
+
+/* Dimensioni delle icone social */
+#icona-facebook, #icona-linkedin, #icona-instagram, #icona-tiktok {
+    width: 60px;
+    height: auto;
+}
+
+/* Stile per il contenuto */
+.content {
+    margin-left: 25%; /* Spazio lasciato dalla sidebar */
+}
+
+/* Posizionamento dei pulsanti di accesso e registrazione in basso */
+   .container-bottoni-accesso {
+       position: absolute;
+       bottom: 30%; 
+       left: 50%;
+       transform: translateX(-50%);
+       display: flex;
+       justify-content: space-between;
+       width: 60%;
+   }
+#immagine-logo-app {
+	height: auto; /* Mantiene l'altezza proporzionale */
+	width: 70%; /* Larghezza al 70% del contenitore */
+	margin-left:70px;
+    top:10%;
+}
+
+#immagine-slogan {
+    height: auto; /* Mantiene l'altezza proporzionale */
+    width: 75%; /* Larghezza al 70% del contenitore */
+    margin-left:61px;
+    top:19%;
+}
+
+/* Stile per il contenitore delle immagini */
+.logo-container {
+    display: flex;
+    flex-direction: column; /* Dispone le immagini in colonna */
+	align-items: center; /* Allinea al centro */
+	margin-bottom: 20px; /* Spazio sotto le immagini */
+	justify-content: center; /* Centra verticalmente all'interno del contenitore */
+	height: 100%; /* Occupare tutta l'altezza disponibile */
+}
+.container-social {
+    position: absolute;
+    bottom: 8%; /* Posiziona a 1/12 della sidebar dal fondo */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex; /* Flexbox per posizionare le icone in fila */
+    justify-content: center; /* Centra le icone orizzontalmente */
+    gap: 15px; /* Spazio tra le icone */
+}
+#introduzione-app {
+	position: absolute;
+	top: 33%; /* Posizione verticale */
+	left: 50%; /* Posiziona il lato sinistro al 50% */
+	transform: translateX(-50%); /* Centra orizzontalmente l'elemento */
+	font-family: var(--font-family);
+	color: white;
+	font-size: 18px;
+	text-align: center; /* Opzionale: centra il testo all'interno del paragrafo */
+}
+.utente {
+    margin: 0 auto; /* Centratura automatica orizzontale */
+    top: 20px; /* Margine superiore per distanziarlo dal bordo superiore della sidebar */
+    z-index: 199;
+    color: var(--color-primary);
+    background-color: var(--color-secondary);
+    font-family: var(--font-family);
+    border-radius: 30px;
+    font-size: 18px;
+    padding: 15px;
+    text-align: center;
+    width: 65%;
+}
+#sidebar2, #sidebar3{
+    width: 25%;
+    height: 50%;
+    position: absolute;
+    bottom: 25%;
+    left: 0;
+    background-color: var(--color-secondary);
+    color: white;
+    transition: width 0.3s;
+    overflow-x: hidden;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    transition: transform 0.3s ease, width 0.3s ease;
+    z-index: 1001; /* Assicura che la sidebar 2 si trovi sopra la sidebar 1 */
+      display: flex;
+    align-items: center;
+    flex-direction: column; /* Disporrà gli elementi in colonna */
+}
+
+
+.closed2, .closed3{
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 0.3s, opacity 0.3s ease-in-out;
+}
+
+.open2, .open3 {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+}
+
+#sidebar2 .sidebar-content2, #sidebar3 .sidebar-content2 {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 0.3s, opacity 0.1s linear;
+}
+
+#sidebar2:not(.closed2) .sidebar-content2, #sidebar3:not(.closed3) .sidebar-content2 {
+    visibility: visible;
+    opacity: 1;
+}
+.container-bottoni-registrazione1 {
+    position: absolute; 
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
+}
+.container-bottoni-registrazione2 {
+    position: absolute; 
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
+    margin-top:70px;
+}
+.sidebar-content2{
+	text-decoration: none;
+    font-family: var(--font-family);
+    font-size: 19px;
+    margin-left:20px;
+    margin-right:20px;
+    margin-top:20px;
+    padding:0;
+}
+.form-contenuto{
+	margin-bottom:100px;
 }
