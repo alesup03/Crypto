@@ -387,7 +387,7 @@
 
 
 <!-- Sezione per la paginazione, mostrata solo se ci sono più di 30 carte -->
-<div class="d-flex justify-content-center my-3"> 
+<div th:if="${!#lists.isEmpty(cards)}" class="d-flex justify-content-center my-3"> 
 
     <!-- Link "Vai alla Prima pagina" -->
     <a th:if="${currentPage > 1}" 
@@ -433,7 +433,7 @@
 
 <h2 class="text-center mb-3">Tutte le Carte</h2>
 
-<div class="container-fluid bg-light border rounded p-4 shadow-sm"> <!-- Aggiunto overflow-hidden -->
+<div th:if="${!#lists.isEmpty(cards)}" class="container-fluid bg-light border rounded p-4 shadow-sm"> <!-- Aggiunto overflow-hidden -->
     <div class="row g-3" id="allCards"> <!-- Rimosso mx-n1 -->
         <div class="col-6 col-sm-4 col-md-3 col-lg-2 col-xl-1" th:each="card : ${cards}"> <!-- Aggiunte classi responsive -->
             <div class="card mb-3 add-card" style="cursor: pointer; width: 110%; max-width: 250px;" th:data-deck-id="${deckId}" th:data-card-id="${card.id}">
@@ -442,6 +442,13 @@
         </div>
     </div>
 </div>
+
+<div class="row my-5">
+    <div class="col-1"></div>
+    <div class="col card-container">
+        <div th:if="${#lists.isEmpty(cards)}">
+            <p>No cards found</p>
+        </div>
 
 
 <!-- Script per gestire le operazioni asincrone -->
