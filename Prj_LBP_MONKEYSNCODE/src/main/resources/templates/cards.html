@@ -146,7 +146,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost:8080/cards">Carte</a>
+                    <a class="nav-link active" href="http://localhost:8080/cards">Carte</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="http://localhost:8080/decks">Mazzi</a>
@@ -180,8 +180,9 @@
     <!-- Menu a tendina per il filtro e l'ordinamento -->
         <div id="filterMenu" class="filter-menu">
             <form id="filter" th:action="@{/cards}" method="get" class="row g-3">
+                <input type="hidden" name="from" th:value="${param.from}">
                 <div class="col-md-2">
-                    <div class="form-check">
+                    <div class="form-check" id="owned-filter">
                         <input class="btn-check" type="checkbox" id="owned" name="owned" autocomplete="off">
                         <label for="owned" class="btn btn-outline-success owned">Owned</label>
                     </div>
@@ -195,7 +196,6 @@
                             <option value="name">Name</option>
                             <option value="nationalPokedexNumbers">Pokedex n.</option>
                             <option value="level">Level</option>
-                            <option value="rarity">Rarity</option>
                         </select>
                     </div>
                     <!-- Checkbox come pulsante per "desc" -->
@@ -301,7 +301,7 @@
                 </div>
                 <div class="col-md-12">
                     <button type="submit" class="btn btn-primary">Applica</button>
-                    <button type="reset" class="btn btn-secondary">Reset</button>
+                    <button type="button" onclick="resetFilters()" class="btn btn-secondary">Reset</button>
                 </div>
             </form>
         </div>
@@ -311,30 +311,26 @@
 </div>
 
     <!-- Sezione per la paginazione, mostrata solo se ci sono più di 30 carte -->
-<<<<<<< Updated upstream
-<div class="d-flex justify-content-center my-3"> 
-=======
 	<div th:if="${!#lists.isEmpty(cards)}" class="d-flex justify-content-center my-3">
->>>>>>> Stashed changes
 
     <!-- Link "Vai alla Prima pagina" -->
     <a th:if="${currentPage > 1}" 
-       th:href="@{/cards(page=1, blocco=1, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
+       th:href="@{/cards(page=1, blocco=1, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned}, from=${param.from})}" 
        class="btn btn-outline-primary mx-1">Prima pagina</a>
 
     <!-- Bottone precedente -->
     <a th:if="${currentPage > 1}" 
-       th:href="@{/cards(page=${currentPage - 1},blocco=${(currentPage - 1) % bloccoDimensione == 0 ? bloccoCorrente - 1 : bloccoCorrente}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
+       th:href="@{/cards(page=${currentPage - 1},blocco=${(currentPage - 1) % bloccoDimensione == 0 ? bloccoCorrente - 1 : bloccoCorrente}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned}, from=${param.from})}" 
        class="btn btn-outline-primary mx-1">Precedente</a>
 
     <!-- Ellissi per il blocco precedente -->
     <span th:if="${inizioPagina > 1}"> 
-        <a class="btn btn-outline-primary mx-1" th:href="@{/cards(page=${currentPage}, blocco=${bloccoCorrente - 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}">...</a>
+        <a class="btn btn-outline-primary mx-1" th:href="@{/cards(page=${currentPage}, blocco=${bloccoCorrente - 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned}, from=${param.from})}">...</a>
     </span>
 
     <!-- Pagine numerate -->
     <span th:each="i : ${#numbers.sequence(inizioPagina, finePagina)}">
-        <a th:href="@{/cards(page=${i}, blocco=${bloccoCorrente}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
+        <a th:href="@{/cards(page=${i}, blocco=${bloccoCorrente}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned}, from=${param.from})}" 
            th:text="${i}" 
            class="btn btn-outline-primary mx-1" 
            th:classappend="${i  == currentPage} ? 'btn-primary text-white' : ''"></a>
@@ -342,19 +338,10 @@
 
     <!-- Ellissi per il blocco successivo -->
     <span th:if="${finePagina < totalPages}">
-        <a class="btn btn-outline-primary mx-1" th:href="@{/cards(page=${currentPage}, blocco=${bloccoCorrente + 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}">...</a>
+        <a class="btn btn-outline-primary mx-1" th:href="@{/cards(page=${currentPage}, blocco=${bloccoCorrente + 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned}, from=${param.from})}">...</a>
     </span>
 
     <!-- Bottone successivo -->
-<<<<<<< Updated upstream
-    <a th:if="${currentPage + 1 < totalPages}" 
-       th:href="@{/cards(page=${currentPage + 1},  blocco=${((currentPage) / bloccoDimensione) + 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
-       class="btn btn-outline-primary mx-1">Successivo</a>
-
-    <!-- Ultima pagina -->
-    <a th:if="${finePagina < (totalPages)}" 
-       th:href="@{/cards(page=${totalPages}, blocco=${(totalPages - 1) / bloccoDimensione + 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
-=======
     <a th:if="${currentPage + 1 <= totalPages}" 
        th:href="@{/cards(page=${currentPage + 1},  blocco=${((currentPage) / bloccoDimensione) + 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned}, from=${param.from})}" 
        class="btn btn-outline-primary mx-1">Successivo</a>
@@ -362,7 +349,6 @@
     <!-- Ultima pagina -->
     <a th:if="${finePagina < totalPages}" 
        th:href="@{/cards(page=${totalPages}, blocco=${(totalPages - 1) / bloccoDimensione + 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned}, from=${param.from})}" 
->>>>>>> Stashed changes
        class="btn btn-outline-primary mx-1">Ultima pagina</a>
 
 
@@ -395,11 +381,10 @@
     </div>
     <div class="col-1"></div>
 </div>
-    
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
+<!-- Inizio script -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
         //variabili passate alla pagina in forma di hashmap
         var name = "[[${param.name}]]";
         var set = "[[${param.set}]]";
@@ -499,10 +484,39 @@
         }
     });
 });
+//Mostra la pagina della collezione personale
+ document.addEventListener("DOMContentLoaded", function () {
+     // Ottieni l'URL della pagina
+     const urlParams = new URLSearchParams(window.location.search);
+     const fromCollection = urlParams.get('from');
+  	
+     // Cambia il titolo della pagina solo se 'from=myCollection' è presente
+     if (fromCollection === 'myCollection') {
+         document.title = "Collezione";
+         document.querySelector("h1").textContent = "Collezione";
 
-		
-    </script>
-    <script src="/script/script_cards.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+         // Nascondi il filtro per le carte "owned"
+         const ownedFilter = document.getElementById('owned-filter');
+         if (ownedFilter) {
+             ownedFilter.style.display = 'none';
+         }
+     }
+ });
+
+ function resetFilters(){
+    var ownedField = document.getElementById('owned').value;
+    document.getElementById('filter').reset();
+    setTimeout(function() {
+    	const urlParams = new URLSearchParams(window.location.search);
+    	const fromCollection = urlParams.get('from');
+        if (fromCollection === 'myCollection') {
+        	document.getElementById('owned').checked = ownedField;
+        }
+      }, 0);
+ }
+</script>
+<script src="/script/script_cards.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Fine script -->
 </body>
 </html>

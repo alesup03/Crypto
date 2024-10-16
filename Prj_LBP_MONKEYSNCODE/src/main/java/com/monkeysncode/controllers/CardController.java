@@ -86,7 +86,7 @@ public class CardController {
 	 	
 	 	
 	 	
-	 	List<Card> allCards = cardService.getCardsByPage(cards, page, 131);
+	 	List<Card> allCards = cardService.getCardsByPage(cards, page, 132);
 	 	
 	    int totalPages = (int) Math.ceil((double) cards.size() / 132);
 	    
