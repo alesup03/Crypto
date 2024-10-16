@@ -193,9 +193,9 @@ public class DeckCardsService {
         // Se ci sono carte mancanti, aggiungi il messaggio personalizzato
         if (!missingCards.isEmpty()) {
             if (missingCards.size() == 1) {
-                violations.add("Nel mazzo è presente " + missingCards.get(0) + " che non hai ancora nella tua collezione."); // MODIFICATO
+                violations.add("Nel mazzo è presente " + missingCards.get(0) + " che non hai ancora nella tua collezione.");
             } else {
-                violations.add("Nel mazzo sono presenti carte che non hai nella tua collezione."); // MODIFICATO
+                violations.add("Nel mazzo sono presenti carte che non hai nella tua collezione."); 
             }
         }
 
