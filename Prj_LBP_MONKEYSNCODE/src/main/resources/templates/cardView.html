@@ -72,7 +72,18 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-lg-4 col-md-6 mb-3 card-image">
-                <img th:src="@{${card.img}}" alt="Immagine della carta" class="img-fluid">
+                <img th:src="@{${card.img}}" alt="Immagine della carta" class="img-fluid" style="margin-bottom: 50px;">
+                <div >
+	                <form action="/userCard" method="POST" class="mt-4">
+	                    <input type="hidden" name="cardId" th:value="${card.id}" />
+	                    <div class="mb-5">
+	                        <label for="quantity" class="form-label">Aggiorna quantità:</label>
+	                        <input type="number" name="quantity" th:value="${inCollection}" id="quantity" class="form-control" min="0" required />
+	                    </div>
+	                    <button type="submit" class="btn btn-primary">Aggiungi Carta</button>
+	                    <a href="http://localhost:8080/cards" class="btn btn-secondary btn-back">Torna a Carte</a>
+	                </form>
+                </div>
             </div>
             <div class="col-lg-8 col-md-6 card-details">
                 <h2>Informazioni Generali</h2>
@@ -87,16 +98,6 @@
                 <p><strong>Rarità:</strong> <span th:text="${card.rarity != null ? card.rarity : 'N/A'}"></span></p>
                 <p><strong>Flavor Text:</strong> <span th:text="${card.flavorText != null ? card.flavorText : 'N/A'}"></span></p>
                 <p><strong>Nella tua collezione:</strong> <span th:text="${inCollection != null ? inCollection : 'N/A'}"></span></p>
-                
-                <form action="/userCard" method="POST" class="mt-4">
-                    <input type="hidden" name="cardId" th:value="${card.id}" />
-                    <div class="mb-3">
-                        <label for="quantity" class="form-label">Aggiorna quantità:</label>
-                        <input type="number" name="quantity" th:value="${inCollection}" id="quantity" class="form-control" min="0" required />
-                    </div>
-                    <button type="submit" class="btn btn-primary">Aggiungi Carta</button>
-                    <a href="http://localhost:8080/cards" class="btn btn-secondary btn-back">Torna a Carte</a>
-                </form>
 
             </div>
         </div>
