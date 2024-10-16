@@ -94,7 +94,7 @@ body::-webkit-scrollbar {
   transition: width 0.4s ease;
   transform: rotate(-30deg);
   font-family: var(--font-family);
-  font-size: 19px;
+  font-size: 15px;
   color: var(--color-secondary);
   overflow: hidden;
 }
@@ -121,7 +121,7 @@ body::-webkit-scrollbar {
   border-radius: 50px ;
   text-decoration: none;
   font-family: var(--font-family);
-  font-size: 19px;
+  font-size: 14px;
   color: var(--color-primary);
   overflow: hidden;
   transition: transform 0.3s ease;
@@ -146,7 +146,7 @@ body::-webkit-scrollbar {
 .menu-lingua a {
   text-decoration: none;
   font-family: var(--font-family);
-  font-size: 19px;
+  font-size: 14px;
 }
 
 .opzioni-lingua {
@@ -172,7 +172,7 @@ body::-webkit-scrollbar {
   text-decoration: none; 
   margin: 10px;
   font-family: var(--font-family);
-  font-size: 19px;
+  font-size: 14px;
 }
 
 .opzioni-lingua a:hover,
@@ -194,10 +194,10 @@ body::-webkit-scrollbar {
 .bottone-google, .bottone-chiudi {
   background-color: var(--color-danger); 
   color: var(--color-secondary); 
-  padding: 13px 10px; 
+  padding: 6px; 
   border-radius: 30px;
   font-family: var(--font-family); 
-  font-size: 19px;
+  font-size: 14px;
   text-decoration: none;
   z-index: 100; 
 }
@@ -327,7 +327,7 @@ body::-webkit-scrollbar {
 	transform: translateX(-50%); /* Centra orizzontalmente l'elemento */
 	font-family: var(--font-family);
 	color: white;
-	font-size: 18px;
+	font-size: 14px;
 	text-align: center; /* Opzionale: centra il testo all'interno del paragrafo */
 }
 .utente {
@@ -338,10 +338,10 @@ body::-webkit-scrollbar {
     background-color: var(--color-secondary);
     font-family: var(--font-family);
     border-radius: 30px;
-    font-size: 18px;
-    padding: 15px;
+    font-size: 14px;
+    padding: 10px;
     text-align: center;
-    width: 65%;
+    width: 70%;
 }
 #sidebar2, #sidebar3{
     width: 25%;
@@ -399,15 +399,15 @@ body::-webkit-scrollbar {
     display: flex;
     justify-content: space-between;
     width: 60%;
-    margin-top:70px;
+    margin-top:40px;
 }
 .sidebar-content2{
 	text-decoration: none;
     font-family: var(--font-family);
-    font-size: 16px;
+    font-size: 14px;
     margin-left:20px;
     margin-right:20px;
-    margin-top:20px;
+    margin-top:10px;
     padding:0;
 }
 .form-contenuto{
@@ -423,7 +423,7 @@ body::-webkit-scrollbar {
     border-radius: 20px; /* Rende i bordi tondeggianti */
     padding: 10px; /* Aumenta l'altezza del campo */
     font-size: 14px; /* Aumenta la dimensione del testo */
-    width: 60%;
+    width: 50%;
 }
 
 /* Stile per i pulsanti */
@@ -431,8 +431,8 @@ body::-webkit-scrollbar {
 	font-family: var(--font-family);
     border: none; /* Rimuove il bordo */
     border-radius: 30px; /* Rende i bordi tondeggianti */
-    padding: 15px 20px; /* Aumenta l'altezza e la larghezza del pulsante */
-    font-size: 16px; /* Aumenta la dimensione del testo */
+    padding: 6px; /* Aumenta l'altezza e la larghezza del pulsante */
+    font-size: 14px; /* Aumenta la dimensione del testo */
 }
 
 /*sezione regole gioco*/
@@ -461,10 +461,10 @@ body::-webkit-scrollbar {
 /* Stile per il contenitore del testo */
 .testo-container {
 	margin-top:20px;
-    margin-right: 180px; /* Distanza tra il testo e l'immagine */
+    margin-right: 130px; /* Distanza tra il testo e l'immagine */
     margin-left: 80px;
     font-family: var(--font-family);
-    font-size:19px;
+    font-size:14px;
 }
 
 /* Stile per il contenitore dell'immagine */
