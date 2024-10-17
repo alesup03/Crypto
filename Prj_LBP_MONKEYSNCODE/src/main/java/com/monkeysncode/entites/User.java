@@ -22,20 +22,23 @@ public class User {
     private String email;
     private String password;
     
+    //relationship between user and decks
     @OneToMany(mappedBy = "user")
     private List<Deck> decks;
     
+    //relationship between user and user imagine
     @ManyToOne
     @JoinColumn(name = "userImg_id")
     private UserImg userImg;
     
+    //relationship between user and roles
     @ManyToMany
     @JoinTable(
         name = "user_roles",
         joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private List<Role> roles; // A user can have multiple roles
+    private List<Role> roles; // a user can have multiple roles
 
 
     public List<Role> getRoles() {
