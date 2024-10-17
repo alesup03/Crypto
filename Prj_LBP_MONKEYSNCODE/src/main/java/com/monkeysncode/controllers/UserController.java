@@ -28,7 +28,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.monkeysncode.entites.Deck;
 import com.monkeysncode.entites.User;
 import com.monkeysncode.entites.UserImg;
-import com.monkeysncode.servicies.UserImgService;
 import com.monkeysncode.servicies.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,8 +39,6 @@ public class UserController
 {
 	@Autowired
 	private UserService userService;
-	@Autowired
-	private UserImgService imgService;
 	
 	// Variabile statica per la validazione 
 	private static final String REGEX_CHANGE_PASSWORD = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
@@ -103,7 +100,7 @@ public class UserController
     
     @GetMapping("/profile-image")
     public String setImg(Model model) {
-    	List<UserImg> imgList=imgService.getAll();
+    	List<UserImg> imgList=userService.getAllUserImg();
     	imgList.remove(imgList.size() - 1);
     	Collections.shuffle(imgList, new Random());
     	model.addAttribute("images",imgList.stream().limit(24).collect(Collectors.toList()));
@@ -158,12 +155,6 @@ public class UserController
             redirectAttributes.addFlashAttribute("error", e.getMessage());
             return "redirect:/profile/change-password";
         }
-    }
-    
-    // Restituisce tutte le immagini del profilo disponibili (link preesistenti)
-    @GetMapping("/available-profile-images")
-    public List<UserImg> getAvailableProfileImages() {
-        return userService.getAllUserImg();
     }
 
     @GetMapping("/delete")

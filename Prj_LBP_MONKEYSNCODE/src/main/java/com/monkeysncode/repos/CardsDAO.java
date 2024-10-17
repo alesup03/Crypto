@@ -14,14 +14,6 @@ import com.monkeysncode.entites.Card;
 public interface CardsDAO extends JpaRepository<Card, String> 
 {
 	List<Card> findAll(Sort sort);
-	List<Card> findByName(String name);
-	//List<Card> findBySet(String cardSet);
-	Optional<Card> findByHp(String hp);
-	List<Card> findByRarity (String rarity);
-	Optional<Card> findByTypes (String types);
-	List<Card> findBySupertypes (String supertypes);
-	List<Card> findBySubtypes (String subtypes);
-
 	
 }
 	

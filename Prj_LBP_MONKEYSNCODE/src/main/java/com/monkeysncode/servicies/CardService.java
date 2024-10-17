@@ -80,14 +80,7 @@ public class CardService {
 			return cardDAO.findAll(Sort.by(Sort.Direction.DESC, sort));
 			else return cardDAO.findAll(Sort.by(Sort.Direction.ASC, sort));
 		}
-	}
-	
-	public List<Card> findByName(String name){
-		
-		List<Card> lista = cardDAO.findByName(name);
-		return lista;
-		
-	}
+	}	
 	
 	public List<Card> filterByParam(HashMap<String,String> filters,List<Card> lista){
 		

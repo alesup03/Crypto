@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
-//entità per la relazione tra il deck e le carte al sup interno
+//entity for the relationship between the deck and the cards inside it
 @Entity
 public class DeckCards {
 	@Id
