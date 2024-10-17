@@ -133,18 +133,17 @@ public class UserController
         try {
             String oldPassword = formData.get("oldPassword");
             String newPassword = formData.get("newPassword");
+            System.out.println("new password è : "+newPassword);
+            
             String confirmPassword = formData.get("confirmPassword");
+            System.out.println("new password è : "+confirmPassword);
             
             if (!newPassword.equals(confirmPassword)) {
                 redirectAttributes.addFlashAttribute("error", "Le nuove password non corrispondono.");
                 return "redirect:/profile/change-password";
             }
             
-            // Validazione della nuova password con regex
-            if (!isValidChangePassword(newPassword)) {
-                redirectAttributes.addFlashAttribute("error", "La nuova password deve contenere almeno 8 caratteri, una lettera maiuscola, minuscola, numero e carattere speciale");
-                return "redirect:/profile/change-password";
-            }
+           
 
 
             userService.changePassword(user.getId(), oldPassword, newPassword);
@@ -154,7 +153,7 @@ public class UserController
             
 
             redirectAttributes.addFlashAttribute("success", "Password cambiata con successo! Accedi di nuovo.");
-            return "redirect:/login"; // Reindirizza alla pagina di login per richiedere una nuova autenticazione
+            return "redirect:/"; // Reindirizza alla pagina di login per richiedere una nuova autenticazione
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
             return "redirect:/profile/change-password";
@@ -182,13 +181,7 @@ public class UserController
         
     }
     
-    // Metodo per la validazione della password con regex
-    private boolean isValidChangePassword(String password) 
-    {
-        Pattern pattern = Pattern.compile(REGEX_CHANGE_PASSWORD);
-        Matcher matcher = pattern.matcher(password);
-        return matcher.matches();
-    }
+    
     
     //Modifica del nickname
     @GetMapping("/profile")
