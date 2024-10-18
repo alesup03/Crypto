@@ -30,12 +30,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
-public class CardController {
+public class CardController { // Controller who manages the user card collection
 	
 	@Autowired
 	private CardService cardService;
+	
     @Autowired
     private UserService userService;
+    
 	@Autowired
 	private UserCardsService usercardService;
 	
@@ -52,19 +54,19 @@ public class CardController {
         @RequestParam(required = false) String rarity,
         @RequestParam(required = false) String supertype,
         @RequestParam(required = false) String subtypes,
-        @RequestParam(required = false,defaultValue = "name") String sort,
+        @RequestParam(required = false, defaultValue = "name") String sort,
         @RequestParam(defaultValue = "false") boolean desc,
         @RequestParam(defaultValue = "1") int blocco){
 		
-		if(blocco < 1) {
+		if(blocco < 1) { 
 	    	blocco = 1;
 	    }
     	
 		
 		User user = userService.userCheck(principal);
 		
-		HashMap<String, String> param = new HashMap<String, String>();
-	 	param.put("set", set);
+		HashMap<String, String> param = new HashMap<String, String>(); 
+	 	param.put("set", set); // Associate the value with the map key
 	 	param.put("types", types);
 	 	param.put("name", name);
 	 	param.put("rarity", rarity);
@@ -73,45 +75,41 @@ public class CardController {
 	 	
 		
 		List<Card> cards = new ArrayList<Card>();
-		List<String> ownedCards = usercardService.getCollectionById(user.getId());
-		//in base al parametro owned prende la lista da due service diversi
+		List<String> ownedCards = usercardService.getCollectionById(user.getId()); // Creates the collection of all cards owned by the user
+		
+		// Based on the owned parameter it takes the list from two different services
 	 	if(owned == true)
 	 		cards = cardService.filterByParam(param, usercardService.getSortedCollection(user.getId(),sort,desc));
 	 	else cards = cardService.filterByParam(param, cardService.findAllSorted(sort,desc));
 	 	
-	 	// Paginazione
-	 	int size = 30;  // numero di carte per pagina
-	 	//int start = page * size;
-	    //int end = Math.min((page + 1) * size, cards.size());
-	    //List<Card> paginatedCards = cards.subList(start, end);
+	 	// Pagination
+	 	int size = 30;  // Number of card for page
 	 	
-	 	
-	 	
-	 	List<Card> allCards = cardService.getCardsByPage(cards, page, 132);
+	 	List<Card> allCards = cardService.getCardsByPage(cards, page, 132); // Make a list of how many cards should fit per page
 	 	
 	    int totalPages = (int) Math.ceil((double) cards.size() / 132);
 	    
 	    if (page < 1) 
 	    {
-	        page = 1;  // Imposta alla prima pagina se l'indice è inferiore a 1
+	        page = 1;  // Set to first page if index is less than 1
 	    } else if (page > totalPages) 
 	    {
-	        page = totalPages;  // Imposta all'ultima pagina se l'indice è superiore al massimo
+	        page = totalPages; // Set to last page if index is greater than maximum
 	    }
 
-	    // Gestione dei blocchi di pagine (15 pagine per blocco)
+	    // Page block management (15 pages per block)
 	    int bloccoDimensione = 5;
 	    int inizioPagina = (blocco - 1) * bloccoDimensione +1;
 	    int finePagina = Math.min(blocco * bloccoDimensione, totalPages);
 	    int ultimoBlocco = (int) Math.ceil((double) totalPages / bloccoDimensione);
 
+	    // The parameters are added to the page cards
 	    model.addAttribute("bloccoDimensione", bloccoDimensione);
 	    model.addAttribute("totalPages", totalPages);
 	    model.addAttribute("cards", allCards);
 	    model.addAttribute("ownedCards", ownedCards);
 	    model.addAttribute("from", from);
 	    model.addAttribute("currentPage", page);
-	    System.out.println("Questo è inizio pagina" + inizioPagina);
 	    model.addAttribute("inizioPagina", inizioPagina);
 	    model.addAttribute("finePagina", finePagina);
 	    model.addAttribute("bloccoCorrente", blocco);
@@ -131,15 +129,16 @@ public class CardController {
     public ResponseEntity<String> addCardToCollection(@AuthenticationPrincipal Object principal, @RequestParam String cardId) {
 		User user = userService.userCheck(principal);
 		Card card = cardService.findById(cardId);
-		usercardService.addOrRemoveCard(user, card, 1); 
+		usercardService.addOrRemoveCard(user, card, 1); // Based on the user's collection, this adds the card
 		return ResponseEntity.ok("Carta aggiunta alla collezione");
     }
+	
 	@PostMapping("/collection/remove")
     @ResponseBody
     public ResponseEntity<String> removeCard(@AuthenticationPrincipal Object principal, @RequestParam String cardId) {
 		User user = userService.userCheck(principal);
 		Card card = cardService.findById(cardId);
-		usercardService.addOrRemoveCard(user, card, -1); 
+		usercardService.addOrRemoveCard(user, card, -1); // Based on the user's collection, this removes the card
 		return ResponseEntity.ok("Carta rimossa dalla collezione");
     }
 	
@@ -149,6 +148,7 @@ public class CardController {
 	     Optional<Card> cardOptional = cardService.getCardById(cardId);
 	     User user = userService.userCheck(principal);
 	     
+	     // Check if the card is present, update the quantity otherwise print error
 	     if (cardOptional.isPresent()) {
 	         Card card = cardOptional.get();
 	         model.addAttribute("card", card);

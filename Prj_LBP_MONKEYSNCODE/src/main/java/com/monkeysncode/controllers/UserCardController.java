@@ -16,16 +16,18 @@ import com.monkeysncode.servicies.UserCardsService;
 import com.monkeysncode.servicies.UserService;
 
 @Controller
-public class UserCardController {
+public class UserCardController {  // Controller who manages the card quantity
 	
     @Autowired
     private UserService userService;
+    
 	@Autowired
 	private UserCardsService usercardsService;
+	
 	@Autowired
 	private CardService cardService;
 	
-	//endpoint per impostare la quantità di una carta all'interno della collezione di un utente 
+	// Endpoint to set the quantity of a card within a user's collection
 	@PostMapping("/userCard")
 	public String addCardToUser(@AuthenticationPrincipal Object principal, @RequestParam String cardId, @RequestParam int quantity){
 		User user = userService.userCheck(principal);

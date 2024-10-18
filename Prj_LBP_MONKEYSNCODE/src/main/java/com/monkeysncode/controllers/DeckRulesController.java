@@ -4,7 +4,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class DeckRulesController {
+public class DeckRulesController { // Controller who manages the deck rules
 
     @GetMapping("/deckRules")  
     public String mostraDeckRules() {

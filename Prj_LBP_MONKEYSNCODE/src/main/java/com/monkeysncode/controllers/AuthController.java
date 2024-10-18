@@ -15,56 +15,53 @@ import com.monkeysncode.servicies.UserService;
 
 
 @Controller
-public class AuthController {
+public class AuthController { // Controller who manages the user authentication 
 	
-	private static final String REGEX_PASSWORD = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[\\p{Punct}])(?=\\S+$).{8,}$";
+	private static final String REGEX_PASSWORD = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[\\p{Punct}])(?=\\S+$).{8,}$"; //static variable where the regex for the password is set
 
-
-	
-	@Autowired
+    @Autowired
 	UserService userService;
+	
     @GetMapping("/login")
     public String loginPage() {
-        return "login";  // Renderizza la pagina di login (con supporto per form e OAuth2)
+        return "login";  // Render the login page (with forms and OAuth2 support)
     }
     
     @GetMapping("/register")
     public String registerPage(Model model) {
         model.addAttribute("user", new User());
-        return "register";  // Renderizza la pagina di registrazione
+        return "register";  // Render the register page
     }
+    
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute User user,Model model) {
+    public String registerUser(@ModelAttribute User user, Model model) {
 
     	
-    	boolean userExists=userService.exists(user);
+    	boolean userExists=userService.exists(user); // Check if the user is already registered
     	if(userExists) {
-    		model.addAttribute("exist", "Errore,Profilo esiste già");
+    		model.addAttribute("exist", "Errore, profilo esiste già");
     		return "home1";
     	}
     	
-    	String password = user.getPassword().trim(); //rimuove spazi bianchi
-    	//Validazione della password con la regex
-    	if(!isValidPassword(user.getPassword()))
+    	String password = user.getPassword().trim(); // Removes white spaces
+    	if(!isValidPassword(user.getPassword())) //Validation for the regex password
     	{
     		model.addAttribute("exist", "La password deve contenere almeno 8 caratteri, una lettera maiuscola, minuscola, numero e carattere speciale");
     		return "home1";
     	}
     	
-        
         userService.register(user);
         model.addAttribute("exist", "Registrato con successo");
-        return "home1";  // Dopo la registrazione, reindirizza alla pagina di login
+        return "home1";  // After register, render to the login page
                 
         
     }
     
-    //Metodo per convalidare la password con la regex
-    private boolean isValidPassword(String password) 
+    private boolean isValidPassword(String password) //Method to convalidate the regex password
     {
-        Pattern pattern = Pattern.compile(REGEX_PASSWORD);
-        Matcher matcher = pattern.matcher(password);
-        return matcher.matches();
+        Pattern pattern = Pattern.compile(REGEX_PASSWORD);  // compile the regex to create pattern
+        Matcher matcher = pattern.matcher(password); // Used to search for the pattern
+        return matcher.matches(); // Return a string for a match against a regular expression
     }
     
 
