@@ -32,39 +32,45 @@ import com.monkeysncode.servicies.UserService;
 
 @Controller
 @RequestMapping("/decks")
-public class DeckController {
+public class DeckController { // Controller who manages the user deck
     @Autowired
     private DeckCardsService deckCardsService;
+    
     @Autowired
     private UserCardsService usercardService;
+    
     @Autowired
     private CardService cardService;
+    
     @Autowired
     private UserService userService;
+    
     @Autowired
     private DeckService deckService;
+    
     @Autowired
     private DeckImgService deckImgService;
     
     @GetMapping("")
     public String decks(@AuthenticationPrincipal Object principal, Model model) {
+    	
         User user = userService.userCheck(principal);
         List<Deck> decks = user.getDecks();
         
-        // Validazione di ogni mazzo
+        // Validation for each deck
         for (Deck deck : decks) {
             String validationResult = deckCardsService.validateDeck(deck.getId(), user);
             
-            // Se il mazzo è valido, impostiamo valid a true, altrimenti a false
+            // If the deck is valid, we set valid to true, otherwise to false
             if (validationResult.contains("Il mazzo è valido!")) {
-                deck.setValid(true); // Mazzo valido
+                deck.setValid(true); // Validate deck
             } else {
-                deck.setValid(false); // Mazzo non valido
+                deck.setValid(false); // Invalidate deck
             }
         }
 
         model.addAttribute("decks", decks);
-        return "Decks"; // Nome del template HTML
+        return "Decks"; 
     }
 
 
@@ -78,11 +84,13 @@ public class DeckController {
 
     @PostMapping("/create")
     public String createPost(@AuthenticationPrincipal Object principal, @RequestParam String deckName, @RequestParam Long deckImgId) {
+    	
         User user = userService.userCheck(principal);
         
-        // Recupera l'immagine selezionata tramite il suo ID dal DAO
+        // Retrieve the selected image by its ID from the DAO
         Optional<DeckImg> selectedImg = deckImgService.getDeckImgById(deckImgId);
         
+        //Create user deck based on image and name, required and deck id optional
         deckService.saveOrUpdateDeck(user.getId(), deckName, Optional.empty(), selectedImg);
         
         return "redirect:/decks";
@@ -97,6 +105,8 @@ public class DeckController {
 
     @PostMapping("/deletedeck/{deckId}")
     public String deleteDeckConfirm(@RequestParam Long deckId, @RequestParam boolean confirm) {
+    	
+    	//If you press the confirm button, the deck and the cards inside are eliminated
         if (confirm) {
             deckCardsService.deleteCardsFromDeck(deckId);
             deckService.DeleteDeck(deckId);
@@ -121,9 +131,6 @@ public class DeckController {
 	        @RequestParam(defaultValue = "false") boolean desc,
 	        @RequestParam(defaultValue = "1") int blocco) {
     	
-    	//List<Card> cards = cardService.filterByParam(param, cardService.findAllSorted(sort,desc));
-    	//List<Card> cards = cardService.findByParam(set, types, name, rarity, supertype, subtypes, sort, desc);
-    	
     	if(blocco < 1) {
 	    	blocco = 1;
 	    }
@@ -131,33 +138,29 @@ public class DeckController {
     	User user = userService.userCheck(principal);
     	
     	HashMap<String, String> param = new HashMap<String, String>();
-	 	param.put("set", set);
+	 	param.put("set", set); // Associate the value with the map key
 	 	param.put("types", types);
 	 	param.put("name", name);
 	 	param.put("rarity", rarity);
 	 	param.put("supertype", supertype);
 	 	param.put("subtypes", subtypes);
 	 	
-		
 		List<Card> cards = new ArrayList<Card>();
 		
-		//in base al parametro owned prende la lista da due service diversi
+		// Based on the owned parameter it takes the list from two different services
 	 	if(owned == true)
 	 		cards = cardService.filterByParam(param, usercardService.getSortedCollection(user.getId(),sort,desc));
 	 	else cards = cardService.filterByParam(param, cardService.findAllSorted(sort,desc));
     	
-    	
+    	List<Card> allCards = cardService.getCardsByPage(cards, page, 132);
 
-    	List<Card> allCards = cardService.getCardsByPage(cards,page, 132);//cambiare il find all dopo i filtri
-
-    	
     	int totPages=(int) Math.ceil((double) cards.size() / 132);
-    	 // Gestione dei blocchi di pagine (15 pagine per blocco)
+    	
+    	// Page block management (15 pages per block)
 	    int bloccoDimensione = 5;
 	    int inizioPagina = (blocco - 1) * bloccoDimensione +1;
 	    int finePagina = Math.min(blocco * bloccoDimensione, totPages);
 	    int ultimoBlocco = (int) Math.ceil((double) totPages / bloccoDimensione);
-	    
 	    
 	    model.addAttribute("bloccoDimensione", bloccoDimensione);
 	    model.addAttribute("inizioPagina", inizioPagina);
@@ -165,14 +168,11 @@ public class DeckController {
 	    model.addAttribute("bloccoCorrente", blocco);
 	    model.addAttribute("ultimoBlocco", ultimoBlocco); 
 	    
-	    
-    	model.addAttribute("deckId", deckId);
+	    model.addAttribute("deckId", deckId);
     	model.addAttribute("deckName",deckService.getDeckById(deckId).get().getNameDeck());
         model.addAttribute("cards", allCards);
         model.addAttribute("currentPage", page);
         model.addAttribute("totPages", totPages);
-        
-       
         
         List<DeckCards> originalCards = deckCardsService.getDeckCards(deckId);
         List<DeckCards> displayCards = new ArrayList<>();
@@ -188,25 +188,27 @@ public class DeckController {
     @PostMapping("/yourdeck/addCard")
     @ResponseBody
     @Async
-    public CompletableFuture<String> addCard(@RequestParam Long deckId, @RequestParam String cardId) {
+    public CompletableFuture<String> addCard(@RequestParam Long deckId, @RequestParam String cardId) { // Allows you to add cards asynchronously
         return deckCardsService.SetCard(deckId, cardId, 1);
     }
 
     @PostMapping("/yourdeck/removeCard")
     @ResponseBody
     @Async
-    public CompletableFuture<String> removeCard(@RequestParam Long deckId, @RequestParam String cardId) {
+    public CompletableFuture<String> removeCard(@RequestParam Long deckId, @RequestParam String cardId) { // Allows you to remove cards asynchronously
         return deckCardsService.RemoveCard(deckId, cardId, 1);
     }
     
     @PostMapping("/validate")
     public @ResponseBody String validate(@RequestParam Long deckIdValidate, @AuthenticationPrincipal Object principal) {
-    	// Ottieni l'utente corrente
+    	
+    	// Obtains the current user
         User user = userService.userCheck(principal);
-    	// Chiama il metodo di validazione che ora restituisce una stringa già formattata
+        
+        // Call the validation method which now returns an already formatted string
         String validationResult = deckCardsService.validateDeck(deckIdValidate, user);
         
-        // Restituisci direttamente il risultato della validazione (che è già formattato)
+        // Returns the validation result directly (which is already formatted)
         return validationResult;
     }
     
