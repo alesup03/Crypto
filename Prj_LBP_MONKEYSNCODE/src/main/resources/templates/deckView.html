@@ -397,7 +397,7 @@
     <!-- Bottone precedente -->
     <a th:if="${currentPage > 1}" 
        th:href="@{/decks/yourdeck/{page}/{deckId}(deckId=${deckId},page=${currentPage - 1},blocco=${(currentPage - 1) % bloccoDimensione == 0 ? bloccoCorrente - 1 : bloccoCorrente}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
-       class="btn btn-outline-primary mx-1">Precedente</a>
+       class="btn btn-outline-primary mx-1">Prec</a>
 
     <!-- Ellissi per il blocco precedente -->
     <span th:if="${inizioPagina > 1}"> 
@@ -418,9 +418,9 @@
     </span>
 
     <!-- Bottone successivo -->
-    <a th:if="${currentPage + 1 < totPages}" 
+    <a th:if="${currentPage < totPages}" 
        th:href="@{/decks/yourdeck/{page}/{deckId}(deckId=${deckId},page=${currentPage + 1},  blocco=${((currentPage) / bloccoDimensione) + 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
-       class="btn btn-outline-primary mx-1">Successivo</a>
+       class="btn btn-outline-primary mx-1">Succ</a>
 
     <!-- Ultima pagina -->
     <a th:if="${finePagina < totPages}" 
