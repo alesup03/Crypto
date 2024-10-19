@@ -64,7 +64,7 @@ public class CardController { // Controller who manages the user card collection
     	
 		
 		User user = userService.userCheck(principal);
-		
+		int totalCards = usercardService.getTotalCards(user.getId());
 		HashMap<String, String> param = new HashMap<String, String>(); 
 	 	param.put("set", set); // Associate the value with the map key
 	 	param.put("types", types);
@@ -109,6 +109,7 @@ public class CardController { // Controller who manages the user card collection
 	    model.addAttribute("cards", allCards);
 	    model.addAttribute("ownedCards", ownedCards);
 	    model.addAttribute("from", from);
+	    model.addAttribute("totalCards", totalCards);
 	    model.addAttribute("currentPage", page);
 	    model.addAttribute("inizioPagina", inizioPagina);
 	    model.addAttribute("finePagina", finePagina);
@@ -160,6 +161,4 @@ public class CardController { // Controller who manages the user card collection
 	         return "error";
 	     }
 	 }
-
-	
 }

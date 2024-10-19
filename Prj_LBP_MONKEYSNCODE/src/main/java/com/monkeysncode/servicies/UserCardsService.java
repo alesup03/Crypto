@@ -20,10 +20,20 @@ public class UserCardsService {
 		@Autowired
 		private UserCardDAO dao;
 		
+		public int getTotalCards(String userId) {
+		    List<UserCards> userCards = dao.findByUserId(userId);
+
+		    if (userCards == null || userCards.isEmpty()) {
+		        return 0; 
+		    }
+
+		    return userCards.stream().mapToInt(UserCards::getCardQuantity).sum();
+		}
+		
 		public List<UserCards> getUserCollection(String userId){
 			return dao.findByUserId(userId);
 		}
-		
+	
 		//ritorna una lista di id delle carte possedute dall'utente
 		public List<String> getCollectionById(String userId){
 			List<UserCards> userCards = dao.findByUserId(userId);
