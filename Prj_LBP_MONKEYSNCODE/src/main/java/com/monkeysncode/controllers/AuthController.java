@@ -44,7 +44,7 @@ public class AuthController { // Controller who manages the user authentication
     	}
     	
     	String password = user.getPassword().trim(); // Removes white spaces
-    	if(!isValidPassword(user.getPassword())) //Validation for the regex password
+    	if(!isValidPassword(password)) //Validation for the regex password
     	{
     		model.addAttribute("exist", "La password deve contenere almeno 8 caratteri, una lettera maiuscola, minuscola, numero e carattere speciale");
     		return "home1";
