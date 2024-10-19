@@ -66,10 +66,14 @@ public class UserController // Controller who manages the user profile
         
         List<Deck> userDecks = user.getDecks();
         
-        model.addAttribute("username", user.getName()); // Adds the username in the model
-        model.addAttribute("email", user.getEmail()); 
-        model.addAttribute("id", user.getId()); 
-        model.addAttribute("deck", deck.getNameDeck() ); 
+
+        model.addAttribute("followers",userService.getNumFollowers(user.getId()));
+		    model.addAttribute("following",userService.getNumFollowing(user.getId()));
+        model.addAttribute("username", user.getName()); // Aggiunge il nome utente al model
+        model.addAttribute("email", user.getEmail()); // Aggiunge l'email dell'utente al model
+        model.addAttribute("id", user.getId()); // Aggiunge id dell'utente al model
+        model.addAttribute("deck", deck.getNameDeck() ); // Aggiunge il nome del mazzo al model
+
         model.addAttribute("userImg", user.getUserImg()); // Assuming userImg is defined
         model.addAttribute("user",user);
         
@@ -209,5 +213,7 @@ public class UserController // Controller who manages the user profile
             return ResponseEntity.internalServerError().body("Errore durante l'aggiornamento del nickname.");
         }
     }
+    
+    
 
 }

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Lista Following</title>
+    <link rel="icon" sizes="48x48" href="/icona_pokedecks.ico">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-color: #f4f4f9;
+        }
+        .follower-container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        .follower-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            background-color: #ffffff; /* Colore di sfondo per ogni elemento */
+            transition: background-color 0.3s ease;
+        }
+        .follower-item:last-child {
+            margin-bottom: 0;
+        }
+        .follower-img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-right: 20px;
+            border: 2px solid #ffffff; /* Aggiungere un bordo attorno all'immagine */
+        }
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 10px;
+        }
+        .btn-outline-primary {
+            margin-left: auto;
+        }
+        .status-indicator.online {
+            background-color: #28a745; /* Verde per lo stato online */
+            animation: pulse 1.5s infinite;
+        }
+        .status-indicator.offline {
+            background-color: #6c757d; /* Grigio per lo stato offline */
+        }
+        /* Animazione per il pallino online */
+        @keyframes pulse {
+            0% {
+                transform: scale(0.9);
+                opacity: 0.7;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0.9);
+                opacity: 0.7;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Inizio sezione navBar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="http://localhost:8080">
+            <img src="/logo.png" alt="Logo" width="150" height="50" class="d-inline-block align-text-top"> 
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8080/cards">Carte</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8080/decks">Mazzi</a>
+                </li>
+                <li>
+                    	<a class="nav-link active" href="http://localhost:8080/profile">Profilo</a>
+                </li>
+                <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:8080/deckRules">Regolamento</a>
+                </li>                
+            </ul>
+            <div class="ms-auto d-flex align-items-center">
+
+                <a id="userGreeting" class="nav-link" href="http://localhost:8080/profile" th:text="'Benvenuto, ' + ${session.name}" style="margin-right: 15px;">User</a>
+                
+                <a href="http://localhost:8080/logout" class="btn btn-outline-danger" style="transition: background-color 0.3s, color 0.3s;">Logout</a>
+            
+            </div>
+        </div>
+    </div>
+</nav>
+<!-- Fine sezione navBar -->
+<div class="container follower-container">
+    <h2 class="text-center mb-4">Following</h2>
+    
+    <ul class="list-group">
+        <!-- Iterazione sui following -->
+        <li class="list-group-item follower-item" th:each="follower : ${followingList}">
+            <!-- Immagine del follower -->
+            <img th:src="${follower.getUserImg().getImgPath()}" alt="Immagine follower" class="follower-img">
+            <!-- Nome del follower -->
+            <div>
+                <h5 th:text="${follower.getName()}"></h5>
+            </div>
+            <div class="d-flex align-items-center">
+                <div th:class="${follower.isOnline()} ? 'status-indicator online' : 'status-indicator offline'"></div>
+                <p class="m-0 ms-2" th:text="${follower.isOnline()} ? 'Online' : 'Offline'"></p>
+            </div>
+            <!-- Pulsante "Vedi profilo" -->
+            <a th:href="@{/user/{userId}(userId=${follower.getId()})}" class="btn btn-outline-primary" style="transition: background-color 0.3s, color 0.3s;">Vedi profilo</a>
+        </li>
+    </ul>
+
+    <!-- Pulsante per tornare indietro al profilo -->
+    <div class="text-center mt-4">
+        <a href="/profile" class="btn btn-secondary">Torna al profilo</a>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

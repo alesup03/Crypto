@@ -94,8 +94,7 @@
             color: #0d6efd;
             font-weight: bold;
         }
-        /* Stile per l'indicatore di stato */
-.status-indicator {
+        .status-indicator {
     width: 12px;
     height: 12px;
     border-radius: 50%;
@@ -126,7 +125,7 @@
         opacity: 0.7;
     }
 }
-        
+  
     </style>
 </head>
 <body>
@@ -174,52 +173,53 @@
         <div class="col-md-6">
             <div class="card text-center">
                 <div class="card-body">
-                <div class="d-flex justify-content-center mt-2">
-					    <!-- Follower -->
-					    <div class="me-3 text-center">
-					        <h5 class="m-0">Follower</h5>
-					        <a th:href="@{/user/{userId}/followers(userId=${user.getId()})}" class="text-decoration-none">
-					            <p class="m-0 text-primary" th:text="${followers}?: 0">0</p>
-					        </a>
-					    </div>
-					    <!-- Following -->
-					    <div class="ms-3 text-center">
-					        <h5 class="m-0">Following</h5>
-					        <a th:href="@{/user/{userId}/following(userId=${user.getId()})}" class="text-decoration-none">
-					            <p class="m-0 text-primary" th:text="${following}?: 0">0</p>
-					        </a>
-					    </div>
-					    <!-- Indicatore di stato online/offline -->
+                    <div class="d-flex justify-content-center align-items-center">
+                            <img th:src="${user.getUserImg().getImgPath()}"
+                                 alt="Immagine del Profilo" class="img-fluid profile-img">
+                    </div>
+                    <!-- Nickname profilo -->
+                    <h1 class="text-center section-title">
+					    <span id="username" th:text="${user.getName()}"></span> <!-- Change made here -->
+					</h1>
+				<div class="d-flex justify-content-center mt-2">
+					 <!-- Follower e Following -->
+	                <div class="d-flex justify-content-center mt-2">
+	                    <div class="me-3 text-center">
+	                        <h5 class="m-0">Follower</h5>
+	                        <p class="m-0" th:text="${followers}?: 0">0</p>
+	                    </div>
+	                    <div class="ms-3 text-center">
+	                        <h5 class="m-0">Following</h5>
+	                        <p class="m-0" th:text="${following}?: 0">0</p>
+	                    </div>
+	                </div>
+					<div class="d-flex justify-content-center mt-2">
 					    <div class="d-flex align-items-center ms-3">
 					        <p class="m-0" th:text="${user.isOnline()} ? 'Online' : 'Offline'" 
 					           th:class="${user.isOnline()} ? 'text-success' : 'text-muted'"></p>
 					        <div th:class="${user.isOnline()} ? 'status-indicator online ms-2 mb-3' : 'status-indicator offline ms-2 mb-3'"></div>
 					    </div>
-					</div>
-
-                    <div class="d-flex justify-content-center align-items-center">
-                        <a href="http://localhost:8080/profile/profile-image">
-                            <img th:src="${userImg != null && userImg.imgPath != null ? userImg.imgPath : 'https://img.pokemondb.net/sprites/home/normal/2x/bulbasaur.jpg'}"
-                                 alt="Immagine del Profilo" class="img-fluid profile-img">
-                        </a>
-                        <a href="http://localhost:8080/profile/profile-image" class="btn btn-link ms-2">
-                            <i class="fas fa-edit" style="font-size: 1.2rem;"></i>
-                        </a>
-                    </div>
-                    <!-- Nickname profilo -->
-                    <h1 class="text-center section-title">
-					    <span id="username" th:text="${username}"></span> <!-- Change made here -->
-					    <button id="editNicknameBtn" class="btn btn-outline-primary ms-2" onclick="editNickname()">Modifica</button>
-					</h1>
-					
-					<div id="nicknameEditSection" style="display: none;">
-					    <input type="text" id="newNickname" placeholder="Nuovo nickname" class="form-control" style="width: 200px; display: inline-block;">
-					    <button class="btn btn-primary" onclick="saveNickname()">Salva</button>
-					    <button class="btn btn-secondary" onclick="cancelEdit()">Annulla</button>
-					</div>
-                </div>
-            </div>
-        </div>
+					    
+					    </div>
+				</div>
+                <!-- Pulsante Follow/Unfollow -->
+					    <div th:if="${isFollowing}">
+					        <!-- Unfollow Button -->
+					        <form action="http://localhost:8080/user/unfollow" method="post">
+					            <input type="hidden" name="user" th:value="${user.getId()}">
+					            <button type="submit" class="btn btn-danger">Unfollow</button>
+					        </form>
+					    </div>
+					    <div th:if="${!isFollowing}">
+					        <!-- Follow Button -->
+					        <form action="http://localhost:8080/user/follow" method="post">
+					            <input type="hidden" name="user" th:value="${user.getId()}">
+					            <button type="submit" class="btn btn-success">Follow</button>
+					        </form>
+			</div>
+         </div>
+      </div>
+   </div>
     
         <!-- Deck creati -->
         <div class="col-md-6 card text-center">
@@ -227,11 +227,11 @@
                 <h3 class="card-title">Deck creati</h3>
                 <div class="row">
                     <!-- Mostra solo i primi 3 deck -->
-                    <div th:each="deck, iterStat : ${userDecks}" th:if="${iterStat.index < 3}" class="col-md-4">
+                    <div th:each="deck, iterStat : ${user.getDecks()}" th:if="${iterStat.index < 3}" class="col-md-4">
                         <!-- Div per organizzare immagine e nome del deck -->
                         <div class="deck-item text-center">
                             <!-- Mostra l'immagine del deck -->
-                            <a th:href="@{/decks/yourdeck/1/{deckId}(deckId=${deck.id})}">
+                            <a th:href="@{/user/deck/{deckId}(deckId=${deck.id})}">
 		                        <img th:src="@{${deck.deckImg.imgDeckPath}}" alt="Deck Image" class="img-fluid" onerror="this.onerror=null; this.src='path/to/default/image.jpg';">
 		                    </a>
                             <!-- Mostra il nome del deck sotto l'immagine -->
@@ -240,17 +240,9 @@
                     </div>
                 </div>
     
-                <!-- Bottone per vedere tutti i deck -->
-                <div class="text-center mt-4">
-                    <a href="http://localhost:8080/decks" class="btn btn-primary">I tuoi deck</a>
-                </div>
             </div>
         </div>
     </div>
-    <!-- Bottone per vedere la colleziona -->
-    <div class="text-center mt-4">
-    	<a href="/cards?owned=true&from=myCollection" class="btn btn-success" id="myCollectionBtn" data-title="La mia collezione">La mia collezione</a>
-	</div>
 
     <!-- Dettagli Utente -->
     <div class="row mt-4">
@@ -258,73 +250,16 @@
             <div class="card">
                 <div class="card-body">
                     <h3 class="card-title section-title">Dettagli Utente</h3>
-                    <p>Email: <span th:text="${email}"></span></p>
+                    <p>Email: <span th:text="${user.getEmail}"></span></p>
                     
-                    <!-- Cambio password -->
-                    <div th:if="${user.password} != null">
-                        <a href="/profile/change-password" class="btn btn-secondary">Cambia Password</a>
-                    </div>
                     
-                    <!-- Elimina profilo -->
-                    <a href="/profile/delete" class="btn btn-danger">Cancella Account</a>
-                    <div th:if="${param.accountDeleted}" class="alert alert-success mt-3">
-                        Il tuo account è stato cancellato con successo. Puoi registrarti nuovamente in qualsiasi momento.
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <!-- Fine sezione Profilo Utente -->
-<!-- Inizio script -->
-<script>
-	//Mostra la parte per modificare il nickname e recupera il nome attuale
-	function editNickname() {
-	    const currentNickname = document.getElementById('username').innerText;
-	    document.getElementById('newNickname').value = currentNickname;
-	    document.getElementById('nicknameEditSection').style.display = 'block';
-	    document.getElementById('editNicknameBtn').style.display = 'none';
-	}
-	
-	//Salva il nuovo nickname, invia la richiesta al server e aggiorna l'interfaccia utente
-	function saveNickname() {
-	    const newNickname = document.getElementById('newNickname').value;
 
-	    fetch('/profile/update-nickname', {
-	        method: 'POST',
-	        headers: {
-	            'Content-Type': 'application/json'
-	        },
-	        body: JSON.stringify({ nickname: newNickname })
-	    })
-	    .then(response => {
-	        if (response.ok) {
-	            return response.text(); // Restituisci solo il nickname
-	        } else {
-	            return response.text().then(text => {
-	                throw new Error('Response not OK: ' + text); // Log del contenuto della risposta
-	            });
-	        }
-	    })
-	    .then(updatedNickname => {
-	        // Aggiorna l'interfaccia utente con il nuovo nickname
-	        document.getElementById('username').innerText = updatedNickname;
-	        document.getElementById('userGreeting').innerText = 'Benvenuto, ' + updatedNickname;
-
-	        document.getElementById('nicknameEditSection').style.display = 'none';
-	        document.getElementById('editNicknameBtn').style.display = 'inline';
-	    })
-	    .catch(error => {
-	        console.error('Ci sono stati problemi durante la richiesta: ', error);
-	    });
-	}
-	
-	//Nasconde la parte per editare il nome
-	function cancelEdit() {
-	    document.getElementById('nicknameEditSection').style.display = 'none';
-	    document.getElementById('editNicknameBtn').style.display = 'inline';
-	}
-</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Fine script -->
 </body>

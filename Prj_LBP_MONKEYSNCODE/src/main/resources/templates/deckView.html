@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="it">
 
 <head>
@@ -396,8 +396,9 @@
 
     <!-- Bottone precedente -->
     <a th:if="${currentPage > 1}" 
-       th:href="@{/decks/yourdeck/{page}/{deckId}(deckId=${deckId},page=${currentPage - 1},blocco=${(currentPage - 1) % bloccoDimensione == 0 ? bloccoCorrente - 1 : bloccoCorrente}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
-       class="btn btn-outline-primary mx-1">Prec</a>
+       th:href="@{/decks/yourdeck/{page}/{deckId}(deckId=${deckId},page=${currentPage - 1},blocco=${(currentPage - 1) % bloccoDimensione == 0 ? bloccoCorrente - 1 : bloccoCorrente}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned}, from=${param.from})}" 
+       class="btn btn-outline-primary mx-1">Precedente</a>
+
 
     <!-- Ellissi per il blocco precedente -->
     <span th:if="${inizioPagina > 1}"> 

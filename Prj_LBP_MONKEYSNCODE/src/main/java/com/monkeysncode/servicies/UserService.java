@@ -3,6 +3,7 @@ package com.monkeysncode.servicies;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +82,7 @@ public class UserService  implements UserDetailsService{
             List<Role> roles = new ArrayList<>();
             roles.add(new Role("1", "ROLE_USER"));
             user.setRoles(roles);
+            user.setOnline(true);
         }
 
         // Salva l'utente nel database
@@ -101,6 +103,7 @@ public class UserService  implements UserDetailsService{
         List<Role> roles = new ArrayList<>();
         roles.add(new Role("1", "ROLE_USER"));
         user.setRoles(roles);
+        user.setOnline(true);
 
         userDAO.save(user);
     }
@@ -179,6 +182,14 @@ public class UserService  implements UserDetailsService{
                 userCardDAO.delete(card); 
             }
         }
+        for (User follower : user.getFollowers()) {
+            follower.getFollowing().remove(user); // Rimuovi l'utente dalla lista dei seguiti
+        }
+        
+        for (User following : user.getFollowing()) {
+            following.getFollowers().remove(user); // Rimuovi l'utente dalla lista dei follower
+        }
+        
         user.getRoles().clear();
         user.getDecks().clear();
         userDAO.save(user);
@@ -253,6 +264,54 @@ public class UserService  implements UserDetailsService{
       
         user.setName(newNickname);
         userDAO.save(user);
+    }
+    public void followUser(String loggedUser, String followingId) {
+        User follower = userDAO.findById(loggedUser).orElseThrow();
+        User following = userDAO.findById(followingId).orElseThrow();
+
+        follower.getFollowing().add(following);
+        userDAO.save(follower);
+    }
+
+    // Smettere di seguire un utente
+    public void unfollowUser(String loggedUser, String followingId) {
+        User follower = userDAO.findById(loggedUser).orElseThrow();
+        User following = userDAO.findById(followingId).orElseThrow();
+
+        follower.getFollowing().remove(following);
+        userDAO.save(follower);
+    }
+    //vedi se segui utente
+    public boolean isFollowing(String loggedUser, String followingId) {
+    	Set<User> list=getFollowers(followingId);
+    	if(list.contains(getUserById(loggedUser)))
+    		return true;
+    	else
+    		return false;
+    				
+    }
+
+    // Ottenere la lista di follower di un utente
+    public Set<User> getFollowers(String userId) {
+        User user = userDAO.findById(userId).orElseThrow();
+        return user.getFollowers();
+    }
+ // Ottenere numero di follower di un utente
+    public int getNumFollowers(String userId) {
+        User user = userDAO.findById(userId).orElseThrow();
+        return user.getFollowers().size();
+    }
+
+    // Ottenere la lista di utenti seguiti
+    public Set<User> getFollowing(String userId) {
+        User user = userDAO.findById(userId).orElseThrow();
+        return user.getFollowing();
+    }
+    
+    // Ottenere numero di utenti seguiti
+    public int getNumFollowing(String userId) {
+        User user = userDAO.findById(userId).orElseThrow();
+        return user.getFollowing().size();
     }
 
 }

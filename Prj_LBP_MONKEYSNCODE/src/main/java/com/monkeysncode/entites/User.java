@@ -1,6 +1,8 @@
 package com.monkeysncode.entites;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -40,8 +42,45 @@ public class User {
     )
     private List<Role> roles; // a user can have multiple roles
 
+    @ManyToMany
+    @JoinTable(
+        name = "follows",
+        joinColumns = @JoinColumn(name = "follower_id"),
+        inverseJoinColumns = @JoinColumn(name = "following_id")
+    )
+    private Set<User> following = new HashSet<>();
 
-    public List<Role> getRoles() {
+    // Lista di utenti che ti seguono (followers)
+    @ManyToMany(mappedBy = "following")
+    private Set<User> followers = new HashSet<>();
+    
+    private boolean online;
+
+    public boolean isOnline() {
+		return online;
+	}
+
+	public void setOnline(boolean online) {
+		this.online = online;
+	}
+
+	public Set<User> getFollowing() {
+		return following;
+	}
+
+	public void setFollowing(Set<User> following) {
+		this.following = following;
+	}
+
+	public Set<User> getFollowers() {
+		return followers;
+	}
+
+	public void setFollowers(Set<User> followers) {
+		this.followers = followers;
+	}
+
+	public List<Role> getRoles() {
         return roles;
     }
 
