@@ -17,7 +17,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 
 import com.monkeysncode.entites.User;
 import com.monkeysncode.repos.UserDAO;
-import com.monkeysncode.servicies.UserService;
+import com.monkeysncode.services.UserService;
 
 @Configuration
 @EnableWebSecurity

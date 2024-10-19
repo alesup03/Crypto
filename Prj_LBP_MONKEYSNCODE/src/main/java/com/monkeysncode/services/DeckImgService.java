@@ -1,4 +1,4 @@
-package com.monkeysncode.servicies;
+package com.monkeysncode.services;
 
 import java.util.List;
 import java.util.Optional;

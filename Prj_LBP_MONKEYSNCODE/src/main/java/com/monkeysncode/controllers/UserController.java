@@ -30,7 +30,7 @@ import com.monkeysncode.entites.User;
 import com.monkeysncode.entites.UserCards;
 import com.monkeysncode.entites.UserImg;
 import com.monkeysncode.repos.UserCardDAO;
-import com.monkeysncode.servicies.UserService;
+import com.monkeysncode.services.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

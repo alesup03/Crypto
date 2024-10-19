@@ -23,12 +23,12 @@ import com.monkeysncode.entites.Deck;
 import com.monkeysncode.entites.DeckCards;
 import com.monkeysncode.entites.DeckImg;
 import com.monkeysncode.entites.User;
-import com.monkeysncode.servicies.CardService;
-import com.monkeysncode.servicies.DeckCardsService;
-import com.monkeysncode.servicies.DeckImgService;
-import com.monkeysncode.servicies.DeckService;
-import com.monkeysncode.servicies.UserCardsService;
-import com.monkeysncode.servicies.UserService;
+import com.monkeysncode.services.CardService;
+import com.monkeysncode.services.DeckCardsService;
+import com.monkeysncode.services.DeckImgService;
+import com.monkeysncode.services.DeckService;
+import com.monkeysncode.services.UserCardsService;
+import com.monkeysncode.services.UserService;
 
 @Controller
 @RequestMapping("/decks")
