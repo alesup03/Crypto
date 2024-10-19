@@ -73,8 +73,6 @@ public class DeckController { // Controller who manages the user deck
         return "Decks"; 
     }
 
-
-    
     @GetMapping("/create")
     public String create(Model model) {
     	List<DeckImg> images = deckImgService.getAll();
