@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.monkeysncode.entites.Card;
 import com.monkeysncode.entites.User;
-import com.monkeysncode.servicies.CardService;
-import com.monkeysncode.servicies.UserCardsService;
-import com.monkeysncode.servicies.UserService;
+import com.monkeysncode.services.CardService;
+import com.monkeysncode.services.UserCardsService;
+import com.monkeysncode.services.UserService;
 
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;

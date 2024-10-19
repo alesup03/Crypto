@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.monkeysncode.entites.User;
+import com.monkeysncode.services.CardService;
+import com.monkeysncode.services.UserCardsService;
+import com.monkeysncode.services.UserService;
 import com.monkeysncode.entites.Card;
-import com.monkeysncode.servicies.CardService;
-import com.monkeysncode.servicies.UserCardsService;
-import com.monkeysncode.servicies.UserService;
 
 @Controller
 public class UserCardController {  // Controller who manages the card quantity
