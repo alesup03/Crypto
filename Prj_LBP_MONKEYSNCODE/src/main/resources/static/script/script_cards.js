@@ -1,10 +1,10 @@
-//tasto filtri
+//filter button
 function toggleFilterMenu() {
     var menu = document.getElementById("filterMenu");
     menu.classList.toggle("active");
 }
 
-//funzione per unire la selezione dei tipi in un unico campo
+//function to combine the selected types into a single field
 document.getElementById('filter').addEventListener('submit', function(event) {
     // Impedisce l'invio automatico del form
     event.preventDefault();
@@ -33,9 +33,7 @@ document.getElementById('filter').addEventListener('submit', function(event) {
     this.submit();
 });
 
-
-
-//usate per settare i valori della precedente ricerca nel form
+// used to set the values of the previous search in the form
 document.getElementById("name").value = name;
 document.getElementById("set").value = set;
 document.getElementById("supertype").value = supertype;
@@ -53,5 +51,4 @@ if(types.length > 10){
     document.getElementById("types1").value = types[0];
     document.getElementById("types2").value = types[1];
 }
-else document.getElementById("types1").value = types;
-        
+else document.getElementById("types1").value = types;      

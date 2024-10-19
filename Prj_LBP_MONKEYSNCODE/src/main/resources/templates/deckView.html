@@ -14,19 +14,19 @@
 <style>
     .filter-menu {
              display: none;
-            /*position: absolute;  Posiziona il menu fisso rispetto alla finestra */
-            top: 350px; /* Puoi regolare questa distanza dalla parte superiore */
-            /*left: 20%;  Posiziona il menu al 50% da sinistra */
-            z-index: 1000; /* Assicurati che sia sopra gli altri elementi */
-            /*width: 300px;  Larghezza del form */
+            top: 350px; 
+            z-index: 1000;
             border: 1px solid #ccc;
             padding: 10px;
             background-color: #f9f9f9;
             border-radius: 5px;
             margin-top: 10px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Aggiungi un'ombra */
-
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
         }
+        .card {
+	        width: 100%;
+	        margin: 0 auto; 
+	    }
         .card:hover{
         	position: relative;
         	transform:scale(1.5);
@@ -48,8 +48,8 @@
         }
 </style>
 <body>
-    <!-- navBar -->
-<!-- navBar -->
+    <!-- Begin body -->
+<!-- Begin navBar -->
  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
     <div class="container-fluid">
         <a class="navbar-brand" href="http://localhost:8080">
@@ -83,7 +83,7 @@
         </div>
     </div>
 </nav>
-<!-- navBar -->
+<!-- End navBar -->
 <div class="row">
        
 <div class="container mt-5">
@@ -104,13 +104,11 @@
     </div>
 </div>
 
-
  <div class="col">
-            <!-- Pulsante per aprire il menu di filtro -->
+            <!-- Button to open the filter menu -->
             <button class="filter-button" onclick="toggleFilterMenu()">Filtra</button>
-
       
-       <!-- Menu a tendina per il filtro e l'ordinamento -->
+       <!-- Dropdown menu for filtering and sorting -->
         <div id="filterMenu" class="filter-menu">
             <form id="filter" th:action="@{/decks/yourdeck/1/{deckId}(deckId=${deckId})}" method="get" class="row g-3">
                 <div class="col-md-2">
@@ -121,8 +119,8 @@
                 </div>
                 <div class="col-md-1"></div>
                 <div class="col-md-4 d-flex align-items-end">
-                    <!-- Select per il sorting -->
-                    <div > <!-- Aggiunge spazio solo a destra del select -->
+                     <!-- Select for sorting -->
+                    <div > <!-- Adds space only to the right of the select -->
                         <label for="sort" class="form-label">Order:</label>
                         <select id="sort" name="sort" class="form-select">
                             <option value="name">Name</option>
@@ -130,7 +128,7 @@
                             <option value="level">Level</option>
                         </select>
                     </div>
-                    <!-- Checkbox come pulsante per "desc" -->
+                     <!-- Checkbox as a button for "desc" -->
                     <div class="form-check">
                         <input class="btn-check" type="checkbox" id="desc" name="desc" autocomplete="off">
                         <label class="btn btn-outline-primary" for="desc"><i class="bi bi-sort-up"></i></label>
@@ -239,10 +237,8 @@
         </div>
         <div class="col-2" ></div>
 </div>
-        
-        
-
-            <!-- Menu a tendina per il filtro e l'ordinamento -->
+      
+             <!-- Dropdown menu for filtering and sorting -->
             <div id="filterMenu" class="filter-menu">
                 <form id="filter" th:action="@{/decks/yourdeck/1/{deckId}(deckId=${deckId})}" method="get">
                     <div>
@@ -257,10 +253,6 @@
                         <label for="set">Set:</label>
                         <input type="text" id="set" name="set">
                     </div>
-                    <!-- <div>
-                        <label for="types">Type:</label>
-                        <input type="text" id="types" name="types" th:value="${param.types}">
-                    </div> -->
                     <div>
                         <label for="types">Choose a type:</label>
                         <select name="types" id="types1">
@@ -357,9 +349,8 @@
                             <option value="level">Level</option>
                             <option value="rarity">Rarity</option>
                         </select>
-                    
 
-                        <!-- Checkbox per la direzione di ordinamento -->
+                        <!-- Checkbox for sort direction -->
                         <label for="desc">Order descend:</label>
                         <input type="checkbox" id="desc" name="desc">
                     </div>
@@ -373,39 +364,29 @@
         </div>
         <div class="col-2"></div>
 </div>
-
-
-
         
 <br>
-<style>
-    .card {
-        width: 100%;
-        margin: 0 auto; 
-    }
-</style>
 
-
-<!-- Sezione per la paginazione, mostrata solo se ci sono più di 30 carte -->
+<!-- Pagination -->
 <div th:if="${!#lists.isEmpty(cards)}" class="d-flex justify-content-center my-3"> 
 
-    <!-- Link "Vai alla Prima pagina" -->
+    <!-- First pages -->
     <a th:if="${currentPage > 1}" 
        th:href="@{/decks/yourdeck/{page}/{deckId}(deckId=${deckId},page=1, blocco=1, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
        class="btn btn-outline-primary mx-1">Prima pagina</a>
 
-    <!-- Bottone precedente -->
+    <!-- Previous -->
     <a th:if="${currentPage > 1}" 
        th:href="@{/decks/yourdeck/{page}/{deckId}(deckId=${deckId},page=${currentPage - 1},blocco=${(currentPage - 1) % bloccoDimensione == 0 ? bloccoCorrente - 1 : bloccoCorrente}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned}, from=${param.from})}" 
        class="btn btn-outline-primary mx-1">Precedente</a>
 
 
-    <!-- Ellissi per il blocco precedente -->
+    <!-- Ellissi for the previous pages -->
     <span th:if="${inizioPagina > 1}"> 
         <a class="btn btn-outline-primary mx-1" th:href="@{/decks/yourdeck/{page}/{deckId}(deckId=${deckId},page=${currentPage}, blocco=${bloccoCorrente - 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}">...</a>
     </span>
 
-    <!-- Pagine numerate -->
+    <!-- Numbered pages -->
     <span th:each="i : ${#numbers.sequence(inizioPagina, finePagina)}">
         <a th:href="@{/decks/yourdeck/{page}/{deckId}(deckId=${deckId},page=${i}, blocco=${bloccoCorrente}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
            th:text="${i}" 
@@ -413,24 +394,22 @@
            th:classappend="${i == currentPage} ? 'btn-primary text-white' : ''"></a>
     </span>
 
-    <!-- Ellissi per il blocco successivo -->
+    <!-- Ellissi for the next pages -->
     <span th:if="${finePagina < totPages}">
         <a class="btn btn-outline-primary mx-1" th:href="@{/decks/yourdeck/{page}/{deckId}(deckId=${deckId},page=${currentPage}, blocco=${bloccoCorrente + 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}">...</a>
     </span>
 
-    <!-- Bottone successivo -->
+    <!-- Next -->
     <a th:if="${currentPage < totPages}" 
        th:href="@{/decks/yourdeck/{page}/{deckId}(deckId=${deckId},page=${currentPage + 1},  blocco=${((currentPage) / bloccoDimensione) + 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
        class="btn btn-outline-primary mx-1">Succ</a>
 
-    <!-- Ultima pagina -->
+    <!-- Last page -->
     <a th:if="${finePagina < totPages}" 
        th:href="@{/decks/yourdeck/{page}/{deckId}(deckId=${deckId},page=${totPages }, blocco=${(totPages - 1) / bloccoDimensione + 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned})}" 
        class="btn btn-outline-primary mx-1">Ultima pagina</a>
 
-
 </div>
-
 
 <h2 class="text-center mb-3">Tutte le Carte</h2>
 
@@ -451,8 +430,7 @@
             <p>No cards found</p>
         </div>
 
-
-<!-- Script per gestire le operazioni asincrone -->
+<!-- Begin script for handling asynchronous operations -->
     <script>
 
         function toggleFilterMenu() {
@@ -596,6 +574,7 @@
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- End script -->
+<!-- End body -->
 </body>
-
 </html>

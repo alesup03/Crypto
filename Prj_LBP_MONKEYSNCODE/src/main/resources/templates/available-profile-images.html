@@ -27,13 +27,15 @@
     </style>
 </head>
 <body>
+	<!-- Begin Body -->
     <h1>Immagini Profilo Disponibili</h1>
     
     <ul>
+      	<!-- List of profile images -->
         <li th:each="img : ${images}">
             <img th:src="${img.imgPath}" alt="Immagine Profilo" />
         </li>
     </ul>
-    
+    <!-- End of Body -->
 </body>
 </html>

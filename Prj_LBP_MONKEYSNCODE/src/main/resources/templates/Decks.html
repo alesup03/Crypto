@@ -7,29 +7,28 @@
     <link rel="icon" sizes="48x48" href="/icona_pokedecks.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /*colori di sfondo validità */
+        /* Background colors for validity */
         .bg-valid {
-            background-color: #d4edda; /* Verde chiaro */
+            background-color: #d4edda;
             padding: 20px;
         }
         .bg-invalid {
-            background-color: #f8d7da; /* Rosso chiaro */
+            background-color: #f8d7da;
             padding: 20px;
         }
-
         .card-title {
-            font-size: 1.25rem; /*dimensione testo */
+            font-size: 1.25rem; 
         }
         .deck-img {
-		    width: 100%; /* Assicurati che l'immagine riempia completamente il contenitore */
-		    height: 570px; /* Altezza fissa per tutte le immagini */
-		    object-fit: cover; /* Ritaglia l'immagine per adattarsi al contenitore */
-		    border-radius: 8px; /* Arrotonda gli angoli */
+		    width: 100%;
+		    height: 570px;
+		    object-fit: cover; 
+		    border-radius: 8px; 
 		}
     </style>
 </head>
 <body>
-  <!-- navBar -->
+  <!-- Begin navBar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
     <div class="container-fluid">
         <a class="navbar-brand" href="http://localhost:8080">
@@ -63,7 +62,7 @@
         </div>
     </div>
 </nav>
-<!-- navBar -->
+<!-- End navBar -->
 
     <div class="container mt-5">
         <div class="row">
@@ -74,7 +73,7 @@
                     <div class="row row-cols-1 row-cols-md-3 g-4 mt-4">
                         <div th:each="deck : ${decks}" class="col">
                             <div class="card h-100">
-                                <!-- Aggiungi lo stesso percorso al tag <a> -->
+                                 <!-- Add the same path to the <a> tag -->
                                 <a th:href="@{/decks/yourdeck/1/{deckId}(deckId=${deck.id})}">
 			                        <img th:src="@{${deck.deckImg.imgDeckPath}}" alt="Deck Image" class="img-fluid deck-img" onerror="this.onerror=null; this.src='path/to/default/image.jpg';">
 			                    </a>
@@ -105,7 +104,9 @@
             </div>
         </div>
     </div>
-
+	<!-- Begin script -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+	<!-- End script -->
+	<!-- End body -->
 </body>
 </html>

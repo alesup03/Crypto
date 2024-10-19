@@ -38,34 +38,32 @@
         	z-index:8;
         }
         .card-buttons {
-            display: none; /* Nasconde i pulsanti di default */
+            display: none;
             position: absolute;
-            bottom: 10px; /* Posizione dei pulsanti */
+            bottom: 10px;
             left: 50%;
-            transform: translateX(-50%); /* Centra i pulsanti */
+            transform: translateX(-50%);
         }
         .card-buttons {
-		    display: flex;               /* Imposta i pulsanti su flex */
-		    gap: 50px;                   /* Spazio tra i pulsanti */
-		    z-index: 10;                 /* Imposta il livello per sovrapporre correttamente */
+		    display: flex;               
+		    gap: 50px;                   
+		    z-index: 10;                 
 		}
-		
 		.card-buttons button {
-		    font-size: 16px;             /* Dimensione del testo */
-		    color: white;                /* Colore del testo */
-		    border-radius: 50%;          /* Angoli arrotondati per rendere i pulsanti rotondi */
-		    cursor: pointer;             /* Cambia il cursore per indicare che è cliccabile */
-		    opacity: 0;                  /* Rende i pulsanti invisibili */
-		    transition: opacity 0.4s ease; /* Transizione per l'opacità più rapida */
+		    font-size: 16px;             
+		    color: white;            
+		    border-radius: 50%;          
+		    cursor: pointer;             
+		    opacity: 0;                 
+		    transition: opacity 0.4s ease; 
 		}
 		
 		.card:hover .card-buttons button {
-		    opacity: 0.5;                /* Pulsanti diventano semitrasparenti quando si passa sopra la carta */
+		    opacity: 0.5;                
 		}
-		
 		.card .card-buttons button:hover {
 			color: white;
-		    opacity: 1;                  /* Pulsante completamente opaco quando si passa il mouse su di esso */
+		    opacity: 1;                  
 		}
         .pagination a {
             margin: 0 5px;
@@ -81,25 +79,18 @@
         }
         .filter-menu {
             display: none;
-            /*position: absolute;  Posiziona il menu fisso rispetto alla finestra */
-            top: 350px; /* Puoi regolare questa distanza dalla parte superiore */
-            /*left: 20%;  Posiziona il menu al 50% da sinistra */
-            z-index: 1000; /* Assicurati che sia sopra gli altri elementi */
-            /*width: 300px;  Larghezza del form */
+            z-index: 1000;
             border: 1px solid #ccc;
             padding: 10px;
             background-color: #f9f9f9;
             border-radius: 5px;
             margin-top: 10px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Aggiungi un'ombra */
-
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
         }
         .filter-menu.active {
         	display: flex;
             flex-wrap: wrap;
             gap: 20px;
-            /*display: block;*/
-            /*transform: translate(265%, 0%); sposta verso destra il filtro*/
         }
         .filter-button {
             cursor: pointer;
@@ -108,7 +99,6 @@
             color: white;
             border: none;
             border-radius: 5px;
-            /*transform: translate(1800%, 0%); sposta verso destra il bottone*/
             margin-left: 30px;
         }
         nav{
@@ -126,15 +116,15 @@
             margin-left: 10px;
         }
         .swal2-popup {
-            width: 250px !important; /* Riduci la larghezza del popup */
-            height: auto; /* Mantiene un'altezza dinamica in base al contenuto */
-            font-size: 14px; /* Font più piccolo */
+            width: 250px !important;
+            height: auto;
+            font-size: 14px;
         }
-
     </style>
 </head>
 <body>
-    <!-- navBar -->
+	<!-- Begin Body -->
+    <!-- Begin navBar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
     <div class="container-fluid">
         <a class="navbar-brand" href="http://localhost:8080">
@@ -168,11 +158,11 @@
         </div>
     </div>
 </nav>
-<!-- navBar -->
+<!-- End navBar -->
 
     <div class="row"><h1>Elenco di Carte</h1></div>
     <div>
-	    <!-- Verifica se l'utente sta visualizzando la propria collezione -->
+	    <!-- Check if the user is viewing their own collection -->
 	    <br>
 	    <h5 class="text-center" th:if="${from == 'myCollection'}">
 	        Totale carte possedute: <strong th:text="${totalCards}"></strong>
@@ -181,10 +171,10 @@
     <div class="row my-5">
         <div class="col-2"></div>
         <div class="col">
-        <!-- Pulsante per aprire il menu di filtro -->
+        <!-- Button to open the filter menu -->
         <button class="filter-button btn btn-primary" onclick="toggleFilterMenu()">Filtra</button>
 	
-    <!-- Menu a tendina per il filtro e l'ordinamento -->
+    	<!-- Dropdown menu for filtering and sorting -->
         <div id="filterMenu" class="filter-menu">
             <form id="filter" th:action="@{/cards}" method="get" class="row g-3">
                 <input type="hidden" name="from" th:value="${param.from}">
@@ -196,8 +186,8 @@
                 </div>
                 <div class="col-md-1"></div>
                 <div class="col-md-4 d-flex align-items-end">
-                    <!-- Select per il sorting -->
-                    <div > <!-- Aggiunge spazio solo a destra del select -->
+                    <!-- Select for sorting -->
+                    <div > <!-- Adds space only to the right of the select -->
                         <label for="sort" class="form-label">Order:</label>
                         <select id="sort" name="sort" class="form-select">
                             <option value="name">Name</option>
@@ -205,7 +195,7 @@
                             <option value="level">Level</option>
                         </select>
                     </div>
-                    <!-- Checkbox come pulsante per "desc" -->
+                    <!-- Checkbox as a button for "desc" -->
                     <div class="form-check">
                         <input class="btn-check" type="checkbox" id="desc" name="desc" autocomplete="off">
                         <label class="btn btn-outline-primary" for="desc"><i class="bi bi-sort-up"></i></label>
@@ -317,27 +307,26 @@
 <div class="col-2" ></div>
 </div>
 
-    <!-- Sezione per la paginazione, mostrata solo se ci sono più di 30 carte -->
-
+	<!-- Pagination -->
 	<div th:if="${!#lists.isEmpty(cards)}" class="d-flex justify-content-center my-3">
 
 
-     <!-- Link "Vai alla Prima pagina" -->
+     <!-- First page -->
     <a th:if="${currentPage > 1}" 
        th:href="@{/cards(page=1, blocco=1, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned}, from=${param.from})}" 
        class="btn btn-outline-primary mx-1">Prima pagina</a>
 
-    <!-- Bottone precedente -->
+    <!-- Previous -->
     <a th:if="${currentPage > 1}" 
        th:href="@{/cards(page=${currentPage - 1},blocco=${(currentPage - 1) % bloccoDimensione == 0 ? bloccoCorrente - 1 : bloccoCorrente}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned}, from=${param.from})}" 
        class="btn btn-outline-primary mx-1">Precedente</a>
 
-    <!-- Ellissi per il blocco precedente -->
+    <!-- Ellissi for previous pages -->
     <span th:if="${inizioPagina > 1}"> 
         <a class="btn btn-outline-primary mx-1" th:href="@{/cards(page=${currentPage}, blocco=${bloccoCorrente - 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned}, from=${param.from})}">...</a>
     </span>
 
-    <!-- Pagine numerate -->
+    <!-- Numbered pages -->
     <span th:each="i : ${#numbers.sequence(inizioPagina, finePagina)}">
         <a th:href="@{/cards(page=${i}, blocco=${bloccoCorrente}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned}, from=${param.from})}" 
            th:text="${i}" 
@@ -345,17 +334,17 @@
            th:classappend="${i  == currentPage} ? 'btn-primary text-white' : ''"></a>
     </span>
 
-    <!-- Ellissi per il blocco successivo -->
+    <!-- Ellissi for next pages -->
     <span th:if="${finePagina < totalPages}">
         <a class="btn btn-outline-primary mx-1" th:href="@{/cards(page=${currentPage}, blocco=${bloccoCorrente + 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned}, from=${param.from})}">...</a>
     </span>
 
-    <!-- Bottone successivo -->
+    <!-- Next -->
     <a th:if="${currentPage + 1 <= totalPages}" 
        th:href="@{/cards(page=${currentPage + 1},  blocco=${((currentPage) / bloccoDimensione) + 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned}, from=${param.from})}" 
        class="btn btn-outline-primary mx-1">Successivo</a>
 
-    <!-- Ultima pagina -->
+    <!-- Last page -->
     <a th:if="${finePagina < totalPages}" 
        th:href="@{/cards(page=${totalPages}, blocco=${(totalPages - 1) / bloccoDimensione + 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned}, from=${param.from})}" 
        class="btn btn-outline-primary mx-1">Ultima pagina</a>
@@ -370,16 +359,16 @@
             <p>No cards found</p>
         </div>
 
-        <!-- Loop Thymeleaf per ogni carta -->
+        <!-- Thymeleaf loop -->
         <div class="col-6 col-sm-4 col-md-3 col-lg-2 col-xl-1" th:each="card : ${cards}">
             <div class="card">
                 <a th:href="@{/card/{cardId}(cardId=${card.id})}">
                     <img th:src="${card.img}" alt="Card Image"/>
                 </a>
                 <div class="card-buttons">
-                    <!-- Bottone per aggiungere la carta alla collezione -->
+                    <!-- Add to collection -->
                     <button class="btn add-to-collection" th:data-card-id="${card.id}" style="background-color: green;"><i class="bi bi-plus-lg"></i></button>
-                    <!-- Bottone per rimuovere la carta dalla collezione-->
+                    <!-- Remove from collection -->
                     <a th:href="@{/card/{cardId}(cardId=${card.id})}">
                     	<button th:if=${owned} class="btn" th:data-card-id="${card.id}" style="background-color: grey;"><i class="bi bi-dash-lg"></i></button>
                     	<button class="btn remove" th:data-card-id="${card.id}" style="background-color: red;"><i class="bi bi-dash-lg"></i></button>
@@ -390,7 +379,7 @@
     </div>
     <div class="col-1"></div>
 </div>
-<!-- Inizio script -->
+<!-- Begin script -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
@@ -527,6 +516,7 @@
 </script>
 <script src="/script/script_cards.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Fine script -->
+<!-- End script -->
+<!-- End of Body -->
 </body>
 </html>

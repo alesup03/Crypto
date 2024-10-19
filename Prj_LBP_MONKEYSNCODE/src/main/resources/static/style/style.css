@@ -1,4 +1,4 @@
-
+/* Define color variables for consistent theming */
 :root {
   --color-primary: #365fac;
   --color-secondary: #ffcc01;
@@ -6,7 +6,7 @@
   --color-danger-hover: #ff1a1a;
   --font-family: Arial, Helvetica, sans-serif;
 }
-
+/* Reset default margins and padding */
 body, html {
   margin: 0;
   padding: 0;
@@ -16,11 +16,10 @@ body, html {
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
-
 body::-webkit-scrollbar {
   display: none;
 }
-
+/* Set full height and background properties for sections */
 .sezione-homepage, .sezione-regole-gioco, .sezione-funzionalita, .sezione-link {
   height: 100%;
   background-size: cover;
@@ -28,49 +27,30 @@ body::-webkit-scrollbar {
   background-repeat: no-repeat;
   position: relative;
 }
-
 .sezione-homepage p {
   text-align: center;
 }
-
 .sezione-homepage {
   background-image: url(../image/sfondo-paesaggio-pokemon.jpg);
 }
-
 .sezione-regole-gioco {
   background-image: url(../image/sfondo-paesaggio-pokemon-2.jpg);
 }
-
 .sezione-link {
   background-image: url(../image/sfondo-paesaggio-pokemon-5.jpg);
 }
-
 .sezione-funzionalita {
   background-image: url(../image/sfondo-paesaggio-pokemon-3.jpg);
 }
-
-.immagine-blob, #immagine-logo-app, #immagine-slogan, #icona-pokeball, #immagine-seguici, .icone-social {
+/* Style for absolutely positioned images and icons */
+.immagine-blob, #immagine-logo-app, #immagine-slogan, .icone-social {
   position: absolute;  
   left: 0;  
   z-index: 1;
   pointer-events: none; 
   text-align: center;              
 }
-
-#icona-pokeball {
-  top: 74%;
-  left: 15px;
-  height: 80px;
-  width: 140px;
-}
-
-#immagine-seguici {
-  bottom: 160px;
-  left: 120px;
-  z-index: 10;
-  width: 150px;
-}
-
+/* Fixed position for the menu buttons container */
 .container-bottoni-menu {
   position: fixed;
   right: -25px;
@@ -81,7 +61,6 @@ body::-webkit-scrollbar {
   align-items: flex-end;
   z-index: 99;
 }
-
 .bottone-menu{
   display: block;
   background-color: var(--color-primary);
@@ -98,18 +77,16 @@ body::-webkit-scrollbar {
   color: var(--color-secondary);
   overflow: hidden;
 }
-
 .bottone-menu:hover{
   width: 150px;
 }
-
 .bottone-menu::before {
   content: '';
   width: 0;
   height: 0;
   visibility: hidden;
 }
-
+ /* Style for access, Google, and close buttons */
 .bottone-accesso, .bottone-google, .bottone-chiudi{
   display: block;
   background-color: var(--color-secondary); 
@@ -126,11 +103,20 @@ body::-webkit-scrollbar {
   overflow: hidden;
   transition: transform 0.3s ease;
 }
-
+.bottone-google, .bottone-chiudi {
+  background-color: var(--color-danger); 
+  color: var(--color-secondary); 
+  padding: 6px; 
+  border-radius: 30px;
+  font-family: var(--font-family); 
+  font-size: 14px;
+  text-decoration: none;
+  z-index: 100; 
+}
 .bottone-accesso:hover, .bottone-chiudi:hover, .bottone-google:hover {
   transform: scale(1.25);
 }
-
+/* Style for language menu links */
 .menu-lingua {
   position: fixed;
   right: 250px;
@@ -142,13 +128,11 @@ body::-webkit-scrollbar {
   padding: 15px;
   text-align: center;
 }
-
 .menu-lingua a {
   text-decoration: none;
   font-family: var(--font-family);
   font-size: 14px;
 }
-
 .opzioni-lingua {
   display: none;
   position: relative;
@@ -156,13 +140,11 @@ body::-webkit-scrollbar {
   border-radius: 30px;
   z-index: 300;
 }
-
 .menu-lingua:hover .opzioni-lingua {
   display: block; 
   transform: translateY(5%);
   margin: -8px -10px 0px -10px;
 }
-
 .opzioni-lingua a {
   background-color: var(--color-primary);
   border-radius: 30px;
@@ -174,63 +156,43 @@ body::-webkit-scrollbar {
   font-family: var(--font-family);
   font-size: 14px;
 }
-
-.opzioni-lingua a:hover,
-#icona-facebook:hover,
-#icona-linkedin:hover,
-#icona-instagram:hover,
-#icona-tiktok:hover {
+.opzioni-lingua a:hover,#icona-facebook:hover,#icona-linkedin:hover,#icona-instagram:hover,#icona-tiktok:hover {
   transform: scale(1.2);
   transition: transform 0.3s ease;
   border-radius: 30px;
 }
-
+ /* Size for language flags */
 .bandiera {
   width: 25px;
   height: 25px;
   margin-right: 10px;
 }
-
-.bottone-google, .bottone-chiudi {
-  background-color: var(--color-danger); 
-  color: var(--color-secondary); 
-  padding: 6px; 
-  border-radius: 30px;
-  font-family: var(--font-family); 
-  font-size: 14px;
-  text-decoration: none;
-  z-index: 100; 
-}
-
+ /* Sidebar styling */
 #sidebar {
     position: absolute;
     top: 0;
     left: 0;
-    height:98%; /* Sidebar copre tutta l'altezza della sezione */
-    width: 25%; /* 1/4 della larghezza della schermata */
+    height:98%; 
+    width: 25%; 
     background-color: var(--color-primary);
     padding-top: 20px;
     transition: transform 0.3s ease, width 0.3s ease;
     z-index: 1000;
-    transform: translateX(-75%); /* Sidebar parzialmente chiusa */
-    border-top-right-radius: 20px; /* Arrotonda l'angolo in alto a destra */
-    border-bottom-right-radius: 20px; /* Arrotonda l'angolo in basso a destra */
+    transform: translateX(-75%); 
+    border-top-right-radius: 20px; 
+    border-bottom-right-radius: 20px; 
 }
-
 #sidebar.closed .sidebar-content {
     visibility: hidden;
     opacity: 0;
     transition: visibility 0s 0.3s, opacity 0.1s linear;
 }
-
 #sidebar.open {
-    transform: translateX(0); /* Sidebar aperta */
+    transform: translateX(0);
 }
-
 #sidebar.closed {
-    width: 110px; /* Sidebar chiusa parzialmente visibile */
+    width: 110px; 
 }
-/* Pulsante di apertura/chiusura della sidebar, centrato verticalmente */
 .toggle-btn {
     position: absolute;
     top: 50%;
@@ -242,97 +204,87 @@ body::-webkit-scrollbar {
     cursor: pointer;
     border-radius: 0 5px 5px 0;
 }
-
-/* Pulsanti di accesso e registrazione */
 .btn-sidebar {
     flex: 1;
     width: 45%;
     margin: 0 5px;
     text-align: center;
     min-width: 0px;
-    white-space: nowrap; /* Evita che il testo si spezzi */
+    white-space: nowrap;
 }
-
-/* Mantiene i pulsanti larghi uguali anche quando la sidebar è chiusa */
 #sidebar.closed .btn-sidebar {
-    width: 100%; /* I pulsanti occupano tutta la larghezza della sidebar chiusa */
+    width: 100%;
 }
+/* Positioning for social media icons */
 .container-social {
     position: absolute;
-    bottom: 8%; /* Posiziona a 1/12 della sidebar dal fondo */
+    bottom: 8%; 
     left: 50%;
     transform: translateX(-50%);
-    display: flex; /* Flexbox per posizionare le icone in fila */
-    justify-content: center; /* Centra le icone orizzontalmente */
-    gap: 10px; /* Spazio tra le icone */
+    display: flex;
+    justify-content: center;
+    gap: 10px; 
 }
-
-/* Dimensioni delle icone social */
 #icona-facebook, #icona-linkedin, #icona-instagram, #icona-tiktok {
     width: 60px;
     height: auto;
 }
-
-/* Stile per il contenuto */
 .content {
-    margin-left: 25%; /* Spazio lasciato dalla sidebar */
+    margin-left: 25%;
 }
-
-/* Posizionamento dei pulsanti di accesso e registrazione in basso */
-   .container-bottoni-accesso {
-       position: absolute;
-       bottom: 30%; 
-       left: 50%;
-       transform: translateX(-50%);
-       display: flex;
-       justify-content: space-between;
-       width: 60%;
-   }
+/* Positioning for access and registration buttons at the bottom */
+.container-bottoni-accesso {
+    position: absolute;
+    bottom: 30%; 
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
+}
 #immagine-logo-app {
-	height: auto; /* Mantiene l'altezza proporzionale */
-	width: 70%; /* Larghezza al 70% del contenitore */
+	height: auto; 
+	width: 70%; 
 	margin-left:70px;
     top:10%;
 }
-
 #immagine-slogan {
-    height: auto; /* Mantiene l'altezza proporzionale */
-    width: 75%; /* Larghezza al 70% del contenitore */
+    height: auto;
+    width: 75%;
     margin-left:61px;
     top:19%;
 }
-
-/* Stile per il contenitore delle immagini */
 .logo-container {
     display: flex;
-    flex-direction: column; /* Dispone le immagini in colonna */
-	align-items: center; /* Allinea al centro */
-	margin-bottom: 20px; /* Spazio sotto le immagini */
-	justify-content: center; /* Centra verticalmente all'interno del contenitore */
-	height: 100%; /* Occupare tutta l'altezza disponibile */
+    flex-direction: column; 
+	align-items: center; 
+	margin-bottom: 20px; 
+	justify-content: center;
+	height: 100%;
 }
 .container-social {
     position: absolute;
-    bottom: 8%; /* Posiziona a 1/12 della sidebar dal fondo */
+    bottom: 8%; 
     left: 50%;
     transform: translateX(-50%);
-    display: flex; /* Flexbox per posizionare le icone in fila */
-    justify-content: center; /* Centra le icone orizzontalmente */
-    gap: 15px; /* Spazio tra le icone */
+    display: flex; 
+    justify-content: center; 
+    gap: 15px; 
 }
 #introduzione-app {
 	position: absolute;
-	top: 33%; /* Posizione verticale */
-	left: 50%; /* Posiziona il lato sinistro al 50% */
-	transform: translateX(-50%); /* Centra orizzontalmente l'elemento */
+	top: 33%; 
+	left: 50%; 
+	transform: translateX(-50%); 
 	font-family: var(--font-family);
 	color: white;
 	font-size: 14px;
-	text-align: center; /* Opzionale: centra il testo all'interno del paragrafo */
+	text-align: center; 
 }
+/* Style for user information display */
 .utente {
-    margin: 0 auto; /* Centratura automatica orizzontale */
-    top: 20px; /* Margine superiore per distanziarlo dal bordo superiore della sidebar */
+    margin: 0 auto; 
+    top: 20px; 
     z-index: 199;
     color: var(--color-primary);
     background-color: var(--color-secondary);
@@ -343,6 +295,7 @@ body::-webkit-scrollbar {
     text-align: center;
     width: 70%;
 }
+/* Style for additional sidebars */
 #sidebar2, #sidebar3{
     width: 25%;
     height: 50%;
@@ -356,30 +309,25 @@ body::-webkit-scrollbar {
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
     transition: transform 0.3s ease, width 0.3s ease;
-    z-index: 1001; /* Assicura che la sidebar 2 si trovi sopra la sidebar 1 */
+    z-index: 1001; 
       display: flex;
     align-items: center;
-    flex-direction: column; /* Disporrà gli elementi in colonna */
+    flex-direction: column;
 }
-
-
 .closed2, .closed3{
     visibility: hidden;
     opacity: 0;
-
 }
-
 .open2, .open3 {
     visibility: visible;
     opacity: 1;
 }
-
+/* Style for sidebar content */
 #sidebar2 .sidebar-content2, #sidebar3 .sidebar-content2 {
     visibility: hidden;
     opacity: 0;
     transition: none;
 }
-
 #sidebar2:not(.closed2) .sidebar-content2, #sidebar3:not(.closed3) .sidebar-content2 {
     visibility: visible;
     opacity: 1;
@@ -393,41 +341,36 @@ body::-webkit-scrollbar {
     margin-top:10px;
     padding:0;
 }
+/* Style for form content */
 .form-contenuto{
 	margin-bottom:35px;
 	color:black;
 }
-/* Stile per i campi di input */
 .form-control {
-    border: none; /* Rimuove il bordo */
-    border-radius: 20px; /* Rende i bordi tondeggianti */
-    padding: 10px; /* Aumenta l'altezza del campo */
-    font-size: 14px; /* Aumenta la dimensione del testo */
+    border: none; 
+    border-radius: 20px; 
+    padding: 10px;
+    font-size: 14px; 
     width: 50%;
 }
-
-/* Stile per i pulsanti */
 .btn {
 	background-color:var(--color-danger);
 	font-family: var(--font-family);
-    border: none; /* Rimuove il bordo */
-    border-radius: 30px; /* Rende i bordi tondeggianti */
-    padding: 6px; /* Aumenta l'altezza e la larghezza del pulsante */
-    font-size: 14px; /* Aumenta la dimensione del testo */
+    border: none; 
+    border-radius: 30px;
+    padding: 6px; 
+    font-size: 14px; 
 }
+/* Section for game rules */
 
-/*sezione regole gioco*/
-
-/* Stile per il contenitore principale */
+/* Style for the main container */
 .sezione-regole-gioco, .sezione-funzionalita{
-    display: flex; /* Utilizza Flexbox per allineare il contenuto */
-    justify-content: center; /* Centra orizzontalmente */
-    align-items: center; /* Centra verticalmente */
-    min-height: 100vh; /* Occupare l'altezza intera della pagina */
-    background-color: var(--color-secondary); /* Sfondo chiaro per contrasto */
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--color-secondary);
 }
-
-/* Stile per il contenitore interno */
 .contenitore-interno {
     background-color: var(--color-secondary); 
     border-radius: 20px; 
@@ -438,32 +381,28 @@ body::-webkit-scrollbar {
     align-items: flex-start;
     border: 20px solid var(--color-primary);
 }
-
-/* Stile per il contenitore del testo */
 .testo-container {
 	margin-top:20px;
-    margin-right: 130px; /* Distanza tra il testo e l'immagine */
+    margin-right: 130px; 
     margin-left: 80px;
     font-family: var(--font-family);
     font-size:14px;
 }
-
-/* Stile per il contenitore dell'immagine */
 .immagine-container {
-    flex-shrink: 0; /* Non ridurre l'immagine */
+    flex-shrink: 0; 
     margin-right:80px;
     margin-top:25px;
 }
 .container-social2 {
-    display: flex;              /* Abilita Flexbox */
-    justify-content: center;    /* Centra gli elementi orizzontalmente */
-    align-items: center;        /* Centra gli elementi verticalmente */
-    height: 100%;               /* Assicura che il contenitore occupi l'intera altezza della sezione */
-    gap: 60px;                  /* Spazio tra le icone, puoi modificarlo a piacere */
+    display: flex;              
+    justify-content: center;  
+    align-items: center;        
+    height: 100%;              
+    gap: 60px;                
 }
 .alert {
-    width: auto; /* Puoi anche usare width: fit-content; */
-    max-width: 400px; /* Larghezza massima */
+    width: auto; 
+    max-width: 400px;
     height:auto;
-    margin: 0px auto; /* Margini per centrarlo */
+    margin: 0px auto; 
 }
