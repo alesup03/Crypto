@@ -319,7 +319,7 @@
     <!-- Previous -->
     <a th:if="${currentPage > 1}" 
        th:href="@{/cards(page=${currentPage - 1},blocco=${(currentPage - 1) % bloccoDimensione == 0 ? bloccoCorrente - 1 : bloccoCorrente}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned}, from=${param.from})}" 
-       class="btn btn-outline-primary mx-1">Precedente</a>
+       class="btn btn-outline-primary mx-1">Prec</a>
 
     <!-- Ellissi for previous pages -->
     <span th:if="${inizioPagina > 1}"> 
@@ -342,7 +342,7 @@
     <!-- Next -->
     <a th:if="${currentPage + 1 <= totalPages}" 
        th:href="@{/cards(page=${currentPage + 1},  blocco=${((currentPage) / bloccoDimensione) + 1}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned}, from=${param.from})}" 
-       class="btn btn-outline-primary mx-1">Successivo</a>
+       class="btn btn-outline-primary mx-1">Succ</a>
 
     <!-- Last page -->
     <a th:if="${finePagina < totalPages}" 

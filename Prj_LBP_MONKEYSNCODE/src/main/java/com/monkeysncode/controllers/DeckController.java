@@ -150,9 +150,9 @@ public class DeckController { // Controller who manages the user deck
 	 		cards = cardService.filterByParam(param, usercardService.getSortedCollection(user.getId(),sort,desc));
 	 	else cards = cardService.filterByParam(param, cardService.findAllSorted(sort,desc));
     	
-    	List<Card> allCards = cardService.getCardsByPage(cards, page, 132);
+    	List<Card> allCards = cardService.getCardsByPage(cards, page, 100);
 
-    	int totPages=(int) Math.ceil((double) cards.size() / 132);
+    	int totPages=(int) Math.ceil((double) cards.size() / 100);
     	
     	// Page block management (15 pages per block)
 	    int bloccoDimensione = 5;
