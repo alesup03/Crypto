@@ -76,9 +76,9 @@ public class CardController { // Controller who manages the user card collection
 	 	else cards = cardService.filterByParam(param, cardService.findAllSorted(sort,desc));
 	 	
 	 	// Pagination
-	 	List<Card> allCards = cardService.getCardsByPage(cards, page, 132); // Make a list of how many cards should fit per page
+	 	List<Card> allCards = cardService.getCardsByPage(cards, page, 100); // Make a list of how many cards should fit per page
 	 	
-	    int totalPages = (int) Math.ceil((double) cards.size() / 132);
+	    int totalPages = (int) Math.ceil((double) cards.size() / 100);
 	    
 	    if (page < 1) 
 	    {

@@ -27,6 +27,7 @@
 	        width: 100%;
 	        margin: 0 auto; 
 	    }
+	    
         .card:hover{
         	position: relative;
         	transform:scale(1.5);
@@ -95,7 +96,7 @@
     <h2>Carte nel Mazzo</h2>
     <div class="bg-light border rounded p-5 shadow-lg my-5"> 
         <div class="row" id="deckCards">
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2 col-xl-1" style =" width: 100%; max-width: 150px;" th:each="deckCard : ${deckCards}">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 col-xxl-1" style =" width: 100%; max-width: 150px;" th:each="deckCard : ${deckCards}">
                 <div class="card mb-3 remove-card" style="cursor: pointer;" th:data-deck-id="${deckId}" th:data-card-id="${deckCard.card.id}">
                     <img th:src="@{${deckCard.card.img}}" class="card-img-top" alt="Carta" style="width: 120%; height: auto;">
                 </div>
@@ -378,7 +379,7 @@
     <!-- Previous -->
     <a th:if="${currentPage > 1}" 
        th:href="@{/decks/yourdeck/{page}/{deckId}(deckId=${deckId},page=${currentPage - 1},blocco=${(currentPage - 1) % bloccoDimensione == 0 ? bloccoCorrente - 1 : bloccoCorrente}, set=${param.set}, types=${param.types}, name=${param.name}, rarity=${param.rarity}, supertype=${param.supertype}, subtypes=${param.subtypes}, sort=${param.sort}, desc=${param.desc}, owned=${param.owned}, from=${param.from})}" 
-       class="btn btn-outline-primary mx-1">Precedente</a>
+       class="btn btn-outline-primary mx-1">Prec</a>
 
 
     <!-- Ellissi for the previous pages -->
@@ -412,11 +413,11 @@
 </div>
 
 <h2 class="text-center mb-3">Tutte le Carte</h2>
-
+        
 <div th:if="${!#lists.isEmpty(cards)}" class="container-fluid bg-light border rounded p-4 shadow-sm"> <!-- Aggiunto overflow-hidden -->
     <div class="row g-3" id="allCards"> <!-- Rimosso mx-n1 -->
-        <div class="col-6 col-sm-4 col-md-3 col-lg-2 col-xl-1" th:each="card : ${cards}"> <!-- Aggiunte classi responsive -->
-            <div class="card mb-3 add-card" style="cursor: pointer; width: 110%; max-width: 250px;" th:data-deck-id="${deckId}" th:data-card-id="${card.id}">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 col-xxl-1" th:each="card : ${cards}"> <!-- Aggiunte classi responsive -->
+            <div class="card mb-3 add-card" style="cursor: pointer; width: 110%; max-width: 200px;" th:data-deck-id="${deckId}" th:data-card-id="${card.id}">
                 <img th:src="@{${card.img}}" class="card-img-top img-fluid" alt="Carta"> <!-- Aggiunto img-fluid -->
             </div>
         </div>
@@ -429,7 +430,7 @@
         <div th:if="${#lists.isEmpty(cards)}">
             <p>No cards found</p>
         </div>
-
+        
 <!-- Begin script for handling asynchronous operations -->
     <script>
 
