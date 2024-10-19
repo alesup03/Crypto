@@ -4,23 +4,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.monkeysncode.entites.Card;
 import com.monkeysncode.entites.User;
-import com.monkeysncode.entites.UserCards;
 import com.monkeysncode.servicies.CardService;
 import com.monkeysncode.servicies.UserCardsService;
 import com.monkeysncode.servicies.UserService;
@@ -62,7 +57,6 @@ public class CardController { // Controller who manages the user card collection
 	    	blocco = 1;
 	    }
     	
-		
 		User user = userService.userCheck(principal);
 		int totalCards = usercardService.getTotalCards(user.getId());
 		HashMap<String, String> param = new HashMap<String, String>(); 
@@ -73,7 +67,6 @@ public class CardController { // Controller who manages the user card collection
 	 	param.put("supertype", supertype);
 	 	param.put("subtypes", subtypes);
 	 	
-		
 		List<Card> cards = new ArrayList<Card>();
 		List<String> ownedCards = usercardService.getCollectionById(user.getId()); // Creates the collection of all cards owned by the user
 		
@@ -83,8 +76,6 @@ public class CardController { // Controller who manages the user card collection
 	 	else cards = cardService.filterByParam(param, cardService.findAllSorted(sort,desc));
 	 	
 	 	// Pagination
-	 	int size = 30;  // Number of card for page
-	 	
 	 	List<Card> allCards = cardService.getCardsByPage(cards, page, 132); // Make a list of how many cards should fit per page
 	 	
 	    int totalPages = (int) Math.ceil((double) cards.size() / 132);
@@ -123,7 +114,6 @@ public class CardController { // Controller who manages the user card collection
 
         return "cards";
 	 }
-	
 	
 	@PostMapping("/collection/add")
     @ResponseBody

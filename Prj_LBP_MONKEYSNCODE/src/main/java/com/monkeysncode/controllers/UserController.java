@@ -46,7 +46,7 @@ public class UserController // Controller who manages the user profile
 	private UserCardDAO userCardDAO;
 	
 	private static final String REGEX_CHANGE_PASSWORD = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@#$%^&+=])(?=\\S+$).{8,}$"; //static variable where the regex for the password is set
-	
+
 	Deck deck = new Deck();
 	
 	// Create a list of images regarding the starter
@@ -65,7 +65,6 @@ public class UserController // Controller who manages the user profile
         User user = userService.userCheck(principal);
         
         List<Deck> userDecks = user.getDecks();
-        long img =  userService.getUserProfileImage(user.getId());
         
         model.addAttribute("username", user.getName()); // Adds the username in the model
         model.addAttribute("email", user.getEmail()); 
@@ -173,9 +172,7 @@ public class UserController // Controller who manages the user profile
             userService.DeleteUser(userId);
             return "redirect:/logout";
         }
-    
-    
-    
+   
     // Edit nickname
     @GetMapping("/profile")
     public String getProfile(Model model, @AuthenticationPrincipal Object principal, HttpServletRequest request) {
