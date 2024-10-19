@@ -27,7 +27,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.monkeysncode.entites.Deck;
 import com.monkeysncode.entites.User;
+import com.monkeysncode.entites.UserCards;
 import com.monkeysncode.entites.UserImg;
+import com.monkeysncode.repos.UserCardDAO;
 import com.monkeysncode.servicies.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,6 +42,11 @@ public class UserController // Controller who manages the user profile
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private UserCardDAO userCardDAO;
+	
+	private static final String REGEX_CHANGE_PASSWORD = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@#$%^&+=])(?=\\S+$).{8,}$"; //static variable where the regex for the password is set
+
 	Deck deck = new Deck();
 	
 	// Create a list of images regarding the starter
@@ -144,7 +151,18 @@ public class UserController // Controller who manages the user profile
     @GetMapping("/delete")
     public String deleteUserView(@AuthenticationPrincipal Object principal, Model model) { 
     	User user = userService.userCheck(principal);
-    	model.addAttribute("userId",user.getId());
+        List<Deck> decks = user.getDecks();
+        List<UserCards> userCards = userCardDAO.findByUserId(user.getId());
+        
+        String userId = user.getId(); // Assicurati che getId() restituisca il tipo corretto
+        model.addAttribute("userId", userId);
+        model.addAttribute("userName", user.getName());
+        model.addAttribute("userEmail", user.getEmail());
+        model.addAttribute("decks", decks);
+        model.addAttribute("userCards", userCards);
+        Integer totalCards = userCardDAO.countTotalCardsByUserId(userId);
+        
+        model.addAttribute("totalCards", totalCards);
     	return "deleteUser";
     }
     

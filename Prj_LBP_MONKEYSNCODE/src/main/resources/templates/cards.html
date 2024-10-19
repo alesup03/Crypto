@@ -171,6 +171,13 @@
 <!-- navBar -->
 
     <div class="row"><h1>Elenco di Carte</h1></div>
+    <div>
+	    <!-- Verifica se l'utente sta visualizzando la propria collezione -->
+	    <br>
+	    <h5 class="text-center" th:if="${from == 'myCollection'}">
+	        Totale carte possedute: <strong th:text="${totalCards}"></strong>
+	    </h5>
+	</div>
     <div class="row my-5">
         <div class="col-2"></div>
         <div class="col">
@@ -491,6 +498,7 @@
      // Ottieni l'URL della pagina
      const urlParams = new URLSearchParams(window.location.search);
      const fromCollection = urlParams.get('from');
+     const userId = document.querySelector("meta[name='user-id']").getAttribute("content");
   	
      // Cambia il titolo della pagina solo se 'from=myCollection' è presente
      if (fromCollection === 'myCollection') {

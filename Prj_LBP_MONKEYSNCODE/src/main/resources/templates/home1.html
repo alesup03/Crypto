@@ -7,6 +7,8 @@
   <link rel="icon" sizes="48x48" href="/icona_pokedecks.ico">
   <link rel="stylesheet" href="/style/style.css">
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  
 </head>
 <body>
 
@@ -22,12 +24,49 @@
 
       </div>
     </div>
+    <div th:if="${param.logout}" class="alert alert-success alert-dismissible fade show text-center" role="alert">
+     		<p>Logout effettuato con successo.</p>
+     		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+          	</button>
+    </div>
+    <div th:if="${success}" class="alert alert-success alert-dismissible fade show text-center" role="alert">
+          <p>Cambio password effettuato con successo.</p>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+          </button>
+    </div>
+    <div th:if="${exist}" class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+     		<p>La mail esiste già, prova con un'altra.</p>
+     		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+          	</button>
+    </div>
+    <div th:if="${passInvalid}" class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+     		<p>Password non valida. Servono: minimo 8 caratteri, una maiuscola, una minuscola, un numero e un carattere speciale.</p>
+     		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+          	</button>
+    </div>
+    <div th:if="${regiSuccess}" class="alert alert-success alert-dismissible fade show text-center" role="alert">
+          <p>Registrazione effettuata con successo, ora fai il login.</p>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+          </button>
+    </div>
+    <div th:if="${wrongPass}" class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+     		<p>Password e/o mail sbagliate.</p>
+     		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+          	</button>
+    </div>
+    <div th:if="${loginSuccess}" class="alert alert-success alert-dismissible fade show text-center" role="alert">
+          <p>Login effettuato con successo.</p>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+          </button>
+    </div>
+    
     <div id="sidebar" class="open">
             <div class="text-center">
                 <!-- Pulsante di apertura/chiusura della sidebar -->
                 <div class="toggle-btn" onclick="toggleSidebar()">&#9664;</div>
             </div>
             <div th:if="${session.name}!=null" class="ms-auto utente sidebar-content" >
+            	
 		        <div class="ms-auto d-flex align-items-center">
 		
 		            <a class="nav-link" href="http://localhost:8080/profile" th:text="'Benvenuto, ' + ${session.name}" style="margin-right: 15px;">User</a>
@@ -36,6 +75,7 @@
 		        
 		        </div>
 		    </div>
+		    
             <!-- Immagini logo e slogan allineate verticalmente e centrate -->
             <div class="logo-container sidebar-content">
                 <img id="immagine-logo-app" src="/image/nome-applicazione.png" alt="PokeDecks" class="img-fluid logo">
@@ -84,8 +124,8 @@
             	<button type="submit" class="btn btn-primary w-100" data-translate="accesso"></button>
             </div>
             <div class="d-flex justify-content-between mt-3 container-bottoni-registrazione1">
-            <button type="button" class="btn bottone-chiudi" onclick="toggleSidebar2()">Chiudi</button>
-	            <a href="/oauth2/authorization/google" class="btn bottone-google">Login con Google</a>
+            <button type="button" class="bottone-chiudi" onclick="toggleSidebar2()">Chiudi</button>
+	            <a href="/oauth2/authorization/google" class="bottone-google">Login con Google</a>
 	        </div>
           </form>
         </div>
@@ -114,8 +154,8 @@
             	<button type="submit" class="btn btn-primary w-100" data-translate="registrati"></button>
             </div>
             <div class="d-flex justify-content-between mt-3 container-bottoni-registrazione2">
-            <button type="button" class="btn bottone-chiudi" onclick="toggleSidebar3()">Chiudi</button>
-	            <a href="/oauth2/authorization/google" class="btn bottone-google">Login con Google</a>
+            <button type="button" class="bottone-chiudi" onclick="toggleSidebar3()">Chiudi</button>
+	            <a href="/oauth2/authorization/google" class="bottone-google">Login con Google</a>
 	        </div>
           </form>
         </div>
@@ -153,11 +193,8 @@
             <a href="https://www.tiktok.com/login"><img id="icona-tiktok" src="/image/tiktok.png" alt="tiktok"></a>
         </div>
   </section>
-  <script src="/script/logiche.js" ></script>
   <script src="/script/traduzioni.js"></script>
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
   <script>
         // Funzione per aprire e chiudere la sidebar
         function toggleSidebar() {
