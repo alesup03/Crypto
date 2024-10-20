@@ -39,6 +39,9 @@ public class FollowersController {
 		model.addAttribute("followers",userService.getNumFollowers(userId));
 		model.addAttribute("following",userService.getNumFollowing(userId));
 		model.addAttribute("isFollowing",userService.isFollowing(loggedUser.getId(), userId));
+		if(loggedUser.getId().equals(userId)) {
+			return "redirect:/profile";
+		}
 		return "user";
 	}
 	
