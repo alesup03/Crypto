@@ -16,18 +16,17 @@ public class Deck {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nameDeck;
-	//tolta la stringa deckCard perchè è stata creata la relazione tra deck e card
 	
 	
-	 private boolean valid; // Campo per tenere traccia della validità del mazzo
+	private boolean valid; // Field to keep track of the validity of the deck
 
-	    public boolean isValid() {
-	        return valid;
-	    }
+	public boolean isValid() {
+		return valid;
+	}
 
-	    public void setValid(boolean valid) {
-	        this.valid = valid;
-	    }
+	public void setValid(boolean valid) {
+		this.valid = valid;
+	}
 	    
 	    
 	@ManyToOne
