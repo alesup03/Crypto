@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.monkeysncode.entites.Card;
-import com.monkeysncode.entites.Deck;
 import com.monkeysncode.entites.User;
 import com.monkeysncode.entites.UserCards;
 
