@@ -13,7 +13,14 @@ public class Coin {
 
 	private String name;
 	private String symbols;   //e.g BTC,ETH,....
-	private String img;       //e.g https://.png
+	private String img;  //e.g https://.png
+	 @ManyToMany(cascade = { CascadeType.ALL })
+	 @JoinTable(
+	            name = "parti",
+	            joinColumns = { @JoinColumn(name = "wallet_id") },
+	            inverseJoinColumns = { @JoinColumn(name = "coin_id") }
+	    )
+	private   Set<Wallet> wallet = new HashSet<>();
 	public int getId() {
 		return id;
 	}
