@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.crypto_wallet.entities.User;
+import com.crypto_wallet.repos.UserDAO;
 @Service
 public class UserServiceImp implements UserService {
 
@@ -18,7 +19,7 @@ public class UserServiceImp implements UserService {
 	@Override
 	public void createNewUser(User user) {
 		// TODO Auto-generated method stub
-		boolean check = existByEmail(user.getEmail());
+		boolean check = dao.exitsByEmail(user.getEmail());
 		if(check) {
 			 new RuntimeException("email gia esiste");
 		}
