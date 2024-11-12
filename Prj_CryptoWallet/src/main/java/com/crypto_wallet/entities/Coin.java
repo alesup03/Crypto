@@ -3,12 +3,8 @@ package com.crypto_wallet.entities;
 import java.util.HashSet;
 import java.util.Set;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 
 @Entity
 @Table(name="coins") //il nome della table nel db
@@ -20,13 +16,14 @@ public class Coin {
 	private String name;
 	private String symbols;   //e.g BTC,ETH,....
 	private String img;  //e.g https://.png
-	 @ManyToMany(cascade = { CascadeType.ALL })
-	 @JoinTable(
+	@ManyToMany
+	@JoinTable(
 	            name = "parti",
-	            joinColumns = {@JoinColumn(name = "wallet_id") },
-	            inverseJoinColumns = {@JoinColumn(name = "coin_id") }
+	            joinColumns = @JoinColumn(name = "wallet_id"), 
+	            inverseJoinColumns = @JoinColumn(name = "coin_id") 
 	    )
 	private   Set<Wallet> wallet = new HashSet<>();
+	private double price;
 	public int getId() {
 		return id;
 	}

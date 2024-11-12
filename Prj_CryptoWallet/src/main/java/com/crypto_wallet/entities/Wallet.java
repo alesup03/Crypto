@@ -1,5 +1,16 @@
 package com.crypto_wallet.entities;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import org.springframework.data.annotation.Id;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import com.crypto_wallet.entities.Coin;
 @Entity
 @Table(name="wallet")
 public class Wallet {
@@ -12,6 +23,13 @@ public class Wallet {
 	@ManyToMany(mappedBy="wallet")
 	private Set<Coin> coins;
 	private int quantity;
+	private double prices; //quantity*Coin.prices
+	public double getPrices() {
+		return prices;
+	}
+	public void setPrices(double prices) {
+		this.prices = prices;
+	}
 	public int getId() {
 		return id;
 	}
