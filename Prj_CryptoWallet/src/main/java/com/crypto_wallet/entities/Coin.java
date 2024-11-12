@@ -1,7 +1,13 @@
 package com.crypto_wallet.entities;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -17,8 +23,8 @@ public class Coin {
 	 @ManyToMany(cascade = { CascadeType.ALL })
 	 @JoinTable(
 	            name = "parti",
-	            joinColumns = { @JoinColumn(name = "wallet_id") },
-	            inverseJoinColumns = { @JoinColumn(name = "coin_id") }
+	            joinColumns = {@JoinColumn(name = "wallet_id") },
+	            inverseJoinColumns = {@JoinColumn(name = "coin_id") }
 	    )
 	private   Set<Wallet> wallet = new HashSet<>();
 	public int getId() {
