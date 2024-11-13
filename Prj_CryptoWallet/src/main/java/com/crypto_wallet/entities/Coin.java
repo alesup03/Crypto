@@ -27,6 +27,18 @@ public class Coin {
 	public int getId() {
 		return id;
 	}
+	public Set<Wallet> getWallet() {
+		return wallet;
+	}
+	public void setWallet(Set<Wallet> wallet) {
+		this.wallet = wallet;
+	}
+	public double getPrice() {
+		return price;
+	}
+	public void setPrice(double price) {
+		this.price = price;
+	}
 	public void setId(int id) {
 		this.id = id;
 	}

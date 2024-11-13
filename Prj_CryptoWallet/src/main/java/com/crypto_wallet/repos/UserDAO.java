@@ -8,6 +8,7 @@ public interface UserDAO extends JpaRepository<User, Integer> {
 
   //metodo per cercare utente con il nome	
 	User findByName(String name);
-	boolean  exitsByEmail(String email); // ricerca se l'emil gia esiste o no
+	User findById(int id);
+	boolean  exitsByEmail(int user_id); // ricerca se l'emil gia esiste o no
 	
 }
