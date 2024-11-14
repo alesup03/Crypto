@@ -11,4 +11,8 @@ public class WebClientConfig {
     public WebClient.Builder webClientBuilder() {
         return WebClient.builder();
     }
+    @Bean // 
+    public RestTamplalte restTamplate(){
+        return new RestTamplalte();
+  }
 }
