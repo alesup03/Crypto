@@ -19,7 +19,7 @@ public class CoinServiceImp implements CoinService {
 
     @Override
     public Coin getCoinById(int id) {
-        return coinDAO.findById(id).orElse(null);
+        return coinDAO.findById(id);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class CoinServiceImp implements CoinService {
 
     @Override
     public void updateCoin(int id, Coin updatedCoin) {
-        Coin existingCoin = coinDAO.findById(id).orElse(null);
+        Coin existingCoin = coinDAO.findById(id);
         if (existingCoin != null) {
             existingCoin.setName(updatedCoin.getName());
             existingCoin.setSymbols(updatedCoin.getSymbols());

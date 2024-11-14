@@ -1,6 +1,7 @@
 package com.crypto_wallet.entities;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.data.annotation.Id;
@@ -18,7 +19,8 @@ public class Wallet {
 	@ManyToOne
 	@JoinColumn(name ="id_user")
 	private User user;
-	@ManyToMany(mappedBy="wallet")
+	@ManyToOne
+	@JoinColumn(name="id_coin")
 	private Coin coins;
 	private int quantity;
 	private double prices; //quantity*Coin.prices
@@ -43,8 +45,8 @@ public class Wallet {
 	public Coin getCoins() {
 		return coins;
 	}
-	public void setCoins(Coin coins) {
-		this.coins = coins;
+	public void setCoins(Coin coin) {
+		this.coins = coin;
 	}
 	public int getQuantity() {
 		return quantity;

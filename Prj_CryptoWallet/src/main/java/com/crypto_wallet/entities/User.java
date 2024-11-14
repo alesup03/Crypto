@@ -25,7 +25,7 @@ public class User {
 	@Column(name = "name" , nullable = false )
 	private String name;
 	
-	@Column(name = "lastName" , nullable = false )
+	@Column(name = "lastname" , nullable = false )
 	private String lastName;
 	
 	//unique = true si assicura che non siano presenti altre mail nel db , perciò deve essere unica la mail 
@@ -35,7 +35,7 @@ public class User {
 	@Column(name = "password" , nullable = false)
 	private String password;
 
-	@Column(name = "dateBirth" , nullable = false)
+	@Column(name = "datebirth" , nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date dateBirth;
 	 
