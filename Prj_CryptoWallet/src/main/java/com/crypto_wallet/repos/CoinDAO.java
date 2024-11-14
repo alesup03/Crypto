@@ -8,7 +8,7 @@ public interface CoinDAO extends JpaRepository<Coin, Integer> {
   
     // Trova una moneta per simbolo (es. "BTC")
     Coin findBySymbols(String symbols);
-    
+    Coin findById(int id);
     // Trova tutte le monete che hanno un prezzo maggiore di un certo valore
     List<Coin> findByPriceGreaterThan(double minPrice);
     

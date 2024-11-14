@@ -71,3 +71,5 @@ public class Coin {
 	public void setImg(String img) {
 		this.img = img;
 	}
+	
+}

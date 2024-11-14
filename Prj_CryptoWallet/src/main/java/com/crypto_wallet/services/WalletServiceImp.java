@@ -1,12 +1,13 @@
 package com.crypto_wallet.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.crypto_wallet.entities.*;
-import com.crypto_wallet.entities.Wallet;
+import com.crypto_wallet.repos.CoinDAO;
 import com.crypto_wallet.repos.UserDAO;
 import com.crypto_wallet.repos.WalletDAO;
 
@@ -18,7 +19,7 @@ public class WalletServiceImp implements WalletService {
 	@Autowired
 	private WalletDAO wdao;
 	@Autowired 
-	private Coin cdao;
+	private CoinDAO cdao;
 	@Override
 	public List<Wallet> getWalletUser(int user_id) {
 		// TODO Auto-generated method stub
@@ -28,7 +29,7 @@ public class WalletServiceImp implements WalletService {
 	@Override
 	public void addCoinToWallet(int coin_id, int quantity, int wallet_id, int user_id) {
 		// TODO Auto-generated method stub
-		boolean exits = udao.exitsByEmail(user_id);
+		boolean exits = udao.existsById(user_id);
 		User user = udao.findById(user_id);
 		Wallet wallet = wdao.findById(wallet_id);
 		
