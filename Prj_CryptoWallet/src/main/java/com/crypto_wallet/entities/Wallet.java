@@ -5,20 +5,18 @@ import java.util.Set;
 
 import org.springframework.data.annotation.Id;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import com.crypto_wallet.entities.Coin;
 @Entity
 @Table(name="wallet")
 public class Wallet {
 
-	@Id
+	@jakarta.persistence.Id
 	private int id;
-	@ManyToOne()
-	@Column(name ="id_user")
+	
+	@ManyToOne
+	@JoinColumn(name ="id_user")
 	private User user;
 	@ManyToMany(mappedBy="wallet")
 	private Set<Coin> coins;

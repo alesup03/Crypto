@@ -1,12 +1,14 @@
 package com.crypto_wallet.entities;
 
 import java.sql.Date;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -36,7 +38,10 @@ public class User {
 	@Column(name = "dateBirth" , nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date dateBirth;
-	
+	 
+	    
+	@OneToMany(mappedBy = "user")
+	private Set<Wallet> wallets ;
 	
 	//Getters and Setters
 	

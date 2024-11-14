@@ -13,13 +13,14 @@ public class UserServiceImp implements UserService {
 	@Override
 	public User getUserByName(String name) {
 		// TODO Auto-generated method stub
+	
 		return dao.findByName(name);
 	}
 
 	@Override
 	public void createNewUser(User user) {
 		// TODO Auto-generated method stub
-		boolean check = dao.exitsByEmail(user.getEmail());
+		boolean check = dao.existsByEmail(user.getEmail());
 		if(check) {
 			 new RuntimeException("email gia esiste");
 		}
